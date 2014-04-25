@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbCliente" table="tb_cliente" schema="public">
+        <comment>Almacena los clientes</comment>
+        <id name="cliCod" type="int">
+            <column name="cli_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="cliCi" type="java.lang.Integer">
+            <column name="cli_ci" unique="true" />
+        </property>
+        <property name="cliRuc" type="java.lang.Integer">
+            <column name="cli_ruc" unique="true" />
+        </property>
+        <property name="cliNombre" type="string">
+            <column name="cli_nombre" length="100" />
+        </property>
+        <property name="cliApellido" type="string">
+            <column name="cli_apellido" length="100" />
+        </property>
+        <property name="cliDireccion" type="string">
+            <column name="cli_direccion" length="100" />
+        </property>
+        <property name="cliTelefono" type="java.lang.Integer">
+            <column name="cli_telefono" />
+        </property>
+        <property name="cliUserInsert" type="string">
+            <column name="cli_user_insert" not-null="true" />
+        </property>
+        <property name="cliUserUpdate" type="string">
+            <column name="cli_user_update" not-null="true" />
+        </property>
+        <property name="cliFechaInsert" type="date">
+            <column name="cli_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="cliFechaUpdate" type="date">
+            <column name="cli_fecha_update" length="13" not-null="true" />
+        </property>
+        <set name="tbFacturas" table="tb_factura" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cli_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbFactura" />
+        </set>
+        <set name="tbContratos" table="tb_contrato" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cli_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbContrato" />
+        </set>
+    </class>
+</hibernate-mapping>

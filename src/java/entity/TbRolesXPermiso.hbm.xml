@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbRolesXPermiso" table="tb_roles_x_permiso" schema="public">
+        <comment>Almacena los permisos de los roles</comment>
+        <id name="ropCod" type="int">
+            <column name="rop_cod" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="tbRoles" class="entity.TbRoles" fetch="select">
+            <column name="rol_cod" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tbPermiso" class="entity.TbPermiso" fetch="select">
+            <column name="per_cod" not-null="true" />
+        </many-to-one>
+        <property name="ropUserInsert" type="string">
+            <column name="rop_user_insert" not-null="true" />
+        </property>
+        <property name="ropUserUpdate" type="string">
+            <column name="rop_user_update" not-null="true" />
+        </property>
+        <property name="ropFechaInsert" type="date">
+            <column name="rop_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="ropFechaUpdate" type="date">
+            <column name="rop_fecha_update" length="13" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

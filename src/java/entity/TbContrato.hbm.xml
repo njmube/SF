@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbContrato" table="tb_contrato" schema="public">
+        <comment>Almacena los contratos</comment>
+        <id name="conCod" type="int">
+            <column name="con_cod" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="tbTipoContrato" class="entity.TbTipoContrato" fetch="select">
+            <column name="tc_cod" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tbCliente" class="entity.TbCliente" fetch="select">
+            <column name="cli_cod" not-null="true" />
+        </many-to-one>
+        <property name="conNro" type="int">
+            <column name="con_nro" not-null="true" />
+        </property>
+        <property name="conEstado" type="java.lang.Boolean">
+            <column name="con_estado" />
+        </property>
+        <property name="conFechaInicio" type="date">
+            <column name="con_fecha_inicio" length="13" not-null="true" />
+        </property>
+        <property name="conFechaFin" type="date">
+            <column name="con_fecha_fin" length="13" not-null="true" />
+        </property>
+        <property name="conDescripcion" type="string">
+            <column name="con_descripcion" length="500" />
+        </property>
+        <property name="conMonto" type="int">
+            <column name="con_monto" not-null="true" />
+        </property>
+        <property name="conUserInsert" type="string">
+            <column name="con_user_insert" not-null="true" />
+        </property>
+        <property name="conUserUpdate" type="string">
+            <column name="con_user_update" not-null="true" />
+        </property>
+        <property name="conFechaInsert" type="date">
+            <column name="con_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="conFechaUpdate" type="date">
+            <column name="con_fecha_update" length="13" not-null="true" />
+        </property>
+        <property name="conCantidadCuotas" type="int">
+            <column name="con_cantidad_cuotas" not-null="true" />
+        </property>
+        <property name="conMontoCuota" type="int">
+            <column name="con_monto_cuota" not-null="true" />
+        </property>
+        <set name="tbFacturaXContratos" table="tb_factura_x_contrato" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="con_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbFacturaXContrato" />
+        </set>
+    </class>
+</hibernate-mapping>

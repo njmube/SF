@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbUsuario" table="tb_usuario" schema="public">
+        <comment>Almacena los persmisos</comment>
+        <id name="usCod" type="int">
+            <column name="us_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="usCi" type="java.lang.Integer">
+            <column name="us_ci" unique="true" />
+        </property>
+        <property name="usNombre" type="string">
+            <column name="us_nombre" length="100" />
+        </property>
+        <property name="usApellido" type="string">
+            <column name="us_apellido" length="100" />
+        </property>
+        <property name="usUsuario" type="string">
+            <column name="us_usuario" />
+        </property>
+        <property name="usPassword" type="string">
+            <column name="us_password" />
+        </property>
+        <property name="usUserInsert" type="string">
+            <column name="us_user_insert" not-null="true" />
+        </property>
+        <property name="usUserUpdate" type="string">
+            <column name="us_user_update" not-null="true" />
+        </property>
+        <property name="usFechaInsert" type="date">
+            <column name="us_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="usFechaUpdate" type="date">
+            <column name="us_fecha_update" length="13" not-null="true" />
+        </property>
+        <set name="tbRolesXUsuarios" table="tb_roles_x_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="us_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbRolesXUsuario" />
+        </set>
+    </class>
+</hibernate-mapping>

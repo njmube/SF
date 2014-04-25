@@ -1,0 +1,27 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui">
+<ui:define name="content">
+         <h:form styleClass="loginPanelStyle">
+                <p:growl id="msgs" showDetail="true" sticky="false" />                        
+                <p:panelGrid columns="2">
+                <f:facet name="header"> Login a SF </f:facet>
+                
+                <h:outputText value="Usuario:* "></h:outputText>
+                <p:inputText id="username" value="#{loginBean.uname}" required="true" requiredMessage="Introduzca su usuario!" >
+                    <f:validateLength minimum="1" />  
+                </p:inputText>
+                <h:outputText value="Contraseña:* "></h:outputText>
+                <p:password id="password" value="#{loginBean.password}" required="true" requiredMessage="Introduzca su contraseña!">
+                    <f:validateLength minimum="1" />  
+                </p:password>
+                <f:facet name="footer">
+                <p:commandButton value="Login" update="msgs" action="#{loginBean.loginProject}" type="submit" icon="ui-icon-check" style="margin:0"></p:commandButton>
+                </f:facet> 
+            </p:panelGrid>
+        </h:form>
+     </ui:define>
+</ui:composition>

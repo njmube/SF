@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/contratospratt</property>
+    <property name="hibernate.connection.username">contratospratt</property>
+    <property name="hibernate.connection.password">contratospratt</property>
+    <!-- Configuracion del pool interno -->
+    <property name="connection.pool_size">1</property>
+    <!-- Otras propiedades importantes -->
+    <property name="show_sql">true</property>
+    <property name="hbm2ddl.auto">none</property>
+    <!-- Aqui iran las clases entidades -->
+    <mapping resource="entity/TbTipoContrato.hbm.xml"/>
+    <mapping resource="entity/TbFactura.hbm.xml"/>
+    <mapping resource="entity/TbRoles.hbm.xml"/>
+    <mapping resource="entity/TbRolesXPermiso.hbm.xml"/>
+    <mapping resource="entity/TbServicio.hbm.xml"/>
+    <mapping resource="entity/TbCliente.hbm.xml"/>
+    <mapping resource="entity/TbDetalleFactura.hbm.xml"/>
+    <mapping resource="entity/TbFacturaXContrato.hbm.xml"/>
+    <mapping resource="entity/TbFacturaXDetalleFactura.hbm.xml"/>
+    <mapping resource="entity/TbPermiso.hbm.xml"/>
+    <mapping resource="entity/TbUsuario.hbm.xml"/>
+    <mapping resource="entity/TbRolesXUsuario.hbm.xml"/>
+    <mapping resource="entity/TbTipoServicio.hbm.xml"/>
+    <mapping resource="entity/TbContrato.hbm.xml"/>
+    <mapping resource="entity/TbTimbrado.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

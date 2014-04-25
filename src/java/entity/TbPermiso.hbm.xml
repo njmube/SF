@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbPermiso" table="tb_permiso" schema="public">
+        <id name="perCod" type="int">
+            <column name="per_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="perDescripcion" type="string">
+            <column name="per_descripcion" length="100" unique="true" />
+        </property>
+        <property name="perAdd" type="java.lang.Boolean">
+            <column name="per_add" />
+        </property>
+        <property name="perDelete" type="java.lang.Boolean">
+            <column name="per_delete" />
+        </property>
+        <property name="perUpdate" type="java.lang.Boolean">
+            <column name="per_update" />
+        </property>
+        <property name="perUserInsert" type="string">
+            <column name="per_user_insert" not-null="true" />
+        </property>
+        <property name="perUserUpdate" type="string">
+            <column name="per_user_update" not-null="true" />
+        </property>
+        <property name="perFechaInsert" type="date">
+            <column name="per_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="perFechaUpdate" type="date">
+            <column name="per_fecha_update" length="13" not-null="true" />
+        </property>
+        <set name="tbRolesXPermisos" table="tb_roles_x_permiso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="per_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbRolesXPermiso" />
+        </set>
+    </class>
+</hibernate-mapping>

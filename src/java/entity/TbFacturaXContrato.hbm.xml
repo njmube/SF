@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbFacturaXContrato" table="tb_factura_x_contrato" schema="public">
+        <comment>Almacena las facturas de los contrato</comment>
+        <id name="facconCod" type="int">
+            <column name="faccon_cod" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="tbContrato" class="entity.TbContrato" fetch="select">
+            <column name="con_cod" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tbFactura" class="entity.TbFactura" fetch="select">
+            <column name="fac_cod" not-null="true" />
+        </many-to-one>
+        <property name="facconUserInsert" type="string">
+            <column name="faccon_user_insert" not-null="true" />
+        </property>
+        <property name="facconUserUpdate" type="string">
+            <column name="faccon_user_update" not-null="true" />
+        </property>
+        <property name="facconFechaInsert" type="date">
+            <column name="faccon_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="facconFechaUpdate" type="date">
+            <column name="faccon_fecha_update" length="13" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

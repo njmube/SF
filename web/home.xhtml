@@ -1,0 +1,51 @@
+
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="content">
+        
+        <h:form>    
+            <c:if test="#{loginBean.logueado}">
+            <p:menubar autoDisplay="false" style="width:99%">
+                <p:submenu label="Contratación"  > 
+                    <p:menuitem value="Contrato" action="#{loginBean.logout}" />  
+                    <p:menuitem value="Cliente" action="#{loginBean.logout}" />  
+                    <p:menuitem value="Servicio" action="#{loginBean.logout}" />   
+                    <p:menuitem value="Tipo de Servicio" action="#{loginBean.logout}" />
+                    <p:menuitem value="Rescindir Contrato" action="#{loginBean.logout}" /> 
+                </p:submenu>
+                <p:submenu label="Facturación" > 
+                    <p:menuitem value="Timbrado" action="#{loginBean.logout}" />  
+                    <p:menuitem value="Factura Contado" action="#{loginBean.logout}" /> 
+                    <p:menuitem value="Factura Crédito" action="#{loginBean.logout}" /> 
+                    <p:menuitem value="Nota de Crédito" action="#{loginBean.logout}" /> 
+                </p:submenu>
+                <p:submenu label="Cobranza" > 
+                    <p:menuitem value="Pagos" action="#{loginBean.logout}" />
+                    <p:menuitem value="Gastos" action="#{loginBean.logout}" />   
+                </p:submenu>
+                <p:submenu label="Sistema" > 
+                    <p:menuitem value="Usuario" outcome="/sistema/usuario.xhtml"  />  
+                    <p:menuitem value="Roles" action="#{loginBean.logout}" />
+                </p:submenu>
+                <p:submenu label="Informes" > 
+                    <p:menuitem value="Facturas" action="#{loginBean.logout}" />        
+                    <p:menuitem value="Servicios" action="#{loginBean.logout}" />   
+                    <p:menuitem value="Contratos" action="#{loginBean.logout}" /> 
+                    <p:menuitem value="Clientes" action="#{loginBean.logout}" />        
+                </p:submenu>
+                <p:submenu label="Salir" > 
+                    <p:menuitem value="Logout" action="#{loginBean.logout}" />                                        
+                </p:submenu>                               
+            </p:menubar>
+                <center>
+                    <p:graphicImage value="/resources/group.png" />
+                </center>
+            </c:if>
+            
+    </h:form>
+    </ui:define>
+</ui:composition>

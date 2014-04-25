@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.1"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+        <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+        <from-outcome>home</from-outcome>
+        <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+        </navigation-rule>
+
+        <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>manageBeans.LoginBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        </managed-bean>
+
+        <managed-bean>
+        <managed-bean-name>usuarioBean</managed-bean-name>
+        <managed-bean-class>manageBeans.UsuarioBean</managed-bean-class>    
+        <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+
+</faces-config>

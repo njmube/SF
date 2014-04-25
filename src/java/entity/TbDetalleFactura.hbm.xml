@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbDetalleFactura" table="tb_detalle_factura" schema="public">
+        <comment>Almacena los detalles de factura</comment>
+        <id name="dfCod" type="int">
+            <column name="df_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="dfDescripcion" type="string">
+            <column name="df_descripcion" />
+        </property>
+        <property name="dfPrecioUnitario" type="java.lang.Integer">
+            <column name="df_precio_unitario" />
+        </property>
+        <property name="dfExentas" type="java.lang.Integer">
+            <column name="df_exentas" />
+        </property>
+        <property name="dfCincoPorciento" type="java.lang.Integer">
+            <column name="df_cinco_porciento" />
+        </property>
+        <property name="dfDiezPorciento" type="java.lang.Integer">
+            <column name="df_diez_porciento" />
+        </property>
+        <property name="dfUserInsert" type="string">
+            <column name="df_user_insert" not-null="true" />
+        </property>
+        <property name="dfUserUpdate" type="string">
+            <column name="df_user_update" not-null="true" />
+        </property>
+        <property name="dfFechaInsert" type="date">
+            <column name="df_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="dfFechaUpdate" type="date">
+            <column name="df_fecha_update" length="13" not-null="true" />
+        </property>
+        <set name="tbFacturaXDetalleFacturas" table="tb_factura_x_detalle_factura" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="df_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbFacturaXDetalleFactura" />
+        </set>
+    </class>
+</hibernate-mapping>

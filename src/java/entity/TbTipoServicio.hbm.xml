@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2014 10:50:17 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbTipoServicio" table="tb_tipo_servicio" schema="public">
+        <comment>Almacena los tipo de servicios</comment>
+        <id name="tsCod" type="int">
+            <column name="ts_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="tsDescripcion" type="string">
+            <column name="ts_descripcion" length="100" />
+        </property>
+        <property name="tsUserInsert" type="string">
+            <column name="ts_user_insert" not-null="true" />
+        </property>
+        <property name="tsUserUpdate" type="string">
+            <column name="ts_user_update" not-null="true" />
+        </property>
+        <property name="tsFechaInsert" type="date">
+            <column name="ts_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="tsFechaUpdate" type="date">
+            <column name="ts_fecha_update" length="13" not-null="true" />
+        </property>
+        <set name="tbServicios" table="tb_servicio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ts_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbServicio" />
+        </set>
+    </class>
+</hibernate-mapping>
