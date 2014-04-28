@@ -23,5 +23,16 @@
         <managed-bean-class>manageBeans.UsuarioBean</managed-bean-class>    
         <managed-bean-scope>view</managed-bean-scope>
         </managed-bean>
-
+        
+        <managed-bean>
+            <managed-bean-name>permisoBean</managed-bean-name>
+            <managed-bean-class>manageBeans.PermisoBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+                
+        <managed-bean>
+            <managed-bean-name>rolBean</managed-bean-name>
+            <managed-bean-class>manageBeans.RolBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
 </faces-config>

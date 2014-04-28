@@ -1,0 +1,103 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{rolBean.listaRol}" var="rol" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE ROL DEL SISTEMA
+                    <p:separator />
+                    <p:commandButton id="btnRolCreate" update=":dlgRolCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Rol" value="Nuevo Rol" />
+                </f:facet>                    
+                <p:column headerText="Nombre" sortBy="#{rol.rolNombre}" filterBy="#{rol.rolNombre}" filterMaxLength="10" style="width:50%">  
+                <h:outputText value="#{rol.rolNombre}" />  
+                </p:column>  
+                <p:column style="width:5%">  
+                        <p:commandButton id="btnUpdate" update=":dlgRolUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
+                        </p:commandButton> 
+                        <p:commandButton id="btnConfig" update=":dlgRolConfig , :formConfig" oncomplete="dialogConfig.show()" icon="ui-icon-gear" title="Configurar Permiso">  
+                            <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
+                        </p:commandButton>
+                        <p:commandButton id="btnDelete" update=":dlgRolDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Rol: #{fn:length(rolBean.listaRol)} 
+                </f:facet>
+            </p:dataTable> 
+             
+        </h:form>
+        <p:dialog header="ELIMINAR ROL" widgetVar="dialogDelete" resizable="false" id="dlgRolDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:"></h:outputText>
+                    <h:inputText value="#{rolBean.selectedRol.rolNombre}" readonly="true">
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{rolBean.btnDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE ROL" widgetVar="dialogCreate" resizable="false" id="dlgRolCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:* "></h:outputText>
+                    <h:inputText value="#{rolBean.newRol.rolNombre}" required="true" requiredMessage="Ingrese el Nombre!">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{rolBean.btnCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR ROL" widgetVar="dialogUpdate" resizable="false" id="dlgRolUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:* "></h:outputText>
+                    <h:inputText value="#{rolBean.selectedRol.rolNombre}" required="true" requiredMessage="Ingrese el Nombre!">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{rolBean.btnUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+        
+        <p:dialog header="CONFIGURAR PERMISO" widgetVar="dialogConfig" resizable="false" id="dlgRolConfig"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formConfig">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre: "></h:outputText>
+                    <h:inputText value="#{rolBean.selectedRol.rolNombre}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Permisos: " />  
+                    <p:selectManyCheckbox id="grid" value="#{rolBean.selectedPermisos}" layout="grid" >  
+                    <f:selectItems value="#{rolBean.permisos}"/>  
+                    </p:selectManyCheckbox>  
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnConfigAceptar" update=":formDataTable , :msgs" oncomplete="dialogConfig.hide()" actionListener="#{rolBean.btnConfig}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnConfigCancelar" onclick="dialogConfig.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

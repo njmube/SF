@@ -1,0 +1,111 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{permisoBean.listaPermiso}" var="permiso" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE PERMISOS DEL SISTEMAS
+                    <p:separator />
+                    <p:commandButton id="btnPermisoCreate" update=":dlgPermisoCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Permiso" value="Nuevo Permiso" />
+                </f:facet>                    
+                <p:column headerText="Descripcion" sortBy="#{permiso.perDescripcion}" filterBy="#{permiso.perDescripcion}" filterMaxLength="10" style="width:50%">  
+                <h:outputText value="#{permiso.perDescripcion}" />  
+                </p:column>  
+                <p:column headerText="Agregar" style="width:5%">  
+                    <h:outputText value="#{permiso.perAdd ? 'SI':'NO'}" />  
+                </p:column> 
+                <p:column headerText="Actualizar" style="width:5%">  
+                    <h:outputText value="#{permiso.perUpdate ? 'SI':'NO'}" />  
+                </p:column>
+                <p:column headerText="Eliminar" style="width:5%">  
+                    <h:outputText value="#{permiso.perDelete ? 'SI':'NO'}" />  
+                </p:column>
+                <p:column style="width:5%">  
+                        <p:commandButton id="btnUpdate" update=":dlgPermisoUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{permiso}" target="#{permisoBean.selectedPermiso}" />  
+                        </p:commandButton> 
+                        <p:commandButton id="btnDelete" update=":dlgPermisoDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{permiso}" target="#{permisoBean.selectedPermiso}" />  
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Permiso: #{fn:length(permisoBean.listaPermiso)} 
+                </f:facet>
+            </p:dataTable> 
+             
+        </h:form>
+        <p:dialog header="ELIMINAR PERMISO" widgetVar="dialogDelete" resizable="false" id="dlgPermisoDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Descripcion:"></h:outputText>
+                    <h:inputText value="#{permisoBean.selectedPermiso.perDescripcion}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Agregar:"></h:outputText>
+                    <h:inputText value="#{permisoBean.selectedPermiso.perAdd ? 'SI':'NO'}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Actualizar:"></h:outputText>
+                    <h:inputText value="#{permisoBean.selectedPermiso.perUpdate ? 'SI':'NO'}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Borrar:"></h:outputText>
+                    <h:inputText value="#{permisoBean.selectedPermiso.perDelete ? 'SI':'NO'}" readonly="true">
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{permisoBean.btnDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE PERMISO" widgetVar="dialogCreate" resizable="false" id="dlgPermisoCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Descripcion:* "></h:outputText>
+                    <h:inputText value="#{permisoBean.newPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <h:outputText value="Agregar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.newPermiso.perAdd}" />
+                    <h:outputText value="Actualizar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.newPermiso.perUpdate}" />
+                    <h:outputText value="Eliminar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.newPermiso.perDelete}" />
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{permisoBean.btnCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR PERMISO" widgetVar="dialogUpdate" resizable="false" id="dlgPermisoUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Descripcion:* "></h:outputText>
+                    <h:inputText value="#{permisoBean.selectedPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <h:outputText value="Agregar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.selectedPermiso.perAdd}" />
+                    <h:outputText value="Actualizar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.selectedPermiso.perUpdate}" />
+                    <h:outputText value="Eliminar:"></h:outputText>
+                    <p:selectBooleanCheckbox value="#{permisoBean.selectedPermiso.perDelete}" />
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{permisoBean.btnUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

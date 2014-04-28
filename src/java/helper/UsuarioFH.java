@@ -34,6 +34,7 @@ public class UsuarioFH
                 auditoriaGuardar(usuario);
                 setearPassword(usuario);
                 id = (Integer) sesion.save(usuario); 
+                
                 tx.commit(); 
             }
             if(id != 0)

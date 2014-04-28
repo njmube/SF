@@ -1,5 +1,5 @@
 package entity;
-// Generated 25/04/2014 10:50:16 AM by Hibernate Tools 3.6.0
+// Generated 25/04/2014 01:54:57 PM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -22,13 +22,13 @@ public class TbRolesXPermiso  implements java.io.Serializable {
     }
 
     public TbRolesXPermiso(int ropCod, TbRoles tbRoles, TbPermiso tbPermiso, String ropUserInsert, String ropUserUpdate, Date ropFechaInsert, Date ropFechaUpdate) {
-       this.ropCod = ropCod;
-       this.tbRoles = tbRoles;
-       this.tbPermiso = tbPermiso;
-       this.ropUserInsert = ropUserInsert;
-       this.ropUserUpdate = ropUserUpdate;
-       this.ropFechaInsert = ropFechaInsert;
-       this.ropFechaUpdate = ropFechaUpdate;
+        this.ropCod = ropCod;
+        this.tbRoles = tbRoles;
+        this.tbPermiso = tbPermiso;
+        this.ropUserInsert = ropUserInsert;
+        this.ropUserUpdate = ropUserUpdate;
+        this.ropFechaInsert = ropFechaInsert;
+        this.ropFechaUpdate = ropFechaUpdate;
     }
    
     public int getRopCod() {

@@ -18,31 +18,33 @@
                     <p:menuitem value="Rescindir Contrato" action="#{loginBean.logout}" /> 
                 </p:submenu>
                 <p:submenu label="Facturación" > 
-                    <p:menuitem value="Timbrado" action="#{loginBean.logout}" />  
                     <p:menuitem value="Factura Contado" action="#{loginBean.logout}" /> 
                     <p:menuitem value="Factura Crédito" action="#{loginBean.logout}" /> 
                     <p:menuitem value="Nota de Crédito" action="#{loginBean.logout}" /> 
                 </p:submenu>
-                <p:submenu label="Cobranza" > 
+                <p:submenu label="Registro" > 
                     <p:menuitem value="Pagos" action="#{loginBean.logout}" />
                     <p:menuitem value="Gastos" action="#{loginBean.logout}" />   
                 </p:submenu>
                 <p:submenu label="Sistema" > 
                     <p:menuitem value="Usuario" outcome="/sistema/usuario.xhtml"  />  
-                    <p:menuitem value="Roles" action="#{loginBean.logout}" />
+                    <p:menuitem value="Rol" outcome="/sistema/rol.xhtml" />
+                    <p:menuitem value="Permiso" outcome="/sistema/permiso.xhtml" />
+                    <p:menuitem value="Timbrado" action="#{loginBean.logout}" />  
                 </p:submenu>
-                <p:submenu label="Informes" > 
+                <p:submenu label="Informe" > 
                     <p:menuitem value="Facturas" action="#{loginBean.logout}" />        
                     <p:menuitem value="Servicios" action="#{loginBean.logout}" />   
                     <p:menuitem value="Contratos" action="#{loginBean.logout}" /> 
-                    <p:menuitem value="Clientes" action="#{loginBean.logout}" />        
+                    <p:menuitem value="Clientes" action="#{loginBean.logout}" />
+                    <p:menuitem value="Gastos" action="#{loginBean.logout}" />  
                 </p:submenu>
                 <p:submenu label="Salir" > 
                     <p:menuitem value="Logout" action="#{loginBean.logout}" />                                        
-                </p:submenu>                               
+                </p:submenu>    
             </p:menubar>
                 <center>
-                    <p:graphicImage value="/resources/group.png" />
+                    <p:graphicImage value="/resources/logo.png" />
                 </center>
             </c:if>
             

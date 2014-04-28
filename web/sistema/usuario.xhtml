@@ -10,7 +10,7 @@
         <h:form id="formDataTable"> 
             <p:dataTable value="#{usuarioBean.listaUsuario}" var="usuario" id="dataList" paginator="true" rows="10"  style="width:99%">               
                 <f:facet name="header">
-                    Lista de Usuario del Sistema
+                    LISTA DE USUARIO DEL SISTEMA
                     <p:separator />
                     <p:commandButton id="btnUsuarioCreate" update=":dlgUsuarioCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Usuario" value="Nuevo Usuario" />
                 </f:facet>                    
@@ -20,7 +20,7 @@
                 <p:column headerText="Apellido" sortBy="#{usuario.usApellido}" filterBy="#{usuario.usApellido}" filterMaxLength="10" style="width:24%">  
                 <h:outputText value="#{usuario.usApellido}" />  
                 </p:column>
-                <p:column headerText="CI" sortBy="#{usuario.usCi}" filterBy="#{usuario.usCi}" filterMaxLength="10" style="width:10%">  
+                <p:column headerText="CI N°" sortBy="#{usuario.usCi}" filterBy="#{usuario.usCi}" filterMaxLength="10" style="width:10%">  
                     <h:outputText value="#{usuario.usCi}"><f:convertNumber/></h:outputText>                          
                 </p:column> 
                 <p:column headerText="Usuario" sortBy="#{usuario.usUsuario}" filterBy="#{usuario.usUsuario}" filterMaxLength="10" style="width:10%">  
@@ -31,6 +31,9 @@
                             <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
                         </p:commandButton> 
                         <p:commandButton id="btnPass" update=":dlgUsuarioPass , :formPass" oncomplete="dialogPass.show()" icon="ui-icon-key" title="Cambiar Contraseña">  
+                            <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
+                        </p:commandButton>
+                        <p:commandButton id="btnConfig" update=":dlgUsuarioConfig , :formConfig" oncomplete="dialogConfig.show()" icon="ui-icon-gear" title="Configurar Rol">  
                             <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
                         </p:commandButton>
                         <p:commandButton id="btnDelete" update=":dlgUsuarioDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
@@ -51,14 +54,13 @@
                     </h:inputText>
                     <h:outputText value="Apellido:"></h:outputText>
                     <h:inputText value="#{usuarioBean.selectedUsuario.usApellido}" readonly="true">
-                    <f:validateLength maximum="100" />
                     </h:inputText>
-                    <h:outputText value="Cedula de Identidad N°:"></h:outputText>
+                    <h:outputText value="CI N°:"></h:outputText>
                     <h:inputText value="#{usuarioBean.selectedUsuario.usCi}" readonly="true">
                     </h:inputText> 
                     <h:outputText value="Usuario:"></h:outputText>
                     <h:inputText value="#{usuarioBean.selectedUsuario.usUsuario}" readonly="true">
-                    </h:inputText>
+                    </h:inputText>                    
                     <f:facet name="footer">
                         <p:separator />
                         <p:commandButton id="btnDeleteAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{usuarioBean.btnDelete}" icon="ui-icon-circle-check" />  
@@ -79,10 +81,10 @@
                     <p:inputText value="#{usuarioBean.newUsuario.usApellido}" required="true" requiredMessage="Ingrese el Apellido!" >
                     <f:validateLength maximum="100" />
                     </p:inputText>
-                    <h:outputText value="Cedula de Identidad N°:* "></h:outputText>
+                    <h:outputText value="CI N°:* "></h:outputText>
                     <p:inputText value="#{usuarioBean.newUsuario.usCi}" required="true" requiredMessage="Ingrese el CI!" >
                     <f:validateDoubleRange minimum="1" />  
-                    </p:inputText>   
+                    </p:inputText> 
                     <h:outputText value="Usuario:* "></h:outputText>
                     <p:inputText value="#{usuarioBean.newUsuario.usUsuario}" required="true" requiredMessage="Ingrese el Usuario!" >
                     <f:validateLength maximum="100" />
@@ -117,9 +119,27 @@
                     </f:facet>
                 </h:panelGrid>  
             </h:form>
-        </p:dialog>  
-
-
+        </p:dialog>
+        
+        <p:dialog header="CONFIGURAR ROL A USUARIO" widgetVar="dialogConfig" resizable="false" id="dlgUsuarioConfig"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formConfig">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Usuario: "></h:outputText>
+                    <h:inputText value="#{usuarioBean.selectedUsuario.usUsuario}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Rol:* "></h:outputText>
+                    <p:selectManyCheckbox id="grid" value="#{usuarioBean.selectedRoles}" layout="grid" >  
+                        <f:selectItems value="#{usuarioBean.roles}"/>  
+                    </p:selectManyCheckbox>  
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnConfigAceptar" update=":formDataTable , :msgs" oncomplete="dialogConfig.hide()" actionListener="#{usuarioBean.btnConfig}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnConfigCancelar" onclick="dialogConfig.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>
+        
         <p:dialog header="MODIFICAR USUARIO" widgetVar="dialogUpdate" resizable="false" id="dlgUsuarioUpdate"  showEffect="fade" hideEffect="explode" >  
             <h:form id ="formUpdate">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
@@ -131,7 +151,7 @@
                     <h:inputText value="#{usuarioBean.selectedUsuario.usApellido}" required="true" requiredMessage="Ingrese el Apellido!" >
                     <f:validateLength maximum="100" />
                     </h:inputText>
-                    <h:outputText value="Cedula de Identidad N°:* "></h:outputText>
+                    <h:outputText value="CI N°:* "></h:outputText>
                     <h:inputText value="#{usuarioBean.selectedUsuario.usCi}" required="true" requiredMessage="Ingrese el CI!">
                     </h:inputText> 
                     <h:outputText value="Usuario:* "></h:outputText>
@@ -146,11 +166,5 @@
                 </h:panelGrid>  
             </h:form>
         </p:dialog>  
-
-     
-        
-        
-
-          
     </ui:define>
 </ui:composition>
