@@ -20,7 +20,7 @@ public class RolesXPermisoFH
     private Session sesion; 
     private Transaction tx;  
 
-    public Integer guardar(TbRolesXPermiso rxp) throws HibernateException 
+    public Integer create(TbRolesXPermiso rxp) throws HibernateException 
     { 
         Integer id = 0;  
 
@@ -29,7 +29,9 @@ public class RolesXPermisoFH
             iniciarOperacion(); 
             auditoriaGuardar(rxp);
             id = (Integer) sesion.save(rxp); 
-            tx.commit(); 
+            if(id != 0){
+                tx.commit();                                
+            }
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -42,7 +44,7 @@ public class RolesXPermisoFH
         return id; 
     }  
 
-    public void actualizar(TbRolesXPermiso rxp) throws HibernateException 
+    public void update(TbRolesXPermiso rxp) throws HibernateException 
     { 
         try 
         { 
@@ -60,6 +62,54 @@ public class RolesXPermisoFH
         } 
     }  
     
+    public void delete(TbRolesXPermiso rxp) throws HibernateException 
+    { 
+        try 
+        { 
+            iniciarOperacion(); 
+            sesion.delete(rxp); 
+            tx.commit(); 
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        } 
+    }  
+
+    public TbRolesXPermiso search(Integer idRolesXPantallas) throws HibernateException 
+    { 
+        TbRolesXPermiso rolesXPantallas = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            rolesXPantallas = (TbRolesXPermiso) sesion.get(TbRolesXPermiso.class, idRolesXPantallas); 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return rolesXPantallas; 
+    }  
+    
+    public List<TbRolesXPermiso> listAll() throws HibernateException 
+    { 
+        List<TbRolesXPermiso> listaRolesXPantallass = null;  
+
+        try 
+        { 
+            iniciarOperacion(); 
+            listaRolesXPantallass = sesion.createQuery("from TbRolesXPermiso").list(); 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaRolesXPantallass; 
+    }  
+
     public boolean config(TbRoles rol , List<String> permisos) throws HibernateException 
     { 
         boolean rta = false;
@@ -93,74 +143,6 @@ public class RolesXPermisoFH
         return rta;
     } 
     
-    public void eliminar(TbRolesXPermiso rxp) throws HibernateException 
-    { 
-        try 
-        { 
-            iniciarOperacion(); 
-            sesion.delete(rxp); 
-            tx.commit(); 
-        } catch (HibernateException he) 
-        { 
-            manejarExcepcion(he); 
-            throw he; 
-        } finally 
-        { 
-            sesion.close(); 
-        } 
-    }  
-
-    public TbRolesXPermiso buscar(Integer idRolesXPantallas) throws HibernateException 
-    { 
-        TbRolesXPermiso rolesXPantallas = null;  
-        try 
-        { 
-            iniciarOperacion(); 
-            rolesXPantallas = (TbRolesXPermiso) sesion.get(TbRolesXPermiso.class, idRolesXPantallas); 
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return rolesXPantallas; 
-    }  
-    
-    public List<TbRolesXPermiso> listar() throws HibernateException 
-    { 
-        List<TbRolesXPermiso> listaRolesXPantallass = null;  
-
-        try 
-        { 
-            iniciarOperacion(); 
-            listaRolesXPantallass = sesion.createQuery("from TbRolesXPermiso").list(); 
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaRolesXPantallass; 
-    }  
-
-    public List<TbPermiso> getPermisos(Integer idRol) throws HibernateException 
-    { 
-        List<TbRolesXPermiso> lista = null;  
-        List<TbPermiso> listaP = null; 
-        try 
-        { 
-            iniciarOperacion(); 
-            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
-            lista = sesion.createQuery(cadena).list(); 
-            for (TbRolesXPermiso p : lista) {  
-                listaP.add(p.getTbPermiso()); 
-            }  
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaP; 
-    }
-    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 
@@ -173,7 +155,8 @@ public class RolesXPermisoFH
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
 
-    private void auditoriaGuardar(TbRolesXPermiso rxp) {
+    private void auditoriaGuardar(TbRolesXPermiso rxp) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         rxp.setRopUserInsert(usuario);
@@ -186,7 +169,8 @@ public class RolesXPermisoFH
         
     }
     
-    private void auditoriaActualizar(TbRolesXPermiso rxp) {
+    private void auditoriaActualizar(TbRolesXPermiso rxp) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         rxp.setRopUserUpdate(usuario);

@@ -20,7 +20,7 @@ public class RolesXUsuarioFH
     private Session sesion; 
     private Transaction tx;  
 
-    public Integer guardar(TbRolesXUsuario rxu) throws HibernateException 
+    public Integer create(TbRolesXUsuario rxu) throws HibernateException 
     { 
         Integer id = 0;  
 
@@ -29,7 +29,9 @@ public class RolesXUsuarioFH
             iniciarOperacion(); 
             auditoriaGuardar(rxu);
             id = (Integer) sesion.save(rxu); 
-            tx.commit(); 
+            if(id != 0){
+                tx.commit(); 
+            }
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -42,7 +44,7 @@ public class RolesXUsuarioFH
         return id; 
     }  
 
-    public void actualizar(TbRolesXUsuario rxu) throws HibernateException 
+    public void update(TbRolesXUsuario rxu) throws HibernateException 
     { 
         try 
         { 
@@ -91,7 +93,7 @@ public class RolesXUsuarioFH
         return rta;
     } 
     
-    public void eliminar(TbRolesXUsuario rxu) throws HibernateException 
+    public void delete(TbRolesXUsuario rxu) throws HibernateException 
     { 
         try 
         { 
@@ -108,7 +110,7 @@ public class RolesXUsuarioFH
         } 
     }  
 
-    public TbRolesXUsuario buscar(Integer idRolesXPantallas) throws HibernateException 
+    public TbRolesXUsuario search(Integer idRolesXPantallas) throws HibernateException 
     { 
         TbRolesXUsuario rolesXPantallas = null;  
         try 
@@ -123,7 +125,7 @@ public class RolesXUsuarioFH
         return rolesXPantallas; 
     }  
     
-    public List<TbRolesXUsuario> listar() throws HibernateException 
+    public List<TbRolesXUsuario> listAll() throws HibernateException 
     { 
         List<TbRolesXUsuario> listaRolesXPantallass = null;  
 
@@ -139,26 +141,6 @@ public class RolesXUsuarioFH
         return listaRolesXPantallass; 
     }  
 
-    public List<TbRoles> getRoles(Integer idUsuario) throws HibernateException 
-    { 
-        List<TbRolesXUsuario> lista = null;  
-        List<TbRoles> listaP = null; 
-        try 
-        { 
-            iniciarOperacion(); 
-            String cadena = "from TbRolesXUsuario where tbUsuario = '"+ idUsuario + "'";
-            lista = sesion.createQuery(cadena).list(); 
-            for (TbRolesXUsuario p : lista) {  
-                listaP.add(p.getTbRoles()); 
-            }  
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaP; 
-    }
-    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 
@@ -171,7 +153,8 @@ public class RolesXUsuarioFH
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
 
-    private void auditoriaGuardar(TbRolesXUsuario rxu) {
+    private void auditoriaGuardar(TbRolesXUsuario rxu) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         rxu.setRouUserInsert(usuario);
@@ -184,7 +167,8 @@ public class RolesXUsuarioFH
         
     }
     
-    private void auditoriaActualizar(TbRolesXUsuario rxu) {
+    private void auditoriaActualizar(TbRolesXUsuario rxu) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         rxu.setRouUserUpdate(usuario);

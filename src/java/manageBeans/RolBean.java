@@ -6,13 +6,13 @@ import entity.TbRoles;
 import helper.PermisoFH;
 import helper.RolesXPermisoFH;
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.DualListModel;
  
 @ManagedBean(name = "rolBean")
 @ViewScoped 
@@ -23,7 +23,7 @@ public class RolBean implements Serializable {
     private TbRoles newRol;
     private TbRoles selectedRol;
     private List<String> selectedPermisos;  
-    private Map<String,String> permisos;
+    private DualListModel<String> permisos; 
     
     public RolBean() {
         updateList();
@@ -46,6 +46,7 @@ public class RolBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnUpdate() {  
         RolFH helperR = new RolFH();
         String msg;
@@ -60,6 +61,7 @@ public class RolBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnDelete() {
         String msg;
         RolFH helperR = new RolFH();
@@ -75,10 +77,12 @@ public class RolBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnConfig() {  
         RolesXPermisoFH helperRXP = new RolesXPermisoFH();
         String msg;
-        if (helperRXP.config(this.selectedRol, this.selectedPermisos)) {
+        
+        if (helperRXP.config(this.selectedRol, this.permisos.getTarget())) {
             msg = "se configuro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -89,17 +93,23 @@ public class RolBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     private void updateList() {
         RolFH helperR = new RolFH();
         this.listaRol = helperR.listAll();
     }
+    
     private void updatePermisos() {
-        this.permisos = new HashMap<String, String>();  
         PermisoFH helperP = new PermisoFH();
+        List<String> source = new ArrayList<String>();  
+        List<String> target = new ArrayList<String>();  
         List<TbPermiso> listaPermiso = helperP.listAll();
         for(TbPermiso p: listaPermiso)
-            permisos.put(p.getPerDescripcion(), p.getPerDescripcion());
+            source.add(p.getPerDescripcion());            
+        this.permisos = new DualListModel<String>(source, target);  
+  
     }
+    
     // Get & Set
     public List<TbRoles> getListaRol() {
         return listaRol;
@@ -133,14 +143,12 @@ public class RolBean implements Serializable {
         this.selectedPermisos = selectedPermisos;
     }
 
-    public Map<String, String> getPermisos() {
+    public DualListModel<String> getPermisos() {
         return permisos;
     }
 
-    public void setPermisos(Map<String, String> permisos) {
+    public void setPermisos(DualListModel<String> permisos) {
         this.permisos = permisos;
     }
-
-
 
 }

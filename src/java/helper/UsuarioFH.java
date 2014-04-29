@@ -1,6 +1,9 @@
 
 package helper;
 
+import entity.TbPermiso;
+import entity.TbRoles;
+import entity.TbRolesXUsuario;
 import hibernate.HibernateUtil;
 import entity.TbUsuario;
 import java.io.UnsupportedEncodingException;
@@ -34,12 +37,12 @@ public class UsuarioFH
                 auditoriaGuardar(usuario);
                 setearPassword(usuario);
                 id = (Integer) sesion.save(usuario); 
-                
-                tx.commit(); 
+                if(id != 0){
+                    rta = true;
+                    tx.commit(); 
+                }
             }
-            if(id != 0)
-                rta = true;
-            
+   
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -62,7 +65,8 @@ public class UsuarioFH
             setearPassword(usuario);
             sesion.update(usuario); 
             tx.commit();
-            rta = true;            
+            rta = true;
+                        
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -74,29 +78,6 @@ public class UsuarioFH
         return rta;
     }  
     
-    public boolean pass(TbUsuario usuario) throws HibernateException 
-    { 
-        boolean rta = false;
-        try 
-        { 
-            iniciarOperacion();            
-            auditoriaActualizar(usuario);
-            setearPassword(usuario);
-            sesion.update(usuario); 
-            tx.commit();
-            rta = true;            
-        } catch (HibernateException he) 
-        { 
-            manejarExcepcion(he); 
-            throw he; 
-        } finally 
-        { 
-            sesion.close(); 
-        } 
-        return rta;
-    }  
-    
-
     public boolean delete(TbUsuario usuario) throws HibernateException 
     { 
         boolean rta = false;
@@ -162,6 +143,33 @@ public class UsuarioFH
         return usr; 
     }
     
+    public TbUsuario searchCi(Integer ci) throws HibernateException 
+    { 
+        TbUsuario usr = null; 
+        try 
+        { 
+            iniciarOperacion();  
+            String cadena = "from TbUsuario where usCi = "+ ci ;
+            List<TbUsuario> lista = sesion.createQuery(cadena).list();
+            for (TbUsuario p : lista) {  
+                if (p.getUsCi() == ci) {  
+                    return p;  
+                }  
+            }  
+                        
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } 
+        finally 
+        { 
+             sesion.close(); 
+        }  
+
+        return usr; 
+    }
+    
     public List<TbUsuario> listAll() throws HibernateException 
     { 
         List<TbUsuario> listaUsuarios = null;  
@@ -178,6 +186,28 @@ public class UsuarioFH
         return listaUsuarios; 
     }  
 
+    public boolean pass(TbUsuario usuario) throws HibernateException 
+    { 
+        boolean rta = false;
+        try 
+        { 
+            iniciarOperacion();            
+            auditoriaActualizar(usuario);
+            setearPassword(usuario);
+            sesion.update(usuario); 
+            tx.commit();
+            rta = true;            
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        } 
+        return rta;
+    }  
+    
     public boolean existe(String usr, String pw) throws HibernateException 
     { 
         boolean rta = false;
@@ -204,6 +234,47 @@ public class UsuarioFH
         return rta; 
     } 
     
+    public List<TbRoles> getRoles(Integer idUsuario) throws HibernateException 
+    { 
+        List<TbRolesXUsuario> lista = null;  
+        List<TbRoles> listaP = null; 
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXUsuario where tbUsuario = '"+ idUsuario + "'";
+            lista = sesion.createQuery(cadena).list(); 
+            for (TbRolesXUsuario p : lista) {  
+                listaP.add(p.getTbRoles()); 
+            }  
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaP; 
+    }
+    
+    public List<TbPermiso> getPermisos(Integer idUsuario) throws HibernateException 
+    { 
+        List<TbPermiso> listaP = null; 
+        try 
+        { 
+            iniciarOperacion();
+            List<TbRoles> listaR = getRoles(idUsuario);
+            RolFH helperR = new RolFH();
+            for(TbRoles r : listaR){
+                List<TbPermiso> lista = helperR.getPermisos(r.getRolCod());
+                for(TbPermiso p: lista)
+                    listaP.add(p);
+            }
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaP; 
+    }
+    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 
@@ -216,7 +287,8 @@ public class UsuarioFH
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
 
-    private void auditoriaGuardar(TbUsuario usr) {
+    private void auditoriaGuardar(TbUsuario usr) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         usr.setUsUserInsert(usuario);
@@ -228,7 +300,8 @@ public class UsuarioFH
         
     }
     
-    private void auditoriaActualizar(TbUsuario usr) {
+    private void auditoriaActualizar(TbUsuario usr) 
+    {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
         usr.setUsUserUpdate(usuario);
@@ -239,7 +312,8 @@ public class UsuarioFH
     }
 
     
-    private String md5(String message){
+    private String md5(String message)
+    {
         String digest = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -258,11 +332,10 @@ public class UsuarioFH
         return digest;
     }
 
-    private void setearPassword(TbUsuario usuario) {
+    private void setearPassword(TbUsuario usuario) 
+    {
         String pw = usuario.getUsPassword();
         usuario.setUsPassword(md5(pw));
     }
-
-    
 
 }

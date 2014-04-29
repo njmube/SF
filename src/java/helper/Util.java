@@ -7,7 +7,8 @@ import javax.servlet.http.HttpSession;
  
 public class Util {
  
-      public static HttpSession getSession() {
+      public static HttpSession getSession() 
+      {
         return (HttpSession)
           FacesContext.
           getCurrentInstance().
@@ -15,7 +16,8 @@ public class Util {
           getSession(false);
       }
        
-      public static HttpServletRequest getRequest() {
+      public static HttpServletRequest getRequest() 
+      {
        return (HttpServletRequest) FacesContext.
           getCurrentInstance().
           getExternalContext().getRequest();

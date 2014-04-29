@@ -4,6 +4,7 @@ package helper;
 import entity.TbPermiso;
 import hibernate.HibernateUtil;
 import entity.TbRoles;
+import entity.TbRolesXPermiso;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,10 +30,11 @@ public class RolFH
             if(rol != null){
                 auditoriaGuardar(rol);
                 id = (Integer) sesion.save(rol); 
-                tx.commit(); 
+                if(id != 0){
+                    rta = true;
+                    tx.commit();  
+                }
             }
-            if(id != 0)
-                rta = true;
             
         } catch (HibernateException he) 
         { 
@@ -45,6 +47,7 @@ public class RolFH
         
         return rta; 
     }  
+    
     public boolean update(TbRoles rol) throws HibernateException 
     { 
         boolean rta = false;
@@ -65,6 +68,7 @@ public class RolFH
         } 
         return rta;
     }  
+    
     public boolean delete(TbRoles rol) throws HibernateException 
     { 
         boolean rta = false;
@@ -87,6 +91,7 @@ public class RolFH
         } 
         return rta;
     }  
+    
     public TbRoles search(Integer idRol) throws HibernateException 
     { 
         TbRoles rol = null;  
@@ -101,6 +106,7 @@ public class RolFH
 
         return rol; 
     } 
+    
     public TbRoles searchRol(String rol) throws HibernateException 
     { 
         TbRoles usr = null; 
@@ -127,6 +133,7 @@ public class RolFH
 
         return usr; 
     }
+    
     public List<TbRoles> listAll() throws HibernateException 
     { 
         List<TbRoles> listaRols = null;  
@@ -142,17 +149,41 @@ public class RolFH
 
         return listaRols; 
     }  
+    
+    public List<TbPermiso> getPermisos(Integer idRol) throws HibernateException 
+    { 
+        List<TbRolesXPermiso> lista = null;  
+        List<TbPermiso> listaP = null; 
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
+            lista = sesion.createQuery(cadena).list(); 
+            for (TbRolesXPermiso p : lista) {  
+                listaP.add(p.getTbPermiso()); 
+            }  
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaP; 
+    }
+    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 
         tx = sesion.beginTransaction(); 
     }  
+    
     private void manejarExcepcion(HibernateException he) throws HibernateException 
     { 
         tx.rollback(); 
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
-    private void auditoriaGuardar(TbRoles usr) {
+    
+    private void auditoriaGuardar(TbRoles usr)
+    {
         HttpSession session = Util.getSession();
         String permiso = (String) session.getAttribute("username");
         usr.setRolUserInsert(permiso);
@@ -163,7 +194,9 @@ public class RolFH
         auditoriaActualizar(usr);
         
     }
-    private void auditoriaActualizar(TbRoles usr) {
+    
+    private void auditoriaActualizar(TbRoles usr)
+    {
         HttpSession session = Util.getSession();
         String permiso = (String) session.getAttribute("username");
         usr.setRolUserUpdate(permiso);

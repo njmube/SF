@@ -6,13 +6,13 @@ import entity.TbUsuario;
 import helper.RolFH;
 import helper.RolesXUsuarioFH;
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.DualListModel;
  
 @ManagedBean(name = "usuarioBean")
 @ViewScoped 
@@ -23,7 +23,8 @@ public class UsuarioBean implements Serializable {
     private TbUsuario newUsuario;
     private TbUsuario selectedUsuario;
     private List<String> selectedRoles;  
-    private Map<String,String> roles;
+    private DualListModel<String> roles; 
+
 
     public UsuarioBean() {
         updateList();
@@ -31,6 +32,7 @@ public class UsuarioBean implements Serializable {
         this.newUsuario = new TbUsuario();
         this.selectedUsuario = new TbUsuario();
     }
+    
     public void btnCreate() {
         UsuarioFH helperU = new UsuarioFH();
         String msg;
@@ -46,6 +48,7 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnUpdate() {  
         UsuarioFH helperU = new UsuarioFH();
         String msg;
@@ -60,6 +63,7 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnDelete() {
         String msg;
         UsuarioFH helperU = new UsuarioFH();
@@ -75,6 +79,7 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnPass() {  
         UsuarioFH helperU = new UsuarioFH();
         String msg;
@@ -89,10 +94,11 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnConfig() {  
         RolesXUsuarioFH helperRXU = new RolesXUsuarioFH();
         String msg;
-        if (helperRXU.config(this.selectedUsuario, this.selectedRoles)) {
+        if (helperRXU.config(this.selectedUsuario, this.roles.getTarget())) {
             msg = "se configuro su rol";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -103,22 +109,44 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     private void updateList() {
         UsuarioFH helperU = new UsuarioFH();
         this.listaUsuario = helperU.listAll();
     }
 
     private void updateRoles() {
-        this.roles = new HashMap<String, String>();  
         RolFH helperR = new RolFH();
+        List<String> source = new ArrayList<String>();  
+        List<String> target = new ArrayList<String>();  
         List<TbRoles> listaRoles = helperR.listAll();
         for(TbRoles p: listaRoles)
-            roles.put(p.getRolNombre(), p.getRolNombre());
+            source.add(p.getRolNombre());            
+        this.roles = new DualListModel<String>(source, target);  
     }
     
-    public void getRol(Integer idUsuario){
-        
+    
+    public void getRol(){
+        Integer idUsuario = this.selectedUsuario.getUsCod();
+        RolFH helperR = new RolFH();
+        List<String> source = new ArrayList<String>();  
+        List<String> target = new ArrayList<String>();  
+        List<TbRoles> listaRoles = helperR.listAll();
+        UsuarioFH helperU = new UsuarioFH();
+        List<TbRoles> listaActual = helperU.getRoles(idUsuario);
+        for(TbRoles p: listaRoles)
+            source.add(p.getRolNombre()); 
+        for(TbRoles p: listaActual)
+            target.add(p.getRolNombre());
+        for(String r: source){
+            for(String p: target){
+                if(r.equals(p))
+                    source.remove(r);
+            }
+        }
+        this.roles = new DualListModel<String>(source, target);  
     }
+    
     // Get & Set
     public List<TbUsuario> getListaUsuario() {
         return listaUsuario;
@@ -152,14 +180,12 @@ public class UsuarioBean implements Serializable {
         this.selectedRoles = selectedRoles;
     }
 
-    public Map<String, String> getRoles() {
+    public DualListModel<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Map<String, String> roles) {
+    public void setRoles(DualListModel<String> roles) {
         this.roles = roles;
     }
 
-   
-    
 }

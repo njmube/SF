@@ -38,6 +38,7 @@ public class PermisoBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnUpdate() {  
         PermisoFH helperP = new PermisoFH();
         String msg;
@@ -52,6 +53,7 @@ public class PermisoBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     public void btnDelete() {
         String msg;
         PermisoFH helperP = new PermisoFH();
@@ -67,6 +69,7 @@ public class PermisoBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
     private void updateList() {
         PermisoFH helperP = new PermisoFH();
         this.listaPermiso = helperP.listAll();

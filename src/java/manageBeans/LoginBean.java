@@ -29,7 +29,8 @@ public class LoginBean implements Serializable {
      * Login 
      * @return login o home
      */
-    public String loginProject() {
+    public String loginProject()
+    {
         UsuarioFH helperU = new UsuarioFH();  
         boolean result = helperU.existe(uname, password); 
         HttpSession session = Util.getSession();  
@@ -54,11 +55,13 @@ public class LoginBean implements Serializable {
             return "login";
         }
     }
- /**
+    
+    /**
   * Logout
   * @return login
   */
-    public String logout() {
+    public String logout() 
+    {
       logueado = false; 
       HttpSession session = Util.getSession();
       session.invalidate();
@@ -66,35 +69,43 @@ public class LoginBean implements Serializable {
    }
     
     // get & set
-    public String getPassword() {
+    public String getPassword() 
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) 
+    {
         this.password = password;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String message) 
+    {
         this.message = message;
     }
 
-    public String getUname() {
+    public String getUname() 
+    {
         return uname;
     }
 
-    public void setUname(String uname) {
+    public void setUname(String uname) 
+    {
         this.uname = uname;
     }
 
-    public boolean isLogueado() {
+    public boolean isLogueado() 
+    {
         return logueado;
     }
 
-    public void setLogueado(boolean logueado) {
+    public void setLogueado(boolean logueado) 
+    {
         this.logueado = logueado;
     }
    

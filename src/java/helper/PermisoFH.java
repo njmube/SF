@@ -28,10 +28,12 @@ public class PermisoFH
             if(permiso != null){
                 auditoriaGuardar(permiso);
                 id = (Integer) sesion.save(permiso); 
-                tx.commit(); 
+                if(id != 0){
+                    tx.commit(); 
+                    rta = true;                
+                }
             }
-            if(id != 0)
-                rta = true;
+
             
         } catch (HibernateException he) 
         { 
@@ -44,6 +46,7 @@ public class PermisoFH
         
         return rta; 
     }  
+    
     public boolean update(TbPermiso permiso) throws HibernateException 
     { 
         boolean rta = false;
@@ -64,6 +67,7 @@ public class PermisoFH
         } 
         return rta;
     }  
+    
     public boolean delete(TbPermiso permiso) throws HibernateException 
     { 
         boolean rta = false;
@@ -86,6 +90,7 @@ public class PermisoFH
         } 
         return rta;
     }  
+    
     public TbPermiso search(Integer idPermiso) throws HibernateException 
     { 
         TbPermiso permiso = null;  
@@ -100,6 +105,7 @@ public class PermisoFH
 
         return permiso; 
     } 
+    
     public TbPermiso searchDescripcion(String descripcion) throws HibernateException 
     { 
         TbPermiso usr = null; 
@@ -126,6 +132,7 @@ public class PermisoFH
 
         return usr; 
     }
+    
     public List<TbPermiso> listAll() throws HibernateException 
     { 
         List<TbPermiso> listaPermisos = null;  
@@ -141,16 +148,19 @@ public class PermisoFH
 
         return listaPermisos; 
     }  
+    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 
         tx = sesion.beginTransaction(); 
     }  
+    
     private void manejarExcepcion(HibernateException he) throws HibernateException 
     { 
         tx.rollback(); 
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
+    
     private void auditoriaGuardar(TbPermiso usr) {
         HttpSession session = Util.getSession();
         String permiso = (String) session.getAttribute("username");
@@ -162,6 +172,7 @@ public class PermisoFH
         auditoriaActualizar(usr);
         
     }
+    
     private void auditoriaActualizar(TbPermiso usr) {
         HttpSession session = Util.getSession();
         String permiso = (String) session.getAttribute("username");

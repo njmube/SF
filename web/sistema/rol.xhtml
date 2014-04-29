@@ -87,10 +87,10 @@
                     <h:outputText value="Nombre: "></h:outputText>
                     <h:inputText value="#{rolBean.selectedRol.rolNombre}" readonly="true">
                     </h:inputText>
-                    <h:outputText value="Permisos: " />  
-                    <p:selectManyCheckbox id="grid" value="#{rolBean.selectedPermisos}" layout="grid" >  
-                    <f:selectItems value="#{rolBean.permisos}"/>  
-                    </p:selectManyCheckbox>  
+                    <h:outputText value="Permisos:* " />  
+                    <p:pickList id="pickList" value="#{rolBean.permisos}" var="permiso" 
+                                    itemLabel="#{permiso}" itemValue="#{permiso}" />
+
                     <f:facet name="footer">
                         <p:separator />
                         <p:commandButton id="btnConfigAceptar" update=":formDataTable , :msgs" oncomplete="dialogConfig.hide()" actionListener="#{rolBean.btnConfig}" icon="ui-icon-disk" title="guardar" value="Guardar" />
