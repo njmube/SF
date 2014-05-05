@@ -1,5 +1,5 @@
 package entity;
-// Generated 29/04/2014 10:12:33 AM by Hibernate Tools 3.6.0
+// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -14,7 +14,7 @@ public class TbCliente  implements java.io.Serializable {
 
      private int cliCod;
      private Integer cliCi;
-     private Integer cliRuc;
+     private String cliRuc;
      private String cliNombre;
      private String cliApellido;
      private String cliDireccion;
@@ -30,14 +30,16 @@ public class TbCliente  implements java.io.Serializable {
     }
 
 	
-    public TbCliente(int cliCod, String cliUserInsert, String cliUserUpdate, Date cliFechaInsert, Date cliFechaUpdate) {
+    public TbCliente(int cliCod, String cliNombre, String cliApellido, String cliUserInsert, String cliUserUpdate, Date cliFechaInsert, Date cliFechaUpdate) {
         this.cliCod = cliCod;
+        this.cliNombre = cliNombre;
+        this.cliApellido = cliApellido;
         this.cliUserInsert = cliUserInsert;
         this.cliUserUpdate = cliUserUpdate;
         this.cliFechaInsert = cliFechaInsert;
         this.cliFechaUpdate = cliFechaUpdate;
     }
-    public TbCliente(int cliCod, Integer cliCi, Integer cliRuc, String cliNombre, String cliApellido, String cliDireccion, Integer cliTelefono, String cliUserInsert, String cliUserUpdate, Date cliFechaInsert, Date cliFechaUpdate, Set tbFacturas, Set tbContratos) {
+    public TbCliente(int cliCod, Integer cliCi, String cliRuc, String cliNombre, String cliApellido, String cliDireccion, Integer cliTelefono, String cliUserInsert, String cliUserUpdate, Date cliFechaInsert, Date cliFechaUpdate, Set tbFacturas, Set tbContratos) {
        this.cliCod = cliCod;
        this.cliCi = cliCi;
        this.cliRuc = cliRuc;
@@ -67,11 +69,11 @@ public class TbCliente  implements java.io.Serializable {
     public void setCliCi(Integer cliCi) {
         this.cliCi = cliCi;
     }
-    public Integer getCliRuc() {
+    public String getCliRuc() {
         return this.cliRuc;
     }
     
-    public void setCliRuc(Integer cliRuc) {
+    public void setCliRuc(String cliRuc) {
         this.cliRuc = cliRuc;
     }
     public String getCliNombre() {

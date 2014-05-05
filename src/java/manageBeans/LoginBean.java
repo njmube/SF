@@ -7,6 +7,7 @@
 package manageBeans;
 
 import helper.UsuarioFH;
+import helper.Util;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

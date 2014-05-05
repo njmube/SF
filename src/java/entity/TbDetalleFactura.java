@@ -1,5 +1,5 @@
 package entity;
-// Generated 29/04/2014 10:12:33 AM by Hibernate Tools 3.6.0
+// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -14,7 +14,7 @@ public class TbDetalleFactura  implements java.io.Serializable {
 
      private int dfCod;
      private String dfDescripcion;
-     private Integer dfPrecioUnitario;
+     private int dfPrecioUnitario;
      private Integer dfExentas;
      private Integer dfCincoPorciento;
      private Integer dfDiezPorciento;
@@ -28,14 +28,16 @@ public class TbDetalleFactura  implements java.io.Serializable {
     }
 
 	
-    public TbDetalleFactura(int dfCod, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate) {
+    public TbDetalleFactura(int dfCod, String dfDescripcion, int dfPrecioUnitario, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate) {
         this.dfCod = dfCod;
+        this.dfDescripcion = dfDescripcion;
+        this.dfPrecioUnitario = dfPrecioUnitario;
         this.dfUserInsert = dfUserInsert;
         this.dfUserUpdate = dfUserUpdate;
         this.dfFechaInsert = dfFechaInsert;
         this.dfFechaUpdate = dfFechaUpdate;
     }
-    public TbDetalleFactura(int dfCod, String dfDescripcion, Integer dfPrecioUnitario, Integer dfExentas, Integer dfCincoPorciento, Integer dfDiezPorciento, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate, Set tbFacturaXDetalleFacturas) {
+    public TbDetalleFactura(int dfCod, String dfDescripcion, int dfPrecioUnitario, Integer dfExentas, Integer dfCincoPorciento, Integer dfDiezPorciento, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate, Set tbFacturaXDetalleFacturas) {
        this.dfCod = dfCod;
        this.dfDescripcion = dfDescripcion;
        this.dfPrecioUnitario = dfPrecioUnitario;
@@ -63,11 +65,11 @@ public class TbDetalleFactura  implements java.io.Serializable {
     public void setDfDescripcion(String dfDescripcion) {
         this.dfDescripcion = dfDescripcion;
     }
-    public Integer getDfPrecioUnitario() {
+    public int getDfPrecioUnitario() {
         return this.dfPrecioUnitario;
     }
     
-    public void setDfPrecioUnitario(Integer dfPrecioUnitario) {
+    public void setDfPrecioUnitario(int dfPrecioUnitario) {
         this.dfPrecioUnitario = dfPrecioUnitario;
     }
     public Integer getDfExentas() {

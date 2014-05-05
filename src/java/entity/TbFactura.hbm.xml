@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29/04/2014 10:12:34 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbFactura" table="tb_factura" schema="public">
         <comment>Almacena factura</comment>
@@ -12,9 +12,6 @@
         <many-to-one name="tbCliente" class="entity.TbCliente" fetch="select">
             <column name="cli_cod" not-null="true" />
         </many-to-one>
-        <many-to-one name="tbTimbrado" class="entity.TbTimbrado" fetch="select">
-            <column name="tim_cod" not-null="true" />
-        </many-to-one>
         <property name="facTipo" type="string">
             <column name="fac_tipo" length="10" not-null="true" />
         </property>
@@ -24,8 +21,17 @@
         <property name="facFechaEmision" type="date">
             <column name="fac_fecha_emision" length="13" not-null="true" />
         </property>
-        <property name="facTotal" type="java.lang.Integer">
-            <column name="fac_total" />
+        <property name="facTotal" type="int">
+            <column name="fac_total" not-null="true" />
+        </property>
+        <property name="facEstado" type="boolean">
+            <column name="fac_estado" not-null="true" />
+        </property>
+        <property name="facTimbrado" type="string">
+            <column name="fac_timbrado" length="20" />
+        </property>
+        <property name="facSecuencia" type="string">
+            <column name="fac_secuencia" length="20" />
         </property>
         <property name="facUserInsert" type="string">
             <column name="fac_user_insert" not-null="true" />
@@ -39,14 +45,17 @@
         <property name="facFechaUpdate" type="date">
             <column name="fac_fecha_update" length="13" not-null="true" />
         </property>
-        <property name="facEstado" type="boolean">
-            <column name="fac_estado" not-null="true" />
-        </property>
         <set name="tbFacturaXDetalleFacturas" table="tb_factura_x_detalle_factura" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="fac_cod" not-null="true" />
             </key>
             <one-to-many class="entity.TbFacturaXDetalleFactura" />
+        </set>
+        <set name="tbPagos" table="tb_pago" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fac_cod" not-null="true" />
+            </key>
+            <one-to-many class="entity.TbPago" />
         </set>
         <set name="tbFacturaXContratos" table="tb_factura_x_contrato" inverse="true" lazy="true" fetch="select">
             <key>

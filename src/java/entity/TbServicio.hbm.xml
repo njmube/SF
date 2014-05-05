@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29/04/2014 10:12:34 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbServicio" table="tb_servicio" schema="public">
         <comment>Almacena servicio</comment>
@@ -13,7 +13,7 @@
             <column name="ts_cod" not-null="true" />
         </many-to-one>
         <property name="serDescripcion" type="string">
-            <column name="ser_descripcion" not-null="true" />
+            <column name="ser_descripcion" not-null="true" unique="true" />
         </property>
         <property name="serPrecioUnitario" type="int">
             <column name="ser_precio_unitario" not-null="true" />

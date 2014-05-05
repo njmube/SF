@@ -24,12 +24,12 @@ public class RolBean implements Serializable {
     private TbRoles selectedRol;
     private List<String> selectedPermisos;  
     private DualListModel<String> permisos; 
-    
+
     public RolBean() {
-        updateList();
+        updateList();       
         updatePermisos();
         this.newRol = new TbRoles();
-        this.selectedRol = new TbRoles();
+        this.selectedRol = new TbRoles();        
     }
 
     public void btnCreate() {
@@ -98,7 +98,7 @@ public class RolBean implements Serializable {
         RolFH helperR = new RolFH();
         this.listaRol = helperR.listAll();
     }
-    
+      
     private void updatePermisos() {
         PermisoFH helperP = new PermisoFH();
         List<String> source = new ArrayList<String>();  
@@ -107,7 +107,7 @@ public class RolBean implements Serializable {
         for(TbPermiso p: listaPermiso)
             source.add(p.getPerDescripcion());            
         this.permisos = new DualListModel<String>(source, target);  
-  
+    
     }
     
     // Get & Set
@@ -150,5 +150,5 @@ public class RolBean implements Serializable {
     public void setPermisos(DualListModel<String> permisos) {
         this.permisos = permisos;
     }
-
+    
 }

@@ -1,0 +1,105 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{facturaBean.listaFacturaCredito}" var="factura" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE FACTURA CONTADO
+                    <p:separator />
+                    <p:commandButton id="btnFacturaCreate" update=":dlgFacturaCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Factura" value="Nueva Factura" />
+                </f:facet>
+                <p:column headerText="N°" sortBy="#{factura.facNro}" filterBy="#{factura.facNro}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{factura.facNro}"><f:convertNumber/></h:outputText>
+                </p:column>
+                <p:column headerText="Tipo" sortBy="#{factura.facTipo}" filterBy="#{factura.facTipo}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{factura.facTipo}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Cliente" filterBy="#{facturaBean.getCliente(factura.tbCliente.cliCod)}" filterMaxLength="10" style="width:24%">  
+                    <h:outputText value="#{facturaBean.getCliente(factura.tbCliente.cliCod)}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Estado" sortBy="#{factura.facEstado}" filterBy="#{factura.facEstado}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{factura.facEstado ? 'Impreso':'No Impreso'}" />  
+                </p:column> 
+                <p:column headerText="Fecha de Emisión" sortBy="#{factura.facFechaEmision}"  >  
+                    <h:outputText value="#{factura.facFechaEmision}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>              
+                <p:column style="width:10%">  
+                        <p:commandButton id="btnFacturaUpdate" update=":dlgFacturaUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{factura}" target="#{facturaBean.selectedFactura}" />  
+                            <f:setPropertyActionListener value="#{facturaBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
+                        </p:commandButton>                   
+                        <p:commandButton id="btnFacturaDelete" update=":dlgFacturaDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{factura}" target="#{facturaBean.selectedFactura}" />  
+                            <f:setPropertyActionListener value="#{facturaBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Factura Contado: #{fn:length(facturaBean.listaFacturaContado)} 
+                </f:facet>
+            </p:dataTable>              
+        </h:form>
+        
+        <p:dialog header="ELIMINAR FACTURA CONTADO" widgetVar="dialogDelete" resizable="false" id="dlgFacturaDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°: "></h:outputText>
+                    <h:inputText value="#{facturaBean.selectedFactura.facNro}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Tipo: "></h:outputText>
+                    <h:inputText value="Contado" readonly="true">
+                    </h:inputText>                    
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirmar" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{facturaBean.btnFacturaDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE FACTURA CONTADO" widgetVar="dialogCreate" resizable="false" id="dlgFacturaCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°:* "></h:outputText>
+                    <p:inputText value="#{facturaBean.newFactura.facNro}" required="true" requiredMessage="Ingrese el N°!" >
+                    <f:validateDoubleRange minimum="1" maximum="9999999" />  
+                    </p:inputText>  
+                    <h:outputText value="Tipo:* "></h:outputText>
+                    <p:inputText value="Contado" readonly="true">
+                    </p:inputText>
+                    
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{facturaBean.btnFacturaCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR FACTURA CONTADO" widgetVar="dialogUpdate" resizable="false" id="dlgFacturaUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°:* "></h:outputText>
+                    <p:inputText value="#{facturaBean.selectedFactura.facNro}" required="true" requiredMessage="Ingrese el N°!" >
+                    <f:validateDoubleRange minimum="1" maximum="9999999" />  
+                    </p:inputText>  
+                    <h:outputText value="Tipo:* "></h:outputText>
+                    <p:inputText value="Contado" readonly="true">
+                    </p:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{facturaBean.btnFacturaUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

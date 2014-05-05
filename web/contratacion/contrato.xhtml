@@ -1,0 +1,172 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{contratoBean.lista}" var="contrato" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE CONTRATO
+                    <p:separator />
+                    <p:commandButton id="btnContratoCreate" update=":dlgContratoCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Contrato" value="Nuevo Contrato" />
+                </f:facet>                    
+                <p:column headerText="N°" sortBy="#{contrato.conNro}" filterBy="#{contrato.conNro}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{contrato.conNro}"><f:convertNumber/></h:outputText>                          
+                </p:column> 
+                <p:column headerText="Cliente" filterBy="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Tipo de Contrato" filterBy="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" filterMaxLength="10" style="width:24%">  
+                    <h:outputText value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Estado" sortBy="#{contrato.conEstado}" filterBy="#{contrato.conEstado}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{contrato.conEstado ? 'Activo':'Cancelado'}" />  
+                </p:column> 
+                <p:column headerText="Fecha Inicio" sortBy="#{contrato.conFechaInicio}"  style="width:10%">  
+                    <h:outputText value="#{contrato.conFechaInicio}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>
+                <p:column headerText="Fecha Fin" sortBy="#{contrato.conFechaFin}"  style="width:10%">  
+                <h:outputText value="#{contrato.conFechaFin}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>
+                <p:column style="width:10%">  
+                        <p:commandButton id="btnUpdate" update=":dlgContratoUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{contrato}" target="#{contratoBean.selectedContrato}" /> 
+                            <f:setPropertyActionListener value="#{contrato.conFechaFin}" target="#{contratoBean.FFinal}" />
+                            <f:setPropertyActionListener value="#{contrato.conFechaInicio}" target="#{contratoBean.FInicial}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" target="#{contratoBean.selectedTipoContrato}" />
+                        </p:commandButton> 
+                        <p:commandButton id="btnDelete" update=":dlgContratoDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{contrato}" target="#{contratoBean.selectedContrato}" />  
+                            <f:setPropertyActionListener value="#{contrato.conFechaFin}" target="#{contratoBean.FFinal}" />
+                            <f:setPropertyActionListener value="#{contrato.conFechaInicio}" target="#{contratoBean.FInicial}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" target="#{contratoBean.selectedTipoContrato}" />
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Contratos: #{fn:length(contratoBean.lista)} 
+                </f:facet>
+            </p:dataTable> 
+             
+        </h:form>
+        <p:dialog header="ELIMINAR CONTRATO" widgetVar="dialogDelete" resizable="false" id="dlgContratoDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°:"></h:outputText>
+                    <h:inputText value="#{contratoBean.selectedContrato.conNro}" readonly="true">
+                    </h:inputText>  
+                    <h:outputText value="Estado:"></h:outputText>
+                    <h:inputText value="#{contratoBean.selectedContrato.conEstado ? 'Activo':'Cancelado'}" readonly="true">
+                    </h:inputText>                                      
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{contratoBean.btnDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE CONTRATO" widgetVar="dialogCreate" resizable="false" id="dlgContratoCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.newContrato.conNro}" required="true" requiredMessage="Ingrese el N° de Contrato!">
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText>
+                    <h:outputText value="Cliente:* "></h:outputText>
+                    <p:selectOneMenu value="#{contratoBean.selectedCliente}" effect="fold" editable="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Seleccione el Cliente!" >>  
+                       <f:selectItem itemLabel="Elija el Cliente" itemValue="" />  
+                        <f:selectItems value="#{contratoBean.listaCliente}" var="cliente" itemLabel="#{cliente.cliNombre},#{cliente.cliApellido}" itemValue="#{cliente.cliNombre},#{cliente.cliApellido}" />  
+                    </p:selectOneMenu>
+                    <h:outputText value="Tipo de Contrato:* "></h:outputText>
+                    <p:selectOneMenu value="#{contratoBean.selectedTipoContrato}" effect="fold" editable="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Seleccione el Tipo de Contrato!" >>  
+                       <f:selectItem itemLabel="Elija el Tipo de Contrato" itemValue="" />  
+                       <f:selectItems value="#{contratoBean.listaTipoContrato}" var="tipoContrato" itemLabel="#{tipoContrato.tcDescripcion}" itemValue="#{tipoContrato.tcDescripcion}" />  
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Fecha Inicial:* " for="finicial"/>
+                    <p:calendar id="finicial" value="#{contratoBean.FInicial}" pattern="dd/MM/yyyy"   locale="es"     required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Inicial Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+                    <p:ajax event="dateSelect" update="ffinal" />
+                    </p:calendar>    
+                    <h:outputLabel value="Fecha Final:* " for="ffinal"/>
+                    <p:calendar id="ffinal" value="#{contratoBean.FFinal}" mindate="#{contratoBean.FInicial}" pattern="dd/MM/yyyy"  locale="es" required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Final Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+                    <f:attribute name="finicial" value="#{contratoBean.FInicial}"/>
+                    <f:validator validatorId="primeDateRangeValidator" />
+                    </p:calendar>
+                    <h:outputText value="Descripción:* "></h:outputText>
+                    <p:inputTextarea rows="5" cols="30"  value="#{contratoBean.newContrato.conDescripcion}" required="true" requiredMessage="Ingrese una descripción!">
+                    <f:validateLength maximum="255" /> 
+                    </p:inputTextarea>
+                    <h:outputText value="Cantidad de Cuota:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.newContrato.conCantidadCuotas}" required="true" requiredMessage="Ingrese la cantidad de cuota!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText> 
+                    <h:outputText value="Monto de Cuota:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.newContrato.conMontoCuota}" required="true" requiredMessage="Ingrese el monto de la cuota!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText> 
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{contratoBean.btnCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR CONTRATO" widgetVar="dialogUpdate" resizable="false" id="dlgContratoUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.selectedContrato.conNro}" required="true" requiredMessage="Ingrese el N° de Contrato!">
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText>
+                    <h:outputText value="Cliente:*"></h:outputText>
+                    <p:selectOneMenu value="#{contratoBean.selectedCliente}" effect="fold" editable="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Seleccione el Cliente!" >>  
+                       <f:selectItem itemLabel="Elija el Cliente" itemValue="" />  
+                        <f:selectItems value="#{contratoBean.listaCliente}" var="cliente" itemLabel="#{cliente.cliNombre},#{cliente.cliApellido}" itemValue="#{cliente.cliNombre},#{cliente.cliApellido}" />  
+                    </p:selectOneMenu>
+                    <h:outputText value="Tipo de Contrato:* "></h:outputText>
+                    <p:selectOneMenu value="#{contratoBean.selectedTipoContrato}" effect="fold" editable="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Seleccione el Tipo de Contrato!" >>  
+                       <f:selectItem itemLabel="Elija el Tipo de Contrato" itemValue="" />  
+                       <f:selectItems value="#{contratoBean.listaTipoContrato}" var="tipoContrato" itemLabel="#{tipoContrato.tcDescripcion}" itemValue="#{tipoContrato.tcDescripcion}" />  
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Fecha Inicial:* " for="finicial"/>
+                    <p:calendar id="finicial" value="#{contratoBean.FInicial}" pattern="dd/MM/yyyy"   locale="es"     required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Inicial Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+                    <p:ajax event="dateSelect" update="ffinal" />
+                    </p:calendar>    
+                    <h:outputLabel value="Fecha Final:* " for="ffinal"/>
+                    <p:calendar id="ffinal" value="#{contratoBean.FFinal}" mindate="#{contratoBean.FInicial}" pattern="dd/MM/yyyy"  locale="es" required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Final Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+                    <f:attribute name="finicial" value="#{contratoBean.FInicial}"/>
+                    <f:validator validatorId="primeDateRangeValidator" />
+                    </p:calendar>                  
+                    <h:outputText value="Descripción:* "></h:outputText>
+                    <p:inputTextarea rows="5" cols="30"  value="#{contratoBean.selectedContrato.conDescripcion}" required="true" requiredMessage="Ingrese una descripción!">
+                    <f:validateLength maximum="255" /> 
+                    </p:inputTextarea>
+                    <h:outputText value="Cantidad de Cuota:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.selectedContrato.conCantidadCuotas}" required="true" requiredMessage="Ingrese la cantidad de cuota!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText>
+                    <h:outputText value="Monto de Cuota:* "></h:outputText>
+                    <p:inputText value="#{contratoBean.selectedContrato.conMontoCuota}" required="true" requiredMessage="Ingrese el monto de la cuota!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText> 
+                    <h:outputText value="Estado: "></h:outputText>
+                    <p:selectBooleanCheckbox value="#{contratoBean.selectedContrato.conEstado}" />
+                    
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{contratoBean.btnUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

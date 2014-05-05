@@ -18,15 +18,15 @@
                 <h:outputText value="#{rol.rolNombre}" />  
                 </p:column>  
                 <p:column style="width:5%">  
-                        <p:commandButton id="btnUpdate" update=":dlgRolUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
-                            <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
-                        </p:commandButton> 
+                    <p:commandButton id="btnUpdate" update=":dlgRolUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                        <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
+                    </p:commandButton>                         
                         <p:commandButton id="btnConfig" update=":dlgRolConfig , :formConfig" oncomplete="dialogConfig.show()" icon="ui-icon-gear" title="Configurar Permiso">  
                             <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
                         </p:commandButton>
-                        <p:commandButton id="btnDelete" update=":dlgRolDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
-                            <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />  
-                        </p:commandButton>  
+                    <p:commandButton id="btnDelete" update=":dlgRolDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                        <f:setPropertyActionListener value="#{rol}" target="#{rolBean.selectedRol}" />
+                    </p:commandButton>  
                 </p:column> 
                 <f:facet name="footer">
                     Total de Rol: #{fn:length(rolBean.listaRol)} 
@@ -98,6 +98,6 @@
                     </f:facet>
                 </h:panelGrid>  
             </h:form>
-        </p:dialog>  
+        </p:dialog>     
     </ui:define>
 </ui:composition>

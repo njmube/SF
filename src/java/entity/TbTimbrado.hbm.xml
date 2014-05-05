@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29/04/2014 10:12:34 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbTimbrado" table="tb_timbrado" schema="public">
         <comment>Almacena los timbrados</comment>
@@ -13,13 +13,10 @@
             <column name="tim_estado" not-null="true" />
         </property>
         <property name="timTipo" type="string">
-            <column name="tim_tipo" length="50" not-null="true" />
+            <column name="tim_tipo" length="10" not-null="true" />
         </property>
         <property name="timNro" type="string">
             <column name="tim_nro" length="10" not-null="true" />
-        </property>
-        <property name="timSecuencia" type="string">
-            <column name="tim_secuencia" length="7" />
         </property>
         <property name="timInicioVigencia" type="date">
             <column name="tim_inicio_vigencia" length="13" not-null="true" />
@@ -29,6 +26,15 @@
         </property>
         <property name="timRuc" type="string">
             <column name="tim_ruc" length="7" not-null="true" />
+        </property>
+        <property name="timSecuencia" type="int">
+            <column name="tim_secuencia" not-null="true" />
+        </property>
+        <property name="timSetuno" type="string">
+            <column name="tim_setuno" length="3" not-null="true" />
+        </property>
+        <property name="timSetdos" type="string">
+            <column name="tim_setdos" length="7" not-null="true" />
         </property>
         <property name="timUserInsert" type="string">
             <column name="tim_user_insert" not-null="true" />
@@ -42,11 +48,5 @@
         <property name="timFechaUpdate" type="date">
             <column name="tim_fecha_update" length="13" not-null="true" />
         </property>
-        <set name="tbFacturas" table="tb_factura" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="tim_cod" not-null="true" />
-            </key>
-            <one-to-many class="entity.TbFactura" />
-        </set>
     </class>
 </hibernate-mapping>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29/04/2014 10:12:34 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbUsuario" table="tb_usuario" schema="public">
         <comment>Almacena los persmisos</comment>
@@ -13,16 +13,16 @@
             <column name="us_ci" unique="true" />
         </property>
         <property name="usNombre" type="string">
-            <column name="us_nombre" length="100" />
+            <column name="us_nombre" length="100" not-null="true" />
         </property>
         <property name="usApellido" type="string">
-            <column name="us_apellido" length="100" />
+            <column name="us_apellido" length="100" not-null="true" />
         </property>
         <property name="usUsuario" type="string">
-            <column name="us_usuario" unique="true" />
+            <column name="us_usuario" not-null="true" unique="true" />
         </property>
         <property name="usPassword" type="string">
-            <column name="us_password" />
+            <column name="us_password" not-null="true" />
         </property>
         <property name="usUserInsert" type="string">
             <column name="us_user_insert" not-null="true" />

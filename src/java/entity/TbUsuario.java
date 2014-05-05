@@ -1,5 +1,5 @@
 package entity;
-// Generated 29/04/2014 10:12:33 AM by Hibernate Tools 3.6.0
+// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -28,8 +28,12 @@ public class TbUsuario  implements java.io.Serializable {
     }
 
 	
-    public TbUsuario(int usCod, String usUserInsert, String usUserUpdate, Date usFechaInsert, Date usFechaUpdate) {
+    public TbUsuario(int usCod, String usNombre, String usApellido, String usUsuario, String usPassword, String usUserInsert, String usUserUpdate, Date usFechaInsert, Date usFechaUpdate) {
         this.usCod = usCod;
+        this.usNombre = usNombre;
+        this.usApellido = usApellido;
+        this.usUsuario = usUsuario;
+        this.usPassword = usPassword;
         this.usUserInsert = usUserInsert;
         this.usUserUpdate = usUserUpdate;
         this.usFechaInsert = usFechaInsert;

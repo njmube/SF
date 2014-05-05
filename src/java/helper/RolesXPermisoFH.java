@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import manageBeans.Util;
+import helper.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -44,6 +44,33 @@ public class RolesXPermisoFH
         return id; 
     }  
 
+    public Integer create(TbRoles rol, TbPermiso permiso) throws HibernateException 
+    { 
+        Integer id = 0;  
+
+        try 
+        { 
+            iniciarOperacion(); 
+            TbRolesXPermiso rxp = new TbRolesXPermiso();
+            rxp.setTbPermiso(permiso);
+            rxp.setTbRoles(rol);
+            auditoriaGuardar(rxp);
+            id = (Integer) sesion.save(rxp); 
+            if(id != 0){
+                tx.commit();                                
+            }
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return id; 
+    }  
+    
     public void update(TbRolesXPermiso rxp) throws HibernateException 
     { 
         try 
@@ -79,6 +106,30 @@ public class RolesXPermisoFH
         } 
     }  
 
+    public void delete(Integer idRol, Integer idPermiso) throws HibernateException 
+    { 
+        
+        try 
+        { 
+            iniciarOperacion();  
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "' and tbPermiso = '"+ idPermiso + "'";
+            List<TbRolesXPermiso> lista = sesion.createQuery(cadena).list();
+            for (TbRolesXPermiso rxp : lista) {  
+                sesion.delete(rxp); 
+            }  
+            tx.commit();             
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } 
+        finally 
+        { 
+             sesion.close(); 
+        }  
+
+    }
+    
     public TbRolesXPermiso search(Integer idRolesXPantallas) throws HibernateException 
     { 
         TbRolesXPermiso rolesXPantallas = null;  
@@ -115,12 +166,12 @@ public class RolesXPermisoFH
         boolean rta = false;
         PermisoFH helperP = new PermisoFH();
         TbPermiso per = null;
-                    
+        
         try 
         { 
             iniciarOperacion(); 
             System.err.println("rol: "+rol.getRolNombre());
-            
+        
             for (String p : permisos) {
                 per = helperP.searchDescripcion(p);
                 System.err.println("per: "+ per.getPerDescripcion());
@@ -130,7 +181,7 @@ public class RolesXPermisoFH
                 auditoriaGuardar(rxp);
                 sesion.save(rxp); 
             }
-            rta = true;
+            rta = true;      
             tx.commit(); 
         } catch (HibernateException he) 
         { 

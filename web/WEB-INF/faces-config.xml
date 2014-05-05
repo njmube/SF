@@ -35,4 +35,45 @@
             <managed-bean-class>manageBeans.RolBean</managed-bean-class>
             <managed-bean-scope>view</managed-bean-scope>
         </managed-bean>
+        
+        <managed-bean>
+        <managed-bean-name>clienteBean</managed-bean-name>
+        <managed-bean-class>manageBeans.ClienteBean</managed-bean-class>
+    
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+  
+        <managed-bean>
+            <managed-bean-name>servicioBean</managed-bean-name>
+            <managed-bean-class>manageBeans.ServicioBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+
+        <managed-bean>
+            <managed-bean-name>tipoServicioBean</managed-bean-name>
+            <managed-bean-class>manageBeans.TipoServicioBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+        
+        <managed-bean>
+            <managed-bean-name>timbradoBean</managed-bean-name>
+            <managed-bean-class>manageBeans.TimbradoBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+    
+        <managed-bean>
+            <managed-bean-name>contratoBean</managed-bean-name>
+            <managed-bean-class>manageBeans.ContratoBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+        
+        <managed-bean>
+            <managed-bean-name>tipoContratoBean</managed-bean-name>
+            <managed-bean-class>manageBeans.TipoContratoBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+    <managed-bean>
+        <managed-bean-name>facturaBean</managed-bean-name>
+        <managed-bean-class>manageBeans.FacturaBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

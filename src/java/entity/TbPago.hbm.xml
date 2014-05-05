@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbPago" table="tb_pago" schema="public">
+        <comment>Almacena los pagos</comment>
+        <id name="paCod" type="int">
+            <column name="pa_cod" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="tbFactura" class="entity.TbFactura" fetch="select">
+            <column name="fac_cod" not-null="true" />
+        </many-to-one>
+        <property name="paFecha" type="date">
+            <column name="pa_fecha" length="13" not-null="true" />
+        </property>
+        <property name="paMonto" type="java.lang.Integer">
+            <column name="pa_monto" />
+        </property>
+        <property name="paFormaPago" type="string">
+            <column name="pa_forma_pago" length="20" not-null="true" />
+        </property>
+        <property name="paUserInsert" type="string">
+            <column name="pa_user_insert" not-null="true" />
+        </property>
+        <property name="paUserUpdate" type="string">
+            <column name="pa_user_update" not-null="true" />
+        </property>
+        <property name="paFechaInsert" type="date">
+            <column name="pa_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="paFechaUpdate" type="date">
+            <column name="pa_fecha_update" length="13" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

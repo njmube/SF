@@ -1,0 +1,143 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{clienteBean.listaCliente}" var="cliente" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE CLIENTE
+                    <p:separator />
+                    <p:commandButton id="btnClienteCreate" update=":dlgClienteCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Cliente" value="Nuevo Cliente" />
+                </f:facet>                    
+                <p:column headerText="Nombre" sortBy="#{cliente.cliNombre}" filterBy="#{cliente.cliNombre}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{cliente.cliNombre}" />  
+                </p:column>  
+                <p:column headerText="Apellido" sortBy="#{cliente.cliApellido}" filterBy="#{cliente.cliApellido}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{cliente.cliApellido}" />  
+                </p:column>
+                <p:column headerText="CI N°" sortBy="#{cliente.cliCi}" filterBy="#{cliente.cliCi}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{cliente.cliCi}"><f:convertNumber/></h:outputText>
+                </p:column>
+                <p:column headerText="RUC" sortBy="#{cliente.cliRuc}" filterBy="#{cliente.cliRuc}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{cliente.cliRuc}"><f:convertNumber/></h:outputText>                          
+                </p:column>                
+                <p:column style="width:10%">  
+                        <p:commandButton id="btnClienteUpdate" update=":dlgClienteUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.selectedCliente}" />  
+                        </p:commandButton>                   
+                        <p:commandButton id="btnClienteDelete" update=":dlgClienteDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.selectedCliente}" />  
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Clientes: #{fn:length(clienteBean.listaCliente)} 
+                </f:facet>
+            </p:dataTable> 
+             
+        </h:form>
+        <p:dialog header="ELIMINAR CLIENTE" widgetVar="dialogDelete" resizable="false" id="dlgClienteDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliNombre}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Apellido:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliApellido}" readonly="true">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <h:outputText value="CI N°:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliCi}" readonly="true">
+                    </h:inputText> 
+                    <h:outputText value="RUC:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliRuc}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Dirección:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliDireccion}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Teléfono:"></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliTelefono}" readonly="true">
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirmar" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{clienteBean.btnClienteDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE CLIENTE" widgetVar="dialogCreate" resizable="false" id="dlgClienteCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:* "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliNombre}" required="true" requiredMessage="Ingrese el Nombre!">
+                    <f:validateLength maximum="100" />
+                    </p:inputText>
+                    <h:outputText value="Apellido:* "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliApellido}" required="true" requiredMessage="Ingrese el Apellido!" >
+                    <f:validateLength maximum="100" />
+                    </p:inputText>
+                    <h:outputText value="CI N°:* "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliCi}" required="true" requiredMessage="Ingrese el CI!" >
+                    <f:validateDoubleRange minimum="1" />  
+                    </p:inputText>   
+                    <h:outputText value="RUC:* "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliRuc}" required="true" requiredMessage="Ingrese el Ruc!" >
+                    <f:validateLength maximum="7" />
+                    </p:inputText>  
+                    <h:outputText value="Dirección: "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliDireccion}"  >
+                    <f:validateLength maximum="255" />
+                    </p:inputText> 
+                     <h:outputText value="Teléfono: "></h:outputText>
+                    <p:inputText value="#{clienteBean.newCliente.cliTelefono}"  >
+                    </p:inputText> 
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{clienteBean.btnClienteCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR CLIENTE" widgetVar="dialogUpdate" resizable="false" id="dlgClienteUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Nombre:* "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliNombre}" required="true" requiredMessage="Ingrese el Nombre!">
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <h:outputText value="Apellido:* "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliApellido}" required="true" requiredMessage="Ingrese el Apellido!" >
+                    <f:validateLength maximum="100" />
+                    </h:inputText>
+                    <h:outputText value="CI N°:* "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliCi}" required="true" requiredMessage="Ingrese el CI!">
+                    </h:inputText> 
+                    <h:outputText value="RUC:* "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliRuc}" required="true" requiredMessage="Ingrese el Ruc!">
+                    <f:validateLength maximum="7" />
+                    </h:inputText>
+                    <h:outputText value="Dirección: "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliDireccion}" >
+                    <f:validateLength maximum="255" />
+                    </h:inputText>
+                    <h:outputText value="Teléfono: "></h:outputText>
+                    <h:inputText value="#{clienteBean.selectedCliente.cliTelefono}" >
+                    </h:inputText>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{clienteBean.btnClienteUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="entity.TbGasto" table="tb_gasto" schema="public">
+        <comment>Almacena los gastos</comment>
+        <id name="gaCod" type="int">
+            <column name="ga_cod" />
+            <generator class="increment" />
+        </id>
+        <property name="gaConcepto" type="string">
+            <column name="ga_concepto" length="100" not-null="true" />
+        </property>
+        <property name="gaMonto" type="java.lang.Integer">
+            <column name="ga_monto" />
+        </property>
+        <property name="gaFecha" type="date">
+            <column name="ga_fecha" length="13" not-null="true" />
+        </property>
+        <property name="gaResponsable" type="string">
+            <column name="ga_responsable" not-null="true" />
+        </property>
+        <property name="gaUserInsert" type="string">
+            <column name="ga_user_insert" not-null="true" />
+        </property>
+        <property name="gaUserUpdate" type="string">
+            <column name="ga_user_update" not-null="true" />
+        </property>
+        <property name="gaFechaInsert" type="date">
+            <column name="ga_fecha_insert" length="13" not-null="true" />
+        </property>
+        <property name="gaFechaUpdate" type="date">
+            <column name="ga_fecha_update" length="13" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

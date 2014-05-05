@@ -1,5 +1,5 @@
 package entity;
-// Generated 29/04/2014 10:12:33 AM by Hibernate Tools 3.6.0
+// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -25,8 +25,9 @@ public class TbRoles  implements java.io.Serializable {
     }
 
 	
-    public TbRoles(int rolCod, String rolUserInsert, String rolUserUpdate, Date rolFechaInsert, Date rolFechaUpdate) {
+    public TbRoles(int rolCod, String rolNombre, String rolUserInsert, String rolUserUpdate, Date rolFechaInsert, Date rolFechaUpdate) {
         this.rolCod = rolCod;
+        this.rolNombre = rolNombre;
         this.rolUserInsert = rolUserInsert;
         this.rolUserUpdate = rolUserUpdate;
         this.rolFechaInsert = rolFechaInsert;

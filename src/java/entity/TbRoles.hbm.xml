@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29/04/2014 10:12:34 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbRoles" table="tb_roles" schema="public">
         <comment>Almacena roles del sistema</comment>
@@ -10,7 +10,7 @@
             <generator class="increment" />
         </id>
         <property name="rolNombre" type="string">
-            <column name="rol_nombre" length="100" />
+            <column name="rol_nombre" length="100" not-null="true" unique="true" />
         </property>
         <property name="rolUserInsert" type="string">
             <column name="rol_user_insert" not-null="true" />

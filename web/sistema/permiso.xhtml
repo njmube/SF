@@ -44,8 +44,8 @@
            <h:form id ="formDelete">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
                     <h:outputText value="Descripcion:"></h:outputText>
-                    <h:inputText value="#{permisoBean.selectedPermiso.perDescripcion}" readonly="true">
-                    </h:inputText>
+                     <p:inputTextarea rows="5" cols="30" value="#{permisoBean.selectedPermiso.perDescripcion}" readonly="true">
+                     </p:inputTextarea>
                     <h:outputText value="Agregar:"></h:outputText>
                     <h:inputText value="#{permisoBean.selectedPermiso.perAdd ? 'SI':'NO'}" readonly="true">
                     </h:inputText>
@@ -68,9 +68,9 @@
             <h:form id ="formCreate">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
                     <h:outputText value="Descripcion:* "></h:outputText>
-                    <h:inputText value="#{permisoBean.newPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
+                     <p:inputTextarea rows="5" cols="30" value="#{permisoBean.newPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
                     <f:validateLength maximum="100" />
-                    </h:inputText>
+                     </p:inputTextarea>
                     <h:outputText value="Agregar:"></h:outputText>
                     <p:selectBooleanCheckbox value="#{permisoBean.newPermiso.perAdd}" />
                     <h:outputText value="Actualizar:"></h:outputText>
@@ -90,9 +90,9 @@
             <h:form id ="formUpdate">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
                     <h:outputText value="Descripcion:* "></h:outputText>
-                    <h:inputText value="#{permisoBean.selectedPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
+                     <p:inputTextarea rows="5" cols="30" value="#{permisoBean.selectedPermiso.perDescripcion}" required="true" requiredMessage="Ingrese la Descripcion!">
                     <f:validateLength maximum="100" />
-                    </h:inputText>
+                     </p:inputTextarea>
                     <h:outputText value="Agregar:"></h:outputText>
                     <p:selectBooleanCheckbox value="#{permisoBean.selectedPermiso.perAdd}" />
                     <h:outputText value="Actualizar:"></h:outputText>

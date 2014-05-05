@@ -11,10 +11,11 @@
             <c:if test="#{loginBean.logueado}">
             <p:menubar autoDisplay="false" style="width:99%">
                 <p:submenu label="Contratación"  > 
-                    <p:menuitem value="Contrato" action="#{loginBean.logout}" />  
-                    <p:menuitem value="Cliente" action="#{loginBean.logout}" />  
-                    <p:menuitem value="Servicio" action="#{loginBean.logout}" />   
-                    <p:menuitem value="Tipo de Servicio" action="#{loginBean.logout}" />
+                    <p:menuitem value="Contrato" outcome="/contratacion/contrato.xhtml" /> 
+                    <p:menuitem value="Cliente" outcome="/contratacion/cliente.xhtml" />  
+                    <p:menuitem value="Servicio" outcome="/contratacion/servicio.xhtml" />     
+                    <p:menuitem value="Tipo de Servicio" outcome="/contratacion/tipoServicio.xhtml" />   
+                    <p:menuitem value="Tipo de Contrato" outcome="/contratacion/tipoContrato.xhtml" />
                     <p:menuitem value="Rescindir Contrato" action="#{loginBean.logout}" /> 
                 </p:submenu>
                 <p:submenu label="Facturación" > 
@@ -30,7 +31,7 @@
                     <p:menuitem value="Usuario" outcome="/sistema/usuario.xhtml"  />  
                     <p:menuitem value="Rol" outcome="/sistema/rol.xhtml" />
                     <p:menuitem value="Permiso" outcome="/sistema/permiso.xhtml" />
-                    <p:menuitem value="Timbrado" action="#{loginBean.logout}" />  
+                    <p:menuitem value="Timbrado" outcome="/sistema/timbrado.xhtml" />  
                 </p:submenu>
                 <p:submenu label="Informe" > 
                     <p:menuitem value="Facturas" action="#{loginBean.logout}" />        

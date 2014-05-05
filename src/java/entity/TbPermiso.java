@@ -1,5 +1,5 @@
 package entity;
-// Generated 29/04/2014 10:12:33 AM by Hibernate Tools 3.6.0
+// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -14,9 +14,9 @@ public class TbPermiso  implements java.io.Serializable {
 
      private int perCod;
      private String perDescripcion;
-     private Boolean perAdd;
-     private Boolean perDelete;
-     private Boolean perUpdate;
+     private boolean perAdd;
+     private boolean perDelete;
+     private boolean perUpdate;
      private String perUserInsert;
      private String perUserUpdate;
      private Date perFechaInsert;
@@ -27,14 +27,18 @@ public class TbPermiso  implements java.io.Serializable {
     }
 
 	
-    public TbPermiso(int perCod, String perUserInsert, String perUserUpdate, Date perFechaInsert, Date perFechaUpdate) {
+    public TbPermiso(int perCod, String perDescripcion, boolean perAdd, boolean perDelete, boolean perUpdate, String perUserInsert, String perUserUpdate, Date perFechaInsert, Date perFechaUpdate) {
         this.perCod = perCod;
+        this.perDescripcion = perDescripcion;
+        this.perAdd = perAdd;
+        this.perDelete = perDelete;
+        this.perUpdate = perUpdate;
         this.perUserInsert = perUserInsert;
         this.perUserUpdate = perUserUpdate;
         this.perFechaInsert = perFechaInsert;
         this.perFechaUpdate = perFechaUpdate;
     }
-    public TbPermiso(int perCod, String perDescripcion, Boolean perAdd, Boolean perDelete, Boolean perUpdate, String perUserInsert, String perUserUpdate, Date perFechaInsert, Date perFechaUpdate, Set tbRolesXPermisos) {
+    public TbPermiso(int perCod, String perDescripcion, boolean perAdd, boolean perDelete, boolean perUpdate, String perUserInsert, String perUserUpdate, Date perFechaInsert, Date perFechaUpdate, Set tbRolesXPermisos) {
        this.perCod = perCod;
        this.perDescripcion = perDescripcion;
        this.perAdd = perAdd;
@@ -61,25 +65,25 @@ public class TbPermiso  implements java.io.Serializable {
     public void setPerDescripcion(String perDescripcion) {
         this.perDescripcion = perDescripcion;
     }
-    public Boolean getPerAdd() {
+    public boolean isPerAdd() {
         return this.perAdd;
     }
     
-    public void setPerAdd(Boolean perAdd) {
+    public void setPerAdd(boolean perAdd) {
         this.perAdd = perAdd;
     }
-    public Boolean getPerDelete() {
+    public boolean isPerDelete() {
         return this.perDelete;
     }
     
-    public void setPerDelete(Boolean perDelete) {
+    public void setPerDelete(boolean perDelete) {
         this.perDelete = perDelete;
     }
-    public Boolean getPerUpdate() {
+    public boolean isPerUpdate() {
         return this.perUpdate;
     }
     
-    public void setPerUpdate(Boolean perUpdate) {
+    public void setPerUpdate(boolean perUpdate) {
         this.perUpdate = perUpdate;
     }
     public String getPerUserInsert() {
