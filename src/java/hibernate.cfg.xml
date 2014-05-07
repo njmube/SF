@@ -29,5 +29,6 @@
     <mapping resource="entity/TbTipoServicio.hbm.xml"/>
     <mapping resource="entity/TbContrato.hbm.xml"/>
     <mapping resource="entity/TbTimbrado.hbm.xml"/>
+    <mapping resource="entity/TbGasto.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

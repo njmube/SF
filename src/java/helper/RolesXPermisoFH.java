@@ -5,11 +5,11 @@ import entity.TbPermiso;
 import entity.TbRoles;
 import entity.TbRolesXPermiso;
 import hibernate.HibernateUtil;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import helper.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -130,6 +130,30 @@ public class RolesXPermisoFH
 
     }
     
+    public void delete(Integer idRol) throws HibernateException 
+    { 
+        
+        try 
+        { 
+            iniciarOperacion();  
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
+            List<TbRolesXPermiso> lista = sesion.createQuery(cadena).list();
+            for (TbRolesXPermiso rxp : lista) {  
+                sesion.delete(rxp); 
+            }  
+            tx.commit();             
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } 
+        finally 
+        { 
+             sesion.close(); 
+        }  
+
+    }
+    
     public TbRolesXPermiso search(Integer idRolesXPantallas) throws HibernateException 
     { 
         TbRolesXPermiso rolesXPantallas = null;  
@@ -161,17 +185,57 @@ public class RolesXPermisoFH
         return listaRolesXPantallass; 
     }  
 
+    public List<TbRolesXPermiso> listRXP(Integer idRol) throws HibernateException 
+    { 
+        List<TbRolesXPermiso> lista = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
+            lista = sesion.createQuery(cadena).list(); 
+             
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return lista; 
+    }
+    
+    public List<TbRolesXPermiso> listRXP(Integer idRol, Integer idPermiso) throws HibernateException 
+    { 
+        List<TbRolesXPermiso> lista = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "' and tbPermiso = '"+ idPermiso + "'";
+            lista = sesion.createQuery(cadena).list(); 
+             
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return lista; 
+    }
+    
     public boolean config(TbRoles rol , List<String> permisos) throws HibernateException 
     { 
         boolean rta = false;
         PermisoFH helperP = new PermisoFH();
-        TbPermiso per = null;
-        
         try 
         { 
             iniciarOperacion(); 
             System.err.println("rol: "+rol.getRolNombre());
-        
+            // Borro todos los permisos
+            Integer idRol = rol.getRolCod();
+            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
+            List<TbRolesXPermiso> lista = sesion.createQuery(cadena).list();             
+            for(TbRolesXPermiso rxp: lista){
+                sesion.delete(rxp); 
+            }
+            // Asigno todos los permisos
+            TbPermiso per;
             for (String p : permisos) {
                 per = helperP.searchDescripcion(p);
                 System.err.println("per: "+ per.getPerDescripcion());
@@ -193,6 +257,18 @@ public class RolesXPermisoFH
         } 
         return rta;
     } 
+    
+    public List<TbPermiso> permisosDelRol(TbRoles rol){
+        List<TbPermiso> listaPer = new ArrayList<TbPermiso>(); 
+        RolesXPermisoFH helperRXP = new RolesXPermisoFH();        
+        List<TbRolesXPermiso> lista = helperRXP.listRXP(rol.getRolCod());
+        PermisoFH helperP = new PermisoFH();
+        for(TbRolesXPermiso rxp: lista){
+            TbPermiso p = helperP.search(rxp.getTbPermiso().getPerCod());
+            listaPer.add(p);
+        }
+        return listaPer;
+    }
     
     private void iniciarOperacion() throws HibernateException 
     { 

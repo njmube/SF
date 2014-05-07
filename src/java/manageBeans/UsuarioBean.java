@@ -1,6 +1,7 @@
 package manageBeans;
 
 import entity.TbRoles;
+import entity.TbRolesXUsuario;
 import helper.UsuarioFH;
 import entity.TbUsuario;
 import helper.RolFH;
@@ -20,9 +21,9 @@ public class UsuarioBean implements Serializable {
  
     private static final long serialVersionUID = 1L;
     private List<TbUsuario> listaUsuario;
+    private List<TbRoles> listaRol;
     private TbUsuario newUsuario;
-    private TbUsuario selectedUsuario;
-    private List<String> selectedRoles;  
+    private TbUsuario selectedUsuario; 
     private DualListModel<String> roles; 
 
 
@@ -110,41 +111,65 @@ public class UsuarioBean implements Serializable {
         }
     }
     
+    private void updateRoles() {
+        RolFH helperR = new RolFH();
+        List<String> source = new ArrayList<String>();  
+        List<String> target = new ArrayList<String>();        
+        this.roles = new DualListModel<String>(source, target);  
+    }
     private void updateList() {
         UsuarioFH helperU = new UsuarioFH();
         this.listaUsuario = helperU.listAll();
     }
 
-    private void updateRoles() {
+    public DualListModel<String> getRoles(TbUsuario usuario){
+        List<String> source = rolesSource(usuario.getUsCod()); // permisos que no son del rol
+        List<String> target = rolesTarget(usuario.getUsCod()); // permisos que son del rol
+        DualListModel<String> per = new DualListModel<String>(source, target);
+        return per;
+    } 
+    
+    private List<String> rolesTarget(Integer idUsuario){
+        List<String> listaRol = new ArrayList<String>(); 
+        RolesXUsuarioFH helperRXU = new RolesXUsuarioFH();        
+        List<TbRolesXUsuario> lista = helperRXU.listRXU(idUsuario);
         RolFH helperR = new RolFH();
-        List<String> source = new ArrayList<String>();  
-        List<String> target = new ArrayList<String>();  
-        List<TbRoles> listaRoles = helperR.listAll();
-        for(TbRoles p: listaRoles)
-            source.add(p.getRolNombre());            
-        this.roles = new DualListModel<String>(source, target);  
+        for(TbRolesXUsuario rxp: lista){
+            TbRoles rol = helperR.search(rxp.getTbRoles().getRolCod());
+            listaRol.add(rol.getRolNombre());
+        }
+        return listaRol;
+    }
+
+    private List<String> rolesSource(Integer idUsuario){
+        RolFH helperR = new RolFH();
+        List<TbRoles> lista = helperR.listAll();
+        List<String> listaRol = new ArrayList<String>(); 
+        List<String> listaRol1 = rolesTarget(idUsuario);
+        boolean band; 
+        for(TbRoles p: lista){
+           band = true; 
+           for(String r: listaRol1){
+               if (p.getRolNombre().equals(r))
+                   band = false;
+           }
+           if (band)
+               listaRol.add(p.getRolNombre()); 
+        }  
+              
+        return listaRol;
     }
     
-    
-    public void getRol(){
-        Integer idUsuario = this.selectedUsuario.getUsCod();
+    public List<TbRoles> rolesDeUsuario(TbUsuario usuario){
+        List<TbRoles> listaR = new ArrayList<TbRoles>(); 
+        RolesXUsuarioFH helperRXP = new RolesXUsuarioFH();        
+        List<TbRolesXUsuario> lista = helperRXP.listRXU(usuario.getUsCod());
         RolFH helperR = new RolFH();
-        List<String> source = new ArrayList<String>();  
-        List<String> target = new ArrayList<String>();  
-        List<TbRoles> listaRoles = helperR.listAll();
-        UsuarioFH helperU = new UsuarioFH();
-        List<TbRoles> listaActual = helperU.getRoles(idUsuario);
-        for(TbRoles p: listaRoles)
-            source.add(p.getRolNombre()); 
-        for(TbRoles p: listaActual)
-            target.add(p.getRolNombre());
-        for(String r: source){
-            for(String p: target){
-                if(r.equals(p))
-                    source.remove(r);
-            }
+        for(TbRolesXUsuario rxu: lista){
+            TbRoles p = helperR.search(rxu.getTbRoles().getRolCod());
+            listaR.add(p);
         }
-        this.roles = new DualListModel<String>(source, target);  
+        return listaR;
     }
     
     // Get & Set
@@ -172,14 +197,6 @@ public class UsuarioBean implements Serializable {
         this.selectedUsuario = selectedUsuario;
     }
 
-    public List<String> getSelectedRoles() {
-        return selectedRoles;
-    }
-
-    public void setSelectedRoles(List<String> selectedRoles) {
-        this.selectedRoles = selectedRoles;
-    }
-
     public DualListModel<String> getRoles() {
         return roles;
     }
@@ -187,5 +204,14 @@ public class UsuarioBean implements Serializable {
     public void setRoles(DualListModel<String> roles) {
         this.roles = roles;
     }
+
+    public List<TbRoles> getListaRol() {
+        return listaRol;
+    }
+
+    public void setListaRol(List<TbRoles> listaRol) {
+        this.listaRol = listaRol;
+    }
+    
 
 }

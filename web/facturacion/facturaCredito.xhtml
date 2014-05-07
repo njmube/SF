@@ -48,9 +48,6 @@
         <p:dialog header="ELIMINAR FACTURA CRÉDITO" widgetVar="dialogDelete" resizable="false" id="dlgFacturaDelete" showEffect="fade" hideEffect="explode" >  
            <h:form id ="formDelete">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
-                    <h:outputText value="N°: "></h:outputText>
-                    <h:inputText value="#{facturaBean.selectedFactura.facNro}" readonly="true">
-                    </h:inputText>
                     <h:outputText value="Tipo: "></h:outputText>
                     <h:inputText value="Crédito" readonly="true">
                     </h:inputText>                    
@@ -66,10 +63,6 @@
         <p:dialog header="CREACION DE FACTURA CRÉDITO" widgetVar="dialogCreate" resizable="false" id="dlgFacturaCreate" showEffect="fade" hideEffect="explode" >  
             <h:form id ="formCreate">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
-                    <h:outputText value="N°:* "></h:outputText>
-                    <p:inputText value="#{facturaBean.newFactura.facNro}" required="true" requiredMessage="Ingrese el N°!" >
-                    <f:validateDoubleRange minimum="1" maximum="9999999" />  
-                    </p:inputText>  
                     <h:outputText value="Tipo:* "></h:outputText>
                     <p:inputText value="Crédito" readonly="true">
                     </p:inputText>

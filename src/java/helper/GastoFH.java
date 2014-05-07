@@ -1,7 +1,7 @@
 package helper;
 
 import hibernate.HibernateUtil;
-import entity.TbTimbrado;
+import entity.TbGasto;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,27 +11,30 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
-public class TimbradoFH
+public class GastoFH
 {  
     private Session sesion; 
     private Transaction tx;  
 
-    public boolean create(TbTimbrado timbrado) throws HibernateException 
+    public boolean create(TbGasto gasto) throws HibernateException 
     { 
         boolean rta = false;
         Integer id = 0;          
         try 
         { 
             iniciarOperacion(); 
-            if(timbrado != null){
-                auditoriaGuardar(timbrado);
-                id = (Integer) sesion.save(timbrado); 
+            if(gasto != null){
+                auditoriaGuardar(gasto);
+                id = (Integer) sesion.save(gasto); 
                 if(id != 0){
                     tx.commit(); 
                     rta = true;
-                } 
+                }
+                
             }
-           
+            
+                
+            
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -44,14 +47,14 @@ public class TimbradoFH
         return rta; 
     }  
 
-    public boolean update(TbTimbrado timbrado) throws HibernateException 
+    public boolean update(TbGasto gasto) throws HibernateException 
     { 
         boolean rta = false;
         try 
         { 
             iniciarOperacion();            
-            auditoriaActualizar(timbrado);
-            sesion.update(timbrado); 
+            auditoriaActualizar(gasto);
+            sesion.update(gasto); 
             tx.commit();
             rta = true;            
         } catch (HibernateException he) 
@@ -66,14 +69,14 @@ public class TimbradoFH
     }  
     
   
-    public boolean delete(TbTimbrado timbrado) throws HibernateException 
+    public boolean delete(TbGasto gasto) throws HibernateException 
     { 
         boolean rta = false;
         try 
         { 
             iniciarOperacion();
-            if(timbrado != null){
-                sesion.delete(timbrado); 
+            if(gasto != null){
+                sesion.delete(gasto); 
                 tx.commit();
                 rta = true; 
             }
@@ -89,90 +92,64 @@ public class TimbradoFH
         return rta;
     }  
 
-    public TbTimbrado search(Integer idtimbrado) throws HibernateException 
+    public TbGasto search(Integer idGasto) throws HibernateException 
     { 
-        TbTimbrado timbrado = null;  
+        TbGasto gasto = null;  
         try 
         { 
             iniciarOperacion(); 
-            timbrado = (TbTimbrado) sesion.get(TbTimbrado.class, idtimbrado); 
+            gasto = (TbGasto) sesion.get(TbGasto.class, idGasto); 
         } finally 
         { 
             sesion.close(); 
         }  
 
-        return timbrado; 
+        return gasto; 
     } 
     
-    public TbTimbrado searchTimbrado(String timbrado) throws HibernateException 
-    { 
-        TbTimbrado usr = null; 
-        try 
-        { 
-            iniciarOperacion();  
-            String cadena = "from TbTimbrado where timNro = '"+ timbrado + "'";
-            List<TbTimbrado> lista = sesion.createQuery(cadena).list();
-            for (TbTimbrado p : lista) {  
-                if (p.getTimNro().equals(timbrado)) {  
-                    return p;  
-                }  
-            }  
+    //public TbGasto searchGasto(String gasto) throws HibernateException 
+    // 
+        //TbGasto usr = null; 
+       // try 
+        // 
+            //iniciarOperacion();  
+            //String cadena = "from TbGasto where cliNombre = '"+ gasto + "'";
+            //List<TbGasto> lista = sesion.createQuery(cadena).list();
+            //for (TbGasto p : lista) {  
+                //if (p.getGaNombre().equals(gasto)) {  
+                    ///return p;  
+                //}  
+            //}  
                         
-        } catch (HibernateException he) 
-        { 
-            manejarExcepcion(he); 
-            throw he; 
-        } 
-        finally 
-        { 
-             sesion.close(); 
-        }  
-
-        return usr; 
-    }
-    
-    public List<TbTimbrado> listAll() throws HibernateException 
-    { 
-        List<TbTimbrado> listaTimbrados = null;  
-
-        try 
-        { 
-            iniciarOperacion(); 
-            listaTimbrados = sesion.createQuery("from TbTimbrado").list(); 
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaTimbrados; 
-    } 
-    
-     //public boolean comprobarCedula(Integer ci) throws HibernateException 
-    //{ 
-        //boolean rta = false;
-        //try 
-        //{ 
-            //iniciarOperacion(); 
-            //String cadena = "from TbTimbrado where TimCi = '" + ci +"'";
-            //List<TbTimbrado> lista = sesion.createQuery(cadena).list();             
-           //for(TbTimbrado c: lista){
-                //if (c.getTimCi().equals(ci))
-                   //rta = true;
-            //}
-           
-            
-        //}catch (HibernateException he) 
+        //} catch (HibernateException he) 
         //{ 
             //manejarExcepcion(he); 
             //throw he; 
-        //}   //finally 
+        //} 
+        //finally 
         //{ 
-           //sesion.close(); 
-        //}  
+            // sesion.close(); 
+        //  
 
-        //return rta; 
-    //} 
+        //return usr; 
+    //}
+    
+    public List<TbGasto> listAll() throws HibernateException 
+    { 
+        List<TbGasto> listaGastos = null;  
 
+        try 
+        { 
+            iniciarOperacion(); 
+            listaGastos = sesion.createQuery("from TbGasto").list(); 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaGastos; 
+    } 
+   
     //public boolean existe(String usr, String pw) throws HibernateException 
     //{ 
         //boolean rta = false;
@@ -211,25 +188,25 @@ public class TimbradoFH
         throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he); 
     } 
 
-    private void auditoriaGuardar(TbTimbrado usr) {
+    private void auditoriaGuardar(TbGasto usr) {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
-        usr.setTimUserInsert(usuario);
+        usr.setGaUserInsert(usuario);
         
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        usr.setTimFechaInsert(date);        
+        usr.setGaFechaInsert(date);        
         auditoriaActualizar(usr);
         
     }
     
-    private void auditoriaActualizar(TbTimbrado usr) {
+    private void auditoriaActualizar(TbGasto usr) {
         HttpSession session = Util.getSession();
         String usuario = (String) session.getAttribute("username");
-        usr.setTimUserUpdate(usuario);
+        usr.setGaUserUpdate(usuario);
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        usr.setTimFechaUpdate(date);
+        usr.setGaFechaUpdate(date);
         
     }
     

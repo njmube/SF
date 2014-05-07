@@ -3,6 +3,7 @@ package manageBeans;
 import helper.TimbradoFH;
 import entity.TbTimbrado;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,9 @@ public class TimbradoBean implements Serializable {
     private List<TbTimbrado> listaTimbrado;
     private TbTimbrado newTimbrado;
     private TbTimbrado selectedTimbrado;
+    private Date FInicial;
+    private Date FFinal;
+    
 
     public TimbradoBean() {
         updateList();
@@ -27,6 +31,8 @@ public class TimbradoBean implements Serializable {
     public void btnTimbradoCreate() {
         TimbradoFH helperTim = new TimbradoFH();
         String msg;
+        this.newTimbrado.setTimSecuencia(9999999);
+        setearFecha(this.newTimbrado);
         if (helperTim.create(this.newTimbrado)) {
             msg = "se creo";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
@@ -41,6 +47,8 @@ public class TimbradoBean implements Serializable {
     public void btnTimbradoUpdate() {  
         TimbradoFH helperTim = new TimbradoFH();
         String msg;
+        this.selectedTimbrado.setTimSecuencia(9999999);
+        setearFecha(this.selectedTimbrado);
         if (helperTim.update(this.selectedTimbrado)) {
             msg = "se modificó";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
@@ -98,5 +106,27 @@ public class TimbradoBean implements Serializable {
     public void setSelectedTimbrado(TbTimbrado selectedTimbrado) {
         this.selectedTimbrado = selectedTimbrado;
     }
+
+    public Date getFInicial() {
+        return FInicial;
+    }
+
+    public void setFInicial(Date FInicial) {
+        this.FInicial = FInicial;
+    }
+
+    public Date getFFinal() {
+        return FFinal;
+    }
+
+    public void setFFinal(Date FFinal) {
+        this.FFinal = FFinal;
+    }
+
+    private void setearFecha(TbTimbrado timbrado) {
+        timbrado.setTimInicioVigencia(FInicial);
+        timbrado.setTimFinVigencia(FFinal);
+    }
+    
    
 }

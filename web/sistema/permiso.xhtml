@@ -10,7 +10,7 @@
         <h:form id="formDataTable"> 
             <p:dataTable value="#{permisoBean.listaPermiso}" var="permiso" id="dataList" paginator="true" rows="10"  style="width:99%">               
                 <f:facet name="header">
-                    LISTA DE PERMISOS DEL SISTEMAS
+                    LISTA DE PERMISO DEL SISTEMA
                     <p:separator />
                     <p:commandButton id="btnPermisoCreate" update=":dlgPermisoCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Permiso" value="Nuevo Permiso" />
                 </f:facet>                    

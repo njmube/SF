@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
-import helper.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -234,47 +233,7 @@ public class UsuarioFH
         return rta; 
     } 
     
-    public List<TbRoles> getRoles(Integer idUsuario) throws HibernateException 
-    { 
-        List<TbRolesXUsuario> lista = null;  
-        List<TbRoles> listaP = null; 
-        try 
-        { 
-            iniciarOperacion(); 
-            String cadena = "from TbRolesXUsuario where tbUsuario = '"+ idUsuario + "'";
-            lista = sesion.createQuery(cadena).list(); 
-            for (TbRolesXUsuario p : lista) {  
-                listaP.add(p.getTbRoles()); 
-            }  
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaP; 
-    }
-    
-    public List<TbPermiso> getPermisos(Integer idUsuario) throws HibernateException 
-    { 
-        List<TbPermiso> listaP = null; 
-        try 
-        { 
-            iniciarOperacion();
-            List<TbRoles> listaR = getRoles(idUsuario);
-            RolFH helperR = new RolFH();
-            for(TbRoles r : listaR){
-                List<TbPermiso> lista = helperR.getPermisos(r.getRolCod());
-                for(TbPermiso p: lista)
-                    listaP.add(p);
-            }
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaP; 
-    }
-    
+     
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 

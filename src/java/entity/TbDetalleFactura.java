@@ -1,5 +1,5 @@
 package entity;
-// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
+// Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -13,11 +13,12 @@ public class TbDetalleFactura  implements java.io.Serializable {
 
 
      private int dfCod;
+     private int dfCantidad;
      private String dfDescripcion;
-     private int dfPrecioUnitario;
-     private Integer dfExentas;
-     private Integer dfCincoPorciento;
-     private Integer dfDiezPorciento;
+     private double dfPrecioUnitario;
+     private Double dfExentas;
+     private Double dfCincoPorciento;
+     private Double dfDiezPorciento;
      private String dfUserInsert;
      private String dfUserUpdate;
      private Date dfFechaInsert;
@@ -28,8 +29,9 @@ public class TbDetalleFactura  implements java.io.Serializable {
     }
 
 	
-    public TbDetalleFactura(int dfCod, String dfDescripcion, int dfPrecioUnitario, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate) {
+    public TbDetalleFactura(int dfCod, int dfCantidad, String dfDescripcion, double dfPrecioUnitario, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate) {
         this.dfCod = dfCod;
+        this.dfCantidad = dfCantidad;
         this.dfDescripcion = dfDescripcion;
         this.dfPrecioUnitario = dfPrecioUnitario;
         this.dfUserInsert = dfUserInsert;
@@ -37,8 +39,9 @@ public class TbDetalleFactura  implements java.io.Serializable {
         this.dfFechaInsert = dfFechaInsert;
         this.dfFechaUpdate = dfFechaUpdate;
     }
-    public TbDetalleFactura(int dfCod, String dfDescripcion, int dfPrecioUnitario, Integer dfExentas, Integer dfCincoPorciento, Integer dfDiezPorciento, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate, Set tbFacturaXDetalleFacturas) {
+    public TbDetalleFactura(int dfCod, int dfCantidad, String dfDescripcion, double dfPrecioUnitario, Double dfExentas, Double dfCincoPorciento, Double dfDiezPorciento, String dfUserInsert, String dfUserUpdate, Date dfFechaInsert, Date dfFechaUpdate, Set tbFacturaXDetalleFacturas) {
        this.dfCod = dfCod;
+       this.dfCantidad = dfCantidad;
        this.dfDescripcion = dfDescripcion;
        this.dfPrecioUnitario = dfPrecioUnitario;
        this.dfExentas = dfExentas;
@@ -58,6 +61,13 @@ public class TbDetalleFactura  implements java.io.Serializable {
     public void setDfCod(int dfCod) {
         this.dfCod = dfCod;
     }
+    public int getDfCantidad() {
+        return this.dfCantidad;
+    }
+    
+    public void setDfCantidad(int dfCantidad) {
+        this.dfCantidad = dfCantidad;
+    }
     public String getDfDescripcion() {
         return this.dfDescripcion;
     }
@@ -65,32 +75,32 @@ public class TbDetalleFactura  implements java.io.Serializable {
     public void setDfDescripcion(String dfDescripcion) {
         this.dfDescripcion = dfDescripcion;
     }
-    public int getDfPrecioUnitario() {
+    public double getDfPrecioUnitario() {
         return this.dfPrecioUnitario;
     }
     
-    public void setDfPrecioUnitario(int dfPrecioUnitario) {
+    public void setDfPrecioUnitario(double dfPrecioUnitario) {
         this.dfPrecioUnitario = dfPrecioUnitario;
     }
-    public Integer getDfExentas() {
+    public Double getDfExentas() {
         return this.dfExentas;
     }
     
-    public void setDfExentas(Integer dfExentas) {
+    public void setDfExentas(Double dfExentas) {
         this.dfExentas = dfExentas;
     }
-    public Integer getDfCincoPorciento() {
+    public Double getDfCincoPorciento() {
         return this.dfCincoPorciento;
     }
     
-    public void setDfCincoPorciento(Integer dfCincoPorciento) {
+    public void setDfCincoPorciento(Double dfCincoPorciento) {
         this.dfCincoPorciento = dfCincoPorciento;
     }
-    public Integer getDfDiezPorciento() {
+    public Double getDfDiezPorciento() {
         return this.dfDiezPorciento;
     }
     
-    public void setDfDiezPorciento(Integer dfDiezPorciento) {
+    public void setDfDiezPorciento(Double dfDiezPorciento) {
         this.dfDiezPorciento = dfDiezPorciento;
     }
     public String getDfUserInsert() {

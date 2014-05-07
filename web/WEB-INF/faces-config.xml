@@ -37,10 +37,10 @@
         </managed-bean>
         
         <managed-bean>
-        <managed-bean-name>clienteBean</managed-bean-name>
-        <managed-bean-class>manageBeans.ClienteBean</managed-bean-class>
-    
-        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+            <managed-bean-name>clienteBean</managed-bean-name>
+            <managed-bean-class>manageBeans.ClienteBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
   
         <managed-bean>
             <managed-bean-name>servicioBean</managed-bean-name>
@@ -71,9 +71,24 @@
             <managed-bean-class>manageBeans.TipoContratoBean</managed-bean-class>
             <managed-bean-scope>view</managed-bean-scope>
         </managed-bean>
-    <managed-bean>
-        <managed-bean-name>facturaBean</managed-bean-name>
-        <managed-bean-class>manageBeans.FacturaBean</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
-    </managed-bean>
+        
+        <managed-bean>
+            <managed-bean-name>facturaBean</managed-bean-name>
+            <managed-bean-class>manageBeans.FacturaBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+
+        <managed-bean>
+            <managed-bean-name>detalleFacturaBean</managed-bean-name>
+            <managed-bean-class>manageBeans.DetalleFacturaBean</managed-bean-class>
+            <managed-bean-scope>session</managed-bean-scope>
+        </managed-bean>
+        
+        <managed-bean>
+            <managed-bean-name>gastoBean</managed-bean-name>
+            <managed-bean-class>manageBeans.GastoBean</managed-bean-class>
+            <managed-bean-scope>view</managed-bean-scope>
+        </managed-bean>
+
+
 </faces-config>

@@ -3,6 +3,7 @@ package manageBeans;
 import entity.TbPermiso;
 import helper.RolFH;
 import entity.TbRoles;
+import entity.TbRolesXPermiso;
 import helper.PermisoFH;
 import helper.RolesXPermisoFH;
 import java.io.Serializable;
@@ -20,16 +21,17 @@ public class RolBean implements Serializable {
  
     private static final long serialVersionUID = 1L;
     private List<TbRoles> listaRol;
+    private List<TbPermiso> listaPermiso;
     private TbRoles newRol;
     private TbRoles selectedRol;
-    private List<String> selectedPermisos;  
     private DualListModel<String> permisos; 
 
     public RolBean() {
         updateList();       
-        updatePermisos();
+        updatePermisos();     
         this.newRol = new TbRoles();
-        this.selectedRol = new TbRoles();        
+        this.selectedRol = new TbRoles();  
+        
     }
 
     public void btnCreate() {
@@ -80,8 +82,7 @@ public class RolBean implements Serializable {
     
     public void btnConfig() {  
         RolesXPermisoFH helperRXP = new RolesXPermisoFH();
-        String msg;
-        
+        String msg;        
         if (helperRXP.config(this.selectedRol, this.permisos.getTarget())) {
             msg = "se configuro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
@@ -103,13 +104,61 @@ public class RolBean implements Serializable {
         PermisoFH helperP = new PermisoFH();
         List<String> source = new ArrayList<String>();  
         List<String> target = new ArrayList<String>();  
-        List<TbPermiso> listaPermiso = helperP.listAll();
-        for(TbPermiso p: listaPermiso)
-            source.add(p.getPerDescripcion());            
+        List<TbPermiso> lista = helperP.listAll();         
         this.permisos = new DualListModel<String>(source, target);  
     
     }
+      
+    public DualListModel<String> getPermisos(TbRoles rol){
+        List<String> source = permisosSource(rol.getRolCod()); // permisos que no son del rol
+        List<String> target = permisosTarget(rol.getRolCod()); // permisos que son del rol
+        DualListModel<String> per = new DualListModel<String>(source, target);
+        return per;
+    } 
     
+    public List<TbPermiso> permisosDelRol(TbRoles rol){
+        List<TbPermiso> listaPer = new ArrayList<TbPermiso>(); 
+        RolesXPermisoFH helperRXP = new RolesXPermisoFH();        
+        List<TbRolesXPermiso> lista = helperRXP.listRXP(rol.getRolCod());
+        PermisoFH helperP = new PermisoFH();
+        for(TbRolesXPermiso rxp: lista){
+            TbPermiso p = helperP.search(rxp.getTbPermiso().getPerCod());
+            listaPer.add(p);
+        }
+        return listaPer;
+    }
+    
+    private List<String> permisosTarget(Integer idRol){
+        List<String> listaPer = new ArrayList<String>(); 
+        RolesXPermisoFH helperRXP = new RolesXPermisoFH();        
+        List<TbRolesXPermiso> lista = helperRXP.listRXP(idRol);
+        PermisoFH helperP = new PermisoFH();
+        for(TbRolesXPermiso rxp: lista){
+            TbPermiso p = helperP.search(rxp.getTbPermiso().getPerCod());
+            listaPer.add(p.getPerDescripcion());
+        }
+        return listaPer;
+    }
+
+    private List<String> permisosSource(Integer idRol){
+        PermisoFH helperP = new PermisoFH();
+        List<TbPermiso> lista = helperP.listAll();
+        List<String> listaPer = new ArrayList<String>(); 
+        List<String> listaPer1 = permisosTarget(idRol);
+        boolean band; 
+        for(TbPermiso p: lista){
+           band = true; 
+           for(String r: listaPer1){
+               if (p.getPerDescripcion().equals(r))
+                   band = false;
+           }
+           if (band)
+               listaPer.add(p.getPerDescripcion()); 
+        }  
+              
+        return listaPer;
+    }
+
     // Get & Set
     public List<TbRoles> getListaRol() {
         return listaRol;
@@ -135,20 +184,20 @@ public class RolBean implements Serializable {
         this.selectedRol = selectedRol;
     }
 
-    public List<String> getSelectedPermisos() {
-        return selectedPermisos;
-    }
-
-    public void setSelectedPermisos(List<String> selectedPermisos) {
-        this.selectedPermisos = selectedPermisos;
-    }
-
     public DualListModel<String> getPermisos() {
         return permisos;
     }
 
     public void setPermisos(DualListModel<String> permisos) {
         this.permisos = permisos;
+    }
+
+    public List<TbPermiso> getListaPermiso() {
+        return listaPermiso;
+    }
+
+    public void setListaPermiso(List<TbPermiso> listaPermiso) {
+        this.listaPermiso = listaPermiso;
     }
     
 }

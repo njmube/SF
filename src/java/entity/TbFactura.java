@@ -1,5 +1,5 @@
 package entity;
-// Generated 05/05/2014 08:59:32 AM by Hibernate Tools 3.6.0
+// Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -15,9 +15,9 @@ public class TbFactura  implements java.io.Serializable {
      private int facCod;
      private TbCliente tbCliente;
      private String facTipo;
-     private int facNro;
+     private Integer facNro;
      private Date facFechaEmision;
-     private int facTotal;
+     private double facTotal;
      private boolean facEstado;
      private String facTimbrado;
      private String facSecuencia;
@@ -33,22 +33,19 @@ public class TbFactura  implements java.io.Serializable {
     }
 
 	
-    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, int facNro, Date facFechaEmision, int facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate) {
+    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Date facFechaEmision, double facTotal, boolean facEstado, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate) {
         this.facCod = facCod;
         this.tbCliente = tbCliente;
         this.facTipo = facTipo;
-        this.facNro = facNro;
         this.facFechaEmision = facFechaEmision;
         this.facTotal = facTotal;
         this.facEstado = facEstado;
-        this.facTimbrado = facTimbrado;
-        this.facSecuencia = facSecuencia;
         this.facUserInsert = facUserInsert;
         this.facUserUpdate = facUserUpdate;
         this.facFechaInsert = facFechaInsert;
         this.facFechaUpdate = facFechaUpdate;
     }
-    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, int facNro, Date facFechaEmision, int facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbFacturaXDetalleFacturas, Set tbPagos, Set tbFacturaXContratos) {
+    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Integer facNro, Date facFechaEmision, double facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbFacturaXDetalleFacturas, Set tbPagos, Set tbFacturaXContratos) {
        this.facCod = facCod;
        this.tbCliente = tbCliente;
        this.facTipo = facTipo;
@@ -88,11 +85,11 @@ public class TbFactura  implements java.io.Serializable {
     public void setFacTipo(String facTipo) {
         this.facTipo = facTipo;
     }
-    public int getFacNro() {
+    public Integer getFacNro() {
         return this.facNro;
     }
     
-    public void setFacNro(int facNro) {
+    public void setFacNro(Integer facNro) {
         this.facNro = facNro;
     }
     public Date getFacFechaEmision() {
@@ -102,11 +99,11 @@ public class TbFactura  implements java.io.Serializable {
     public void setFacFechaEmision(Date facFechaEmision) {
         this.facFechaEmision = facFechaEmision;
     }
-    public int getFacTotal() {
+    public double getFacTotal() {
         return this.facTotal;
     }
     
-    public void setFacTotal(int facTotal) {
+    public void setFacTotal(double facTotal) {
         this.facTotal = facTotal;
     }
     public boolean isFacEstado() {

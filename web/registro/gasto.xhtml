@@ -1,0 +1,120 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" />
+        <h:form id="formDataTable"> 
+            <p:dataTable value="#{gastoBean.listaGasto}" var="gasto" id="dataList" paginator="true" rows="10"  style="width:99%">               
+                <f:facet name="header">
+                    LISTA DE GASTO
+                    <p:separator />
+                    <p:commandButton id="btnGastoCreate" update=":dlgGastoCreate , :formCreate" oncomplete="dialogCreate.show()" icon="ui-icon-document" title="Crear Gasto" value="Nuevo Gasto" />
+                </f:facet>                    
+                <p:column headerText="Responsable" sortBy="#{gasto.gaResponsable}" filterBy="#{gasto.gaResponsable}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{gasto.gaResponsable}"/>                          
+                </p:column>
+                <p:column headerText="Concepto" sortBy="#{gasto.gaConcepto}" filterBy="#{gasto.gaConcepto}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{gasto.gaConcepto}" />  
+                </p:column>  
+                <p:column headerText="Monto" sortBy="#{gasto.gaMonto}" filterBy="#{gasto.gaMonto}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{gasto.gaMonto}" ><f:convertNumber/></h:outputText>  
+                </p:column>
+                <p:column headerText="Fecha" sortBy="#{gasto.gaFecha}" filterBy="#{gasto.gaFecha}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{gasto.gaFecha}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>                 
+                <p:column style="width:5%">  
+                        <p:commandButton id="btnGastoUpdate" update=":dlgGastoUpdate , :formUpdate" oncomplete="dialogUpdate.show()" icon="ui-icon-arrowrefresh-1-e" title="Actualizar">  
+                            <f:setPropertyActionListener value="#{gasto}" target="#{gastoBean.selectedGasto}" />  
+                        </p:commandButton>                   
+                        <p:commandButton id="btnGastoDelete" update=":dlgGastoDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
+                            <f:setPropertyActionListener value="#{gasto}" target="#{gastoBean.selectedGasto}" />  
+                        </p:commandButton>  
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Gasto: #{fn:length(gastoBean.listaGasto)} 
+                </f:facet>
+            </p:dataTable> 
+             
+        </h:form>
+        <p:dialog header="ELIMINAR GASTO" widgetVar="dialogDelete" resizable="false" id="dlgGastoDelete" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formDelete">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Responsable: "></h:outputText>
+                    <h:inputText value="#{gastoBean.selectedGasto.gaResponsable}" readonly="true">
+                    </h:inputText>
+                    <h:outputText value="Concepto: "></h:outputText>
+                    <h:inputTextarea rows="5" cols="30" value="#{gastoBean.selectedGasto.gaConcepto}" readonly="true">
+                    </h:inputTextarea>
+                    <h:outputText value="Monto: "></h:outputText>
+                    <h:inputText value="#{gastoBean.selectedGasto.gaMonto}" readonly="true">
+                    <f:validateDoubleRange minimum="0" />
+                    </h:inputText>
+                    <h:outputText value="Fecha: "></h:outputText>
+                    <h:inputText value="#{gastoBean.selectedGasto.gaFecha}" readonly="true">
+                    </h:inputText>                     
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnDeleteAceptar" value="Confirmar" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{gastoBean.btnGastoDelete}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnDeleteCancelar" value="Cancelar" onclick="dialogDelete.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="CREACION DE GASTO" widgetVar="dialogCreate" resizable="false" id="dlgGastoCreate" showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formCreate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Responsable:* "></h:outputText>
+                    <p:inputText value="#{gastoBean.newGasto.gaResponsable}" required="true" requiredMessage="Ingrese el Responsable!" >
+                    <f:validateLength maximum="255" />
+                    </p:inputText> 
+                    <h:outputText value="Concepto:* "></h:outputText>
+                    <p:inputTextarea rows="5" cols="30" value="#{gastoBean.newGasto.gaConcepto}" required="true" requiredMessage="Ingrese el Concepto!">
+                    <f:validateLength maximum="100" />
+                    </p:inputTextarea>
+                    <h:outputText value="Monto:* "></h:outputText>
+                    <p:inputText value="#{gastoBean.newGasto.gaMonto}" required="true" requiredMessage="Ingrese el Monto!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText>
+                    <h:outputText value="Fecha:*"></h:outputText> 
+                    <p:calendar value="#{gastoBean.newGasto.gaFecha}" id="popupCal" locale="es" required="true" requiredMessage="Ingrese la fecha!" pattern="dd/MM/yyyy"/>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnCreateAceptar" update=":formDataTable , :msgs" oncomplete="dialogCreate.hide()" actionListener="#{gastoBean.btnGastoCreate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnCreateCancelar" oncomplete="dialogCreate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>  
+
+        <p:dialog header="MODIFICAR GASTO" widgetVar="dialogUpdate" resizable="false" id="dlgGastoUpdate"  showEffect="fade" hideEffect="explode" >  
+            <h:form id ="formUpdate">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Responsable:* "></h:outputText>
+                    <p:inputText value="#{gastoBean.selectedGasto.gaResponsable}" required="true" requiredMessage="Ingrese el Responsable!" >
+                    <f:validateLength maximum="255" />
+                    </p:inputText>
+                    <h:outputText value="Concepto:* "></h:outputText>
+                    <p:inputTextarea rows="5" cols="30" value="#{gastoBean.selectedGasto.gaConcepto}" required="true" requiredMessage="Ingrese el Concepto!">
+                    <f:validateLength maximum="100" />
+                    </p:inputTextarea>
+                    <h:outputText value="Monto:* "></h:outputText>
+                    <p:inputText value="#{gastoBean.selectedGasto.gaMonto}" required="true" requiredMessage="Ingrese el Monto!" >
+                    <f:validateDoubleRange minimum="0" />
+                    </p:inputText>
+                    <h:outputText value="Fecha:*"></h:outputText> 
+                    <p:calendar value="#{gastoBean.selectedGasto.gaFecha}" id="popupCal" locale="es" required="true" requiredMessage="Ingrese la fecha!" pattern="dd/MM/yyyy"/>
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnUpdateAceptar" update=":formDataTable , :msgs" oncomplete="dialogUpdate.hide()" actionListener="#{gastoBean.btnGastoUpdate}" icon="ui-icon-disk" title="guardar" value="Guardar" />
+                        <p:commandButton id="btnUpdateCancelar" onclick="dialogUpdate.hide()" icon="ui-icon-circle-close" title="Cancelar" value="Cancelar" />
+                    </f:facet>
+                </h:panelGrid>  
+            </h:form>
+        </p:dialog>  
+    </ui:define>
+</ui:composition>

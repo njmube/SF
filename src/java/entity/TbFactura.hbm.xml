@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbFactura" table="tb_factura" schema="public">
         <comment>Almacena factura</comment>
@@ -15,14 +15,14 @@
         <property name="facTipo" type="string">
             <column name="fac_tipo" length="10" not-null="true" />
         </property>
-        <property name="facNro" type="int">
-            <column name="fac_nro" not-null="true" />
+        <property name="facNro" type="java.lang.Integer">
+            <column name="fac_nro" />
         </property>
         <property name="facFechaEmision" type="date">
             <column name="fac_fecha_emision" length="13" not-null="true" />
         </property>
-        <property name="facTotal" type="int">
-            <column name="fac_total" not-null="true" />
+        <property name="facTotal" type="double">
+            <column name="fac_total" precision="17" scale="17" not-null="true" />
         </property>
         <property name="facEstado" type="boolean">
             <column name="fac_estado" not-null="true" />

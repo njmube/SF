@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbRolesXPermiso" table="tb_roles_x_permiso" schema="public">
         <comment>Almacena los permisos de los roles</comment>

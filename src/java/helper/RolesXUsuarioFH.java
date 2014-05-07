@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import helper.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -70,6 +69,15 @@ public class RolesXUsuarioFH
         try 
         { 
             iniciarOperacion(); 
+            // borrar todos sus roles
+            Integer idUsuario = usuario.getUsCod();
+            String cadena = "from TbRolesXUsuario where tbUsuario = '"+ idUsuario + "'";
+            List<TbRolesXUsuario> lista = sesion.createQuery(cadena).list();             
+            for(TbRolesXUsuario rxu: lista){
+                sesion.delete(rxu); 
+            }
+            
+            // asignar los seleccionados
             System.err.println("usuario: "+usuario.getUsUsuario());
             for (String p : roles) {
                 rol = helperR.searchRol(p);
@@ -140,7 +148,41 @@ public class RolesXUsuarioFH
 
         return listaRolesXPantallass; 
     }  
+    
+    public List<TbRolesXUsuario> listRXU(Integer idUsuario) throws HibernateException 
+    { 
+        List<TbRolesXUsuario> lista = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXUsuario where tbUsuario = '"+ idUsuario + "'";
+            lista = sesion.createQuery(cadena).list(); 
+             
+        } finally 
+        { 
+            sesion.close(); 
+        }  
 
+        return lista; 
+    }
+    
+    public List<TbRolesXUsuario> listRXU(Integer idUsuario, Integer idRol) throws HibernateException 
+    { 
+        List<TbRolesXUsuario> lista = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbRolesXUsuario where tbRoles = '"+ idRol + "' and tbUsuario = '"+ idUsuario + "'";
+            lista = sesion.createQuery(cadena).list(); 
+             
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return lista; 
+    }
+    
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 

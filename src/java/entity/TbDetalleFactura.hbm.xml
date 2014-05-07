@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05/05/2014 08:59:33 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbDetalleFactura" table="tb_detalle_factura" schema="public">
         <comment>Almacena los detalles de factura</comment>
@@ -9,20 +9,23 @@
             <column name="df_cod" />
             <generator class="increment" />
         </id>
+        <property name="dfCantidad" type="int">
+            <column name="df_cantidad" not-null="true" />
+        </property>
         <property name="dfDescripcion" type="string">
             <column name="df_descripcion" not-null="true" />
         </property>
-        <property name="dfPrecioUnitario" type="int">
-            <column name="df_precio_unitario" not-null="true" />
+        <property name="dfPrecioUnitario" type="double">
+            <column name="df_precio_unitario" precision="17" scale="17" not-null="true" />
         </property>
-        <property name="dfExentas" type="java.lang.Integer">
-            <column name="df_exentas" />
+        <property name="dfExentas" type="java.lang.Double">
+            <column name="df_exentas" precision="17" scale="17" />
         </property>
-        <property name="dfCincoPorciento" type="java.lang.Integer">
-            <column name="df_cinco_porciento" />
+        <property name="dfCincoPorciento" type="java.lang.Double">
+            <column name="df_cinco_porciento" precision="17" scale="17" />
         </property>
-        <property name="dfDiezPorciento" type="java.lang.Integer">
-            <column name="df_diez_porciento" />
+        <property name="dfDiezPorciento" type="java.lang.Double">
+            <column name="df_diez_porciento" precision="17" scale="17" />
         </property>
         <property name="dfUserInsert" type="string">
             <column name="df_user_insert" not-null="true" />

@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import helper.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -149,26 +148,6 @@ public class RolFH
 
         return listaRols; 
     }  
-    
-    public List<TbPermiso> getPermisos(Integer idRol) throws HibernateException 
-    { 
-        List<TbRolesXPermiso> lista = null;  
-        List<TbPermiso> listaP = null; 
-        try 
-        { 
-            iniciarOperacion(); 
-            String cadena = "from TbRolesXPermiso where tbRoles = '"+ idRol + "'";
-            lista = sesion.createQuery(cadena).list(); 
-            for (TbRolesXPermiso p : lista) {  
-                listaP.add(p.getTbPermiso()); 
-            }  
-        } finally 
-        { 
-            sesion.close(); 
-        }  
-
-        return listaP; 
-    }
     
     private void iniciarOperacion() throws HibernateException 
     { 

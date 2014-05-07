@@ -1,0 +1,140 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui">
+     <ui:define name="content">
+     <h:form id="form1">
+         
+            <p:growl id="messages" showDetail="true"/>
+            <p:panel header="Factura" style="width:100%">  
+                <p:panelGrid columns="2" style="width:100%">
+                        <f:facet name="header">
+                           ENCABEZADO
+                        </f:facet>
+                        <h:outputLabel for="cliente" value="Cliente:* " />
+                        <p:inputText  value="#{detalleFacturaBean.cliente}"/>
+                        <h:outputLabel for="fechaEmision" value="Fecha de Emisión:* " />
+                        <p:inputText  value="#{detalleFacturaBean.fechaEmision}"/>
+                        <h:outputLabel for="tipo" value="Tipo de Factura:* " />
+                        <p:inputText  value="#{detalleFacturaBean.tipoFactura}"/>
+                        <f:facet name="footer"></f:facet>
+                </p:panelGrid>
+                <p:spacer height="30px;"/>
+                <p:panelGrid columns="2" style="width:100%"> 
+                    <f:facet name="header">
+                            DETALLE DE FACTURA
+                    </f:facet>                                       
+                    <p:dataTable value="#{detalleFacturaBean.orderList}" var="o"  widgetVar="50"  editable="true" style="width:100%">
+                        <f:facet name="header">Lista Detalle de Factura </f:facet>
+                        <p:ajax event="rowEdit" listener="#{detalleFacturaBean.onEdit}" update=":form1:messages" />  
+                        <p:ajax event="rowEditCancel" listener="#{detalleFacturaBean.onCancel}" update=":form1:messages" /> 
+                        <p:column>
+                            <f:facet name="header"><h:outputText value="Cantidad" /></f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.cantidad}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.cantidad}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header"> <h:outputText value="Descripción" />  </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.item}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.item}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor> 
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">  <h:outputText value="Precio Unitario" />  </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.precioUnitario}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.precioUnitario}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">  <h:outputText value="Exentas" />  </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.exentas}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.exentas}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header"> <h:outputText value="IVA 5%" /> </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.cincoPorciento}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.cincoPorciento}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor>
+                        </p:column>   
+
+                        <p:column>
+                            <f:facet name="header"> <h:outputText value="IVA 10%" /> </f:facet>
+                            <p:cellEditor>  
+                                <f:facet name="output">  
+                                    <h:outputText value="#{o.diezPorciento}" />  
+                                </f:facet>  
+                                <f:facet name="input">  
+                                    <p:inputText value="#{o.diezPorciento}" style="width:100%"/>  
+                                </f:facet>  
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Opciones" style="width:50px">  
+                            <p:rowEditor />  
+                        </p:column> 
+                </p:dataTable>
+                <p:panelGrid columns="2" style="width:100%">
+                        <f:facet name="header">
+                            Cargar Detalle de Factura
+                        </f:facet>
+                        <h:outputLabel for="cantidad" value="Cantidad:* " />
+                        <p:inputText  value="#{detalleFacturaBean.cantidad}"/>
+                        <h:outputLabel for="item" value="Descripción:* " />
+                        <p:inputTextarea rows="5" cols="30"  value="#{detalleFacturaBean.item}"/>
+                        <h:outputLabel for="precioUnitario" value="Precio Unitario:* " />
+                        <p:inputText value="#{detalleFacturaBean.precioUnitario}"/>
+                        <h:outputLabel for="exentas" value="Exentas: " />
+                        <p:selectBooleanCheckbox value="#{detalleFacturaBean.exentas}" />
+                        <h:outputLabel for="cincoPorciento" value="Precio Total con IVA 5%: " />
+                        <p:selectBooleanCheckbox value="#{detalleFacturaBean.cincoPorciento}" />
+                        <h:outputLabel for="diezPorciento" value="Precio Total con IVA 10%: " />
+                        <p:selectBooleanCheckbox value="#{detalleFacturaBean.diezPorciento}" />                    
+                        <f:facet name="footer">
+                            <h:commandButton value="Add Detalle de Factura" action="#{detalleFacturaBean.addAction}"/>
+                        </f:facet>
+                 </p:panelGrid>     
+                    
+                </p:panelGrid>
+                
+                
+            </p:panel>
+            
+        </h:form>
+        
+    </ui:define>
+</ui:composition>

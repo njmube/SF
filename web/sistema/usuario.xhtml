@@ -33,19 +33,42 @@
                         <p:commandButton id="btnPass" update=":dlgUsuarioPass , :formPass" oncomplete="dialogPass.show()" icon="ui-icon-key" title="Cambiar Contraseña">  
                             <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
                         </p:commandButton>
+                        <p:commandButton id="btnRol" update=":dlgUsuarioRol , :formRol" oncomplete="dialogRol.show()" icon="ui-icon-search" title="Ver">  
+                            <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
+                            <f:setPropertyActionListener value="#{usuarioBean.rolesDeUsuario(usuario)}" target="#{usuarioBean.listaRol}" /> 
+                        </p:commandButton>
                         <p:commandButton id="btnConfig" update=":dlgUsuarioConfig , :formConfig" oncomplete="dialogConfig.show()"  icon="ui-icon-gear" title="Configurar Rol">  
                             <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" /> 
+                            <f:setPropertyActionListener value="#{usuarioBean.getRoles(usuario)}" target="#{usuarioBean.roles}" /> 
                         </p:commandButton>
                         <p:commandButton id="btnDelete" update=":dlgUsuarioDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
                             <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}" />  
                         </p:commandButton>  
                 </p:column> 
                 <f:facet name="footer">
-                    Total de Usuarios: #{fn:length(usuarioBean.listaUsuario)} 
+                    Total de Usuario: #{fn:length(usuarioBean.listaUsuario)} 
                 </f:facet>
             </p:dataTable> 
              
         </h:form>
+        
+        <p:dialog header="VER PERMISO" widgetVar="dialogRol" resizable="false" id="dlgUsuarioRol" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formRol">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Usuario: "></h:outputText>
+                    <h:outputText value="#{usuarioBean.selectedUsuario.usUsuario}"></h:outputText>                    
+                    <h:outputText value="Roles: "></h:outputText>
+                    <p:dataList value="#{usuarioBean.listaRol}" var="rol" itemType="disc">
+                        #{rol.rolNombre}
+                    </p:dataList>
+                    <f:facet name="footer">
+                        <p:separator />                        
+                        <p:commandButton id="btnPermisoCancelar" value="Cerrar" onclick="dialogRol.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog>
+        
         <p:dialog header="ELIMINAR USUARIO" widgetVar="dialogDelete" resizable="false" id="dlgUsuarioDelete" showEffect="fade" hideEffect="explode" >  
            <h:form id ="formDelete">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
