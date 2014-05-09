@@ -17,13 +17,18 @@ public class DetalleFacturaBean implements Serializable {
     private String Cliente;
     private Date fechaEmision;
     private String tipoFactura;
+    private Double montoCinco;
+    private Double montoDiez ;
+    private Double montoExentas; 
     
+    // DETALLE DE FACTURA
     private String item; // descripcion
     private int cantidad;
     private Double precioUnitario;
-    private boolean exentas;
-    private boolean cincoPorciento;
-    private boolean diezPorciento;
+    private String total;  // 1: Exentas 2: IVA 5% 3: IVA 10%
+    private Double tCinco;
+    private Double tDiez ;
+    private Double tExentas;     
     DetalleFactura order;
  
     private static final ArrayList<DetalleFactura> orderList = new ArrayList<DetalleFactura>();
@@ -31,47 +36,62 @@ public class DetalleFacturaBean implements Serializable {
     public ArrayList<DetalleFactura> getOrderList() {
         return orderList;
     }
- 
+    
     public String addAction() {
-        Double tCinco = calcularTotal(exentas);
-        Double tDiez = calcularTotal(cincoPorciento);
-        Double tExentas = calcularTotal(diezPorciento);        
-        DetalleFactura orderitem = new DetalleFactura( this.cantidad , this.item, this.precioUnitario, tExentas, tCinco, tDiez);
+        setearTotal();
+        DetalleFactura orderitem = new DetalleFactura( this.cantidad , this.item, this.precioUnitario, this.tExentas, this.tCinco, this.tDiez);
         orderList.add(orderitem);
+        montos();
         inicializar();        
         return null;
     }
     
-    public void onEdit(RowEditEvent event) {  
-        Double tCinco = calcularTotal(exentas);
-        Double tDiez = calcularTotal(cincoPorciento);
-        Double tExentas = calcularTotal(diezPorciento); 
+    public void onEdit(RowEditEvent event) { 
         FacesMessage msg = new FacesMessage("Detalle de Factura Editado",((DetalleFactura) event.getObject()).getItem());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
+        FacesContext.getCurrentInstance().addMessage(null, msg); 
+        montos();
+        inicializar(); 
     }  
        
     public void onCancel(RowEditEvent event) {  
         FacesMessage msg = new FacesMessage("Detalle de Factura Cancelado");   
         FacesContext.getCurrentInstance().addMessage(null, msg); 
         orderList.remove((DetalleFactura) event.getObject());
+        montos();
+        inicializar(); 
     }
     
-    private Double calcularTotal(boolean isTotal) {
-        Double total = 0.0;
-        if(isTotal){
-            total = cantidad * precioUnitario * 1.0;
+    private void montos(){
+        montoExentas = 0.0;
+        montoCinco = 0.0;
+        montoDiez = 0.0;
+        for(DetalleFactura det: orderList){
+            montoExentas += det.getExentas();
+            montoCinco += det.getCincoPorciento();
+            montoDiez +=  det.getDiezPorciento();
         }
-        return total;
-    }
+    } 
     
     private void inicializar() {
         cantidad = 0;
         item = "";
-        precioUnitario = 0.0;
-        exentas = false;
-        cincoPorciento = false;
-        diezPorciento = false;              
-        
+        precioUnitario = 0.0; 
+        total = "";        
+    }
+    
+    private void setearTotal() {        
+        if(total.equals("1"))
+            tExentas = cantidad * precioUnitario * 1.0;
+        else
+            tExentas = 0.0;
+        if(total.equals("2"))
+            tCinco = cantidad * precioUnitario * 1.0;
+        else
+            tCinco = 0.0;
+        if(total.equals("3"))
+            tDiez = cantidad * precioUnitario * 1.0;
+        else
+            tDiez = 0.0;
     }
 
     // Get & Set
@@ -98,32 +118,7 @@ public class DetalleFacturaBean implements Serializable {
     public void setPrecioUnitario(Double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
-
-    public boolean isExentas() {
-        return exentas;
-    }
-
-    public void setExentas(boolean exentas) {
-        this.exentas = exentas;
-    }
-
-    public boolean isCincoPorciento() {
-        return cincoPorciento;
-    }
-
-    public void setCincoPorciento(boolean cincoPorciento) {
-        this.cincoPorciento = cincoPorciento;
-    }
-
-    public boolean isDiezPorciento() {
-        return diezPorciento;
-    }
-
-    public void setDiezPorciento(boolean diezPorciento) {
-        this.diezPorciento = diezPorciento;
-    }
-
-    
+   
     public DetalleFactura getOrder() {
         return order;
     }
@@ -156,6 +151,60 @@ public class DetalleFacturaBean implements Serializable {
         this.tipoFactura = tipoFactura;
     }
 
+    public String getTotal() {
+        return total;
+    }
 
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public Double gettCinco() {
+        return tCinco;
+    }
+
+    public void settCinco(Double tCinco) {
+        this.tCinco = tCinco;
+    }
+
+    public Double gettDiez() {
+        return tDiez;
+    }
+
+    public void settDiez(Double tDiez) {
+        this.tDiez = tDiez;
+    }
+
+    public Double gettExentas() {
+        return tExentas;
+    }
+
+    public void settExentas(Double tExentas) {
+        this.tExentas = tExentas;
+    }
+
+    public Double getMontoCinco() {
+        return montoCinco;
+    }
+
+    public void setMontoCinco(Double montoCinco) {
+        this.montoCinco = montoCinco;
+    }
+
+    public Double getMontoDiez() {
+        return montoDiez;
+    }
+
+    public void setMontoDiez(Double montoDiez) {
+        this.montoDiez = montoDiez;
+    }
+
+    public Double getMontoExentas() {
+        return montoExentas;
+    }
+
+    public void setMontoExentas(Double montoExentas) {
+        this.montoExentas = montoExentas;
+    }
 
 }

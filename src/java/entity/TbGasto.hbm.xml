@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbGasto" table="tb_gasto" schema="public">
         <comment>Almacena los gastos</comment>
@@ -12,8 +12,8 @@
         <property name="gaConcepto" type="string">
             <column name="ga_concepto" length="100" not-null="true" />
         </property>
-        <property name="gaMonto" type="java.lang.Integer">
-            <column name="ga_monto" />
+        <property name="gaMonto" type="java.lang.Double">
+            <column name="ga_monto" precision="17" scale="17" />
         </property>
         <property name="gaFecha" type="date">
             <column name="ga_fecha" length="13" not-null="true" />

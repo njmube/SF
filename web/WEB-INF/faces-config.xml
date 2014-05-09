@@ -89,6 +89,24 @@
             <managed-bean-class>manageBeans.GastoBean</managed-bean-class>
             <managed-bean-scope>view</managed-bean-scope>
         </managed-bean>
-
-
+    <managed-bean>
+        <managed-bean-name>informeContratoBean</managed-bean-name>
+        <managed-bean-class>manageBeans.InformeContratoBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>informeGastoBean</managed-bean-name>
+        <managed-bean-class>manageBeans.InformeGastoBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>informeServicioBean</managed-bean-name>
+        <managed-bean-class>manageBeans.InformeServicioBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>informeClienteBean</managed-bean-name>
+        <managed-bean-class>manageBeans.InformeClienteBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

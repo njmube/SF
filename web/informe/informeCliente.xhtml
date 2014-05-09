@@ -1,0 +1,56 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+     <ui:define name="content">
+    <p:growl id="growl" showDetail="true" life="5000" />
+    <h:form>  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto; width:100%;"> 
+            <f:facet name="header">
+                INFORME DE CLIENTE
+                <p:separator />                    
+            </f:facet>             
+            <f:facet name="footer">                    
+                    <p:commandButton id="boton" value="Ver"  icon="ui-icon-check" update="dataList"   action="#{informeClienteBean.listarCliente}"/>
+            </f:facet> 
+            <p:blockUI block="dataList" trigger="boton">  
+                    Cargando!<br />  
+                    <p:graphicImage value="/resources/cargando.gif"/>  
+            </p:blockUI>
+        </h:panelGrid>        
+        <p:dataTable value="#{informeClienteBean.listaCliente}" var="cliente" id="dataList" 
+                paginator="true" rows="10" > 
+                 <f:facet name="header">
+                     LISTA DE CLIENTE                                    
+                </f:facet> 
+                <p:column headerText="Nombre" sortBy="#{cliente.cliNombre}" filterBy="#{cliente.cliNombre}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{cliente.cliNombre}" />  
+                </p:column>  
+                <p:column headerText="Apellido" sortBy="#{cliente.cliApellido}" filterBy="#{cliente.cliApellido}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{cliente.cliApellido}" />  
+                </p:column>
+                <p:column headerText="CI N°" sortBy="#{cliente.cliCi}" filterBy="#{cliente.cliCi}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{cliente.cliCi}"><f:convertNumber/></h:outputText>
+                </p:column>
+                <p:column headerText="RUC" sortBy="#{cliente.cliRuc}" filterBy="#{cliente.cliRuc}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{cliente.cliRuc}"><f:convertNumber/></h:outputText>                          
+                </p:column>   
+                <p:column headerText="Teléfono" style="width:10%">  
+                    <h:outputText value="#{cliente.cliTelefono}"><f:convertNumber/></h:outputText>                          
+                </p:column> 
+                 <p:column headerText="Dirección" style="width:20%">  
+                     <h:outputText value="#{cliente.cliDireccion}"><f:convertNumber/></h:outputText>                          
+                </p:column> 
+                <f:facet name="footer">
+                    Total de Cliente: #{fn:length(informeClienteBean.listaCliente)}                    
+                </f:facet>
+        </p:dataTable>       
+    </h:form>
+    </ui:define>
+</ui:composition>
+
+

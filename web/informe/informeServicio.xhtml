@@ -1,0 +1,56 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+     <ui:define name="content">
+    <p:growl id="growl" showDetail="true" life="5000" />
+    <h:form>  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto; width:100%;"> 
+            <f:facet name="header">
+                INFORME DE SERVICIO
+                <p:separator />                    
+            </f:facet> 
+            <h:outputText value="Tipo de servicio:"></h:outputText>
+            <p:selectOneMenu value="#{informeServicioBean.selectedTipoServicio}" effect="fold" editable="true" required="true" requiredMessage="Ingrese el Tipo de servicio!">  
+                <f:selectItem itemLabel="Elija el Tipo de Servicio" itemValue="" />  
+                <f:selectItems value="#{informeServicioBean.listaTipoServicio}" var="TipoServicio" itemLabel="#{TipoServicio.tsDescripcion}" itemValue="#{TipoServicio.tsDescripcion}" />  
+            </p:selectOneMenu>
+            <f:facet name="footer">
+                    <p:separator />
+                    <p:commandButton id="boton" value="Ver" icon="ui-icon-check" update="dataList"   action="#{informeServicioBean.listarXTipo}"/>
+            </f:facet> 
+            <p:blockUI block="dataList" trigger="boton">  
+                    Cargando!<br />  
+                    <p:graphicImage value="/resources/cargando.gif"/>  
+            </p:blockUI>
+        </h:panelGrid>        
+        <p:dataTable value="#{informeServicioBean.listaServicio}" var="servicio" id="dataList" 
+                paginator="true" rows="10" > 
+                 <f:facet name="header">
+                     LISTA DE SERVICIO
+                     <p:separator />
+                     TIPO DE SERVICIO: #{informeServicioBean.selectedTipoServicio} 
+                 </f:facet> 
+                <p:column headerText="Tipo de Servicio" sortBy="#{servicioBean.getTipoServicio(servicio.tbTipoServicio.tsCod)}" filterBy="#{servicioBean.getTipoServicio(servicio.tbTipoServicio.tsCod)}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{servicioBean.getTipoServicio(servicio.tbTipoServicio.tsCod)}" />  
+                </p:column>
+                <p:column headerText="Descripción" sortBy="#{servicio.serDescripcion}" filterBy="#{servicio.serDescripcion}" filterMaxLength="10" style="width:35%">  
+                <h:outputText value="#{servicio.serDescripcion}" />  
+                </p:column>  
+                <p:column headerText="Precio Unitario" sortBy="#{servicio.serPrecioUnitario}" filterBy="#{servicio.serPrecioUnitario}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{servicio.serPrecioUnitario}" ><f:convertNumber/></h:outputText>
+                </p:column>
+                              
+                <f:facet name="footer">
+                    Total de Servicios: #{fn:length(informeServicioBean.listaServicio)}                    
+                </f:facet>
+        </p:dataTable>       
+    </h:form>
+    </ui:define>
+</ui:composition>
+
+

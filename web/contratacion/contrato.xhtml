@@ -24,7 +24,7 @@
                     <h:outputText value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}"><f:convertNumber/></h:outputText>                          
                 </p:column>
                 <p:column headerText="Estado" sortBy="#{contrato.conEstado}" filterBy="#{contrato.conEstado}" filterMaxLength="10" style="width:10%">  
-                <h:outputText value="#{contrato.conEstado ? 'Activo':'Cancelado'}" />  
+                <h:outputText value="#{contrato.conEstado ? 'Activo':'Inactivo'}" />  
                 </p:column> 
                 <p:column headerText="Fecha Inicio" sortBy="#{contrato.conFechaInicio}"  style="width:10%">  
                     <h:outputText value="#{contrato.conFechaInicio}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
@@ -40,29 +40,55 @@
                             <f:setPropertyActionListener value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
                             <f:setPropertyActionListener value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" target="#{contratoBean.selectedTipoContrato}" />
                         </p:commandButton> 
+                        <p:commandButton id="btnGenerar" update=":dlgContratoGenerar , :formGenerar" oncomplete="dialogGenerar.show()" icon="ui-icon-gear" title="Generar Factura">  
+                            <f:setPropertyActionListener value="#{contrato}" target="#{contratoBean.selectedContrato}" />  
+                            <f:setPropertyActionListener value="#{contrato.conFechaFin}" target="#{contratoBean.FFinal}" />
+                            <f:setPropertyActionListener value="#{contrato.conFechaInicio}" target="#{contratoBean.FInicial}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
+                            <f:setPropertyActionListener value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" target="#{contratoBean.selectedTipoContrato}" />
+                        </p:commandButton> 
                         <p:commandButton id="btnDelete" update=":dlgContratoDelete , :formDelete" oncomplete="dialogDelete.show()" icon="ui-icon-trash" title="Eliminar">  
                             <f:setPropertyActionListener value="#{contrato}" target="#{contratoBean.selectedContrato}" />  
                             <f:setPropertyActionListener value="#{contrato.conFechaFin}" target="#{contratoBean.FFinal}" />
                             <f:setPropertyActionListener value="#{contrato.conFechaInicio}" target="#{contratoBean.FInicial}" />
                             <f:setPropertyActionListener value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" target="#{contratoBean.selectedCliente}" />
                             <f:setPropertyActionListener value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" target="#{contratoBean.selectedTipoContrato}" />
-                        </p:commandButton>  
+                        </p:commandButton> 
+                        
                 </p:column> 
                 <f:facet name="footer">
-                    Total de Contratos: #{fn:length(contratoBean.lista)} 
+                    Total de Contrato: #{fn:length(contratoBean.lista)} 
                 </f:facet>
-            </p:dataTable> 
-             
+            </p:dataTable>              
         </h:form>
+        
+        <p:dialog header="GENERAR FACTURAS" widgetVar="dialogGenerar" resizable="false" id="dlgContratoGenerar" showEffect="fade" hideEffect="explode" >  
+           <h:form id ="formGenerar">
+                <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="N°: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedContrato.conNro}"></h:outputText> 
+                    <h:outputText value="Cliente: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedCliente}"></h:outputText>                   
+                    <h:outputText value="Estado: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedContrato.conEstado ? 'Activo':'Inactivo'}"></h:outputText>                                                        
+                    <f:facet name="footer">
+                        <p:separator />
+                        <p:commandButton id="btnGenerarAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogGenerar.hide()" actionListener="#{contratoBean.btnGenerar}" icon="ui-icon-circle-check" />  
+                        <p:commandButton id="btnGenerarCancelar" value="Cancelar" onclick="dialogGenerar.hide()" type="button" icon="ui-icon-circle-close"/>       
+                    </f:facet>
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+        
         <p:dialog header="ELIMINAR CONTRATO" widgetVar="dialogDelete" resizable="false" id="dlgContratoDelete" showEffect="fade" hideEffect="explode" >  
            <h:form id ="formDelete">
                 <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
-                    <h:outputText value="N°:"></h:outputText>
-                    <h:inputText value="#{contratoBean.selectedContrato.conNro}" readonly="true">
-                    </h:inputText>  
-                    <h:outputText value="Estado:"></h:outputText>
-                    <h:inputText value="#{contratoBean.selectedContrato.conEstado ? 'Activo':'Cancelado'}" readonly="true">
-                    </h:inputText>                                      
+                    <h:outputText value="N°: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedContrato.conNro}"></h:outputText>                     
+                    <h:outputText value="Cliente: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedCliente}"></h:outputText>  
+                    <h:outputText value="Estado: "></h:outputText>
+                    <h:outputText value="#{contratoBean.selectedContrato.conEstado ? 'Activo':'Inactivo'}"></h:outputText>
                     <f:facet name="footer">
                         <p:separator />
                         <p:commandButton id="btnDeleteAceptar" value="Confirma" update=":formDataTable , :msgs" oncomplete="dialogDelete.hide()" actionListener="#{contratoBean.btnDelete}" icon="ui-icon-circle-check" />  

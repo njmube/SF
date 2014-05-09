@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0 -->
+<!-- Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbContrato" table="tb_contrato" schema="public">
         <comment>Almacena los contratos</comment>
@@ -30,8 +30,17 @@
         <property name="conDescripcion" type="string">
             <column name="con_descripcion" length="500" />
         </property>
-        <property name="conMonto" type="int">
-            <column name="con_monto" not-null="true" />
+        <property name="conMonto" type="double">
+            <column name="con_monto" precision="17" scale="17" not-null="true" />
+        </property>
+        <property name="conMontoEntrega" type="java.lang.Double">
+            <column name="con_monto_entrega" precision="17" scale="17" />
+        </property>
+        <property name="conCantidadCuotas" type="int">
+            <column name="con_cantidad_cuotas" not-null="true" />
+        </property>
+        <property name="conMontoCuota" type="double">
+            <column name="con_monto_cuota" precision="17" scale="17" not-null="true" />
         </property>
         <property name="conUserInsert" type="string">
             <column name="con_user_insert" not-null="true" />
@@ -45,17 +54,5 @@
         <property name="conFechaUpdate" type="date">
             <column name="con_fecha_update" length="13" not-null="true" />
         </property>
-        <property name="conCantidadCuotas" type="int">
-            <column name="con_cantidad_cuotas" not-null="true" />
-        </property>
-        <property name="conMontoCuota" type="int">
-            <column name="con_monto_cuota" not-null="true" />
-        </property>
-        <set name="tbFacturaXContratos" table="tb_factura_x_contrato" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="con_cod" not-null="true" />
-            </key>
-            <one-to-many class="entity.TbFacturaXContrato" />
-        </set>
     </class>
 </hibernate-mapping>

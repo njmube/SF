@@ -1,5 +1,5 @@
 package entity;
-// Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0
+// Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -27,7 +27,6 @@ public class TbFactura  implements java.io.Serializable {
      private Date facFechaUpdate;
      private Set tbFacturaXDetalleFacturas = new HashSet(0);
      private Set tbPagos = new HashSet(0);
-     private Set tbFacturaXContratos = new HashSet(0);
 
     public TbFactura() {
     }
@@ -45,7 +44,7 @@ public class TbFactura  implements java.io.Serializable {
         this.facFechaInsert = facFechaInsert;
         this.facFechaUpdate = facFechaUpdate;
     }
-    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Integer facNro, Date facFechaEmision, double facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbFacturaXDetalleFacturas, Set tbPagos, Set tbFacturaXContratos) {
+    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Integer facNro, Date facFechaEmision, double facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbFacturaXDetalleFacturas, Set tbPagos) {
        this.facCod = facCod;
        this.tbCliente = tbCliente;
        this.facTipo = facTipo;
@@ -61,7 +60,6 @@ public class TbFactura  implements java.io.Serializable {
        this.facFechaUpdate = facFechaUpdate;
        this.tbFacturaXDetalleFacturas = tbFacturaXDetalleFacturas;
        this.tbPagos = tbPagos;
-       this.tbFacturaXContratos = tbFacturaXContratos;
     }
    
     public int getFacCod() {
@@ -168,13 +166,6 @@ public class TbFactura  implements java.io.Serializable {
     
     public void setTbPagos(Set tbPagos) {
         this.tbPagos = tbPagos;
-    }
-    public Set getTbFacturaXContratos() {
-        return this.tbFacturaXContratos;
-    }
-    
-    public void setTbFacturaXContratos(Set tbFacturaXContratos) {
-        this.tbFacturaXContratos = tbFacturaXContratos;
     }
 
 

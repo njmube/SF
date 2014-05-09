@@ -107,32 +107,31 @@ public class GastoFH
         return gasto; 
     } 
     
-    //public TbGasto searchGasto(String gasto) throws HibernateException 
-    // 
-        //TbGasto usr = null; 
-       // try 
-        // 
-            //iniciarOperacion();  
-            //String cadena = "from TbGasto where cliNombre = '"+ gasto + "'";
-            //List<TbGasto> lista = sesion.createQuery(cadena).list();
-            //for (TbGasto p : lista) {  
-                //if (p.getGaNombre().equals(gasto)) {  
-                    ///return p;  
-                //}  
-            //}  
-                        
-        //} catch (HibernateException he) 
-        //{ 
-            //manejarExcepcion(he); 
-            //throw he; 
-        //} 
-        //finally 
-        //{ 
-            // sesion.close(); 
-        //  
+    public TbGasto searchGasto(String concepto) throws HibernateException 
+    { 
+        TbGasto gasto = null; 
+        try{          
+            iniciarOperacion();  
+            String cadena = "from TbGasto where gaConcepto = '"+ concepto + "'";
+            List<TbGasto> lista = sesion.createQuery(cadena).list();
+            for (TbGasto p : lista) {  
+                if (p.getGaConcepto().equals(concepto)) {  
+                    return p;  
+                }  
+            }  
 
-        //return usr; 
-    //}
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } 
+        finally 
+        { 
+             sesion.close(); 
+          
+        }  
+        return gasto; 
+    }
     
     public List<TbGasto> listAll() throws HibernateException 
     { 
@@ -149,33 +148,30 @@ public class GastoFH
 
         return listaGastos; 
     } 
-   
-    //public boolean existe(String usr, String pw) throws HibernateException 
-    //{ 
-        //boolean rta = false;
-        //try 
-        //{ 
-            //iniciarOperacion(); 
-            //String cadena = "from TbUsuario where usPassword = md5('" + pw +"')"; 
-            //List<TbUsuario> lista = sesion.createQuery(cadena).list();             
-           // for(TbUsuario u: lista){
-                //if (u.getUsUsuario().equals(usr))
-                  //  rta = true;
-           // }
-           
-            
-        //}catch (HibernateException he) 
-        //{ 
-           // manejarExcepcion(he); 
-           // throw he; 
-        //} finally 
-        //{ 
-           //sesion.close(); 
-        //}  
-
-        //return rta; 
-    //} 
     
+     
+    
+    public List<TbGasto> listarXFecha(Date min, Date max) throws HibernateException 
+    { 
+        List<TbGasto> lista = null;  
+        
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbGasto where gaFecha >=  '"+ min + "'  and gaFecha <=  '" + max +"'";
+            lista = sesion.createQuery(cadena).list();      
+            if (lista != null)
+                return lista;          
+                
+                     
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return lista; 
+    }        
+   
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 

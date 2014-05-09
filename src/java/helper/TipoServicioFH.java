@@ -111,14 +111,14 @@ public class TipoServicioFH
         TbTipoServicio tipo = null; 
         try 
         { 
-            iniciarOperacion();  
-            String cadena = "from TbTipoServicio where tsDescripcion = '"+ tipoServicio + "'";
-            List<TbTipoServicio> lista = sesion.createQuery(cadena).list();
-            for (TbTipoServicio t : lista) {  
-                if (t.getTsDescripcion().equals(tipoServicio)) {  
-                    return t;  
+                iniciarOperacion();  
+                String cadena = "from TbTipoServicio where tsDescripcion = '"+ tipoServicio + "'";
+                List<TbTipoServicio> lista = sesion.createQuery(cadena).list();
+                for (TbTipoServicio t : lista) {  
+                    if (t.getTsDescripcion().equals(tipoServicio)) {  
+                        return t;  
+                    }  
                 }  
-            }  
                         
         } catch (HibernateException he) 
         { 
@@ -131,7 +131,8 @@ public class TipoServicioFH
         }  
 
         return tipo; 
-    }
+    }     
+       
     
     public List<TbTipoServicio> listAll() throws HibernateException 
     { 

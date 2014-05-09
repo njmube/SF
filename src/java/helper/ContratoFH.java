@@ -90,6 +90,34 @@ public class ContratoFH
         return rta;
     }  
 
+    public boolean generarFacturasXContrato(TbContrato contrato) throws HibernateException 
+    { 
+        boolean rta = false;
+        try 
+        { 
+            iniciarOperacion();
+            if(contrato != null){
+                // 1. generar facturas
+                
+                // 2. guardar facturas
+               
+                    tx.commit();
+                    rta = true;     
+                              
+            }
+ 
+        } catch (HibernateException he) 
+        { 
+            manejarExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        } 
+        return rta;
+    }
+    
+
     public TbContrato search(Integer idContrato) throws HibernateException 
     { 
         TbContrato contrato = null;  
@@ -147,7 +175,40 @@ public class ContratoFH
 
         return listaUsuarios; 
     }  
+    
+    public List<TbContrato> listXCliente(Integer idCliente) throws HibernateException 
+    { 
+        List<TbContrato> listaUsuarios = null;  
 
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbContrato where tbCliente = '"+ idCliente + "'";
+            listaUsuarios = sesion.createQuery(cadena).list(); 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaUsuarios; 
+    }
+    
+    public List<TbContrato> listXTipoContrato(Integer idTipoContrato) throws HibernateException 
+    { 
+        List<TbContrato> listaUsuarios = null;  
+
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbContrato where tbTipoContrato = '"+ idTipoContrato + "'";
+            listaUsuarios = sesion.createQuery(cadena).list(); 
+        } finally 
+        { 
+            sesion.close(); 
+        }  
+
+        return listaUsuarios; 
+    }
     private void iniciarOperacion() throws HibernateException 
     { 
         sesion = HibernateUtil.getSessionFactory().openSession(); 

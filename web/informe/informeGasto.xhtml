@@ -1,0 +1,65 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+     <ui:define name="content">
+    <p:growl id="growl" showDetail="true" life="5000" />
+    <h:form>  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto; width:100%;"> 
+            <f:facet name="header">
+                INFORME DE GASTO
+                <p:separator />                    
+            </f:facet> 
+            <h:outputLabel value="Fecha Inicial:* " for="finicial"/>
+            <p:calendar id="finicial" value="#{informeGastoBean.FInicial}" pattern="dd/MM/yyyy"   locale="es"     required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Inicial Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+            <p:ajax event="dateSelect" update="ffinal" />
+            </p:calendar>    
+            <h:outputLabel value="Fecha Final:* " for="ffinal"/>
+            <p:calendar id="ffinal" value="#{informeGastoBean.FFinal}" mindate="#{informeGastoBean.FInicial}" pattern="dd/MM/yyyy"  locale="es" required="true" onkeypress="return permite(event, 'none')" requiredMessage="Fecha Final Requerida" navigator="true" effect="fadeIn" effectDuration="100">
+            <f:attribute name="finicial" value="#{informeGastoBean.FInicial}"/>
+            <f:validator validatorId="primeDateRangeValidator" />
+                </p:calendar>
+            <f:facet name="footer">
+                    <p:separator />
+                    <p:commandButton id="boton" value="Ver" icon="ui-icon-check" update="dataList"   action="#{informeGastoBean.listar}"/>
+            </f:facet> 
+            <p:blockUI block="dataList" trigger="boton">  
+                    Cargando!<br />  
+                    <p:graphicImage value="/resources/cargando.gif"/>  
+            </p:blockUI>
+        </h:panelGrid>        
+        <p:dataTable value="#{informeGastoBean.listaGasto}" var="gasto" id="dataList" 
+                paginator="true" rows="10" > 
+                 <f:facet name="header">
+                     LISTA DE GASTO 
+                     <p:separator />
+                     * DESDE : 
+                     <h:outputText value="#{informeGastoBean.FInicial}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                     * HASTA: 
+                     <h:outputText value="#{informeGastoBean.FFinal}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                 </f:facet> 
+                <p:column headerText="Responsable" sortBy="#{gasto.gaResponsable}" filterBy="#{gasto.gaResponsable}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{gasto.gaResponsable}"/>                          
+                </p:column>
+                <p:column headerText="Concepto" sortBy="#{gasto.gaConcepto}" filterBy="#{gasto.gaConcepto}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{gasto.gaConcepto}" />  
+                </p:column>  
+                <p:column headerText="Monto" sortBy="#{gasto.gaMonto}" filterBy="#{gasto.gaMonto}" filterMaxLength="10" style="width:24%">  
+                <h:outputText value="#{gasto.gaMonto}" ><f:convertNumber/></h:outputText>  
+                </p:column>
+                <p:column headerText="Fecha" sortBy="#{gasto.gaFecha}" filterBy="#{gasto.gaFecha}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{gasto.gaFecha}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>              
+                <f:facet name="footer">
+                    Total de Gasto: 
+                    <h:outputText value="#{informeGastoBean.total}" ><f:convertNumber/></h:outputText> Gs.
+                </f:facet>
+        </p:dataTable>       
+    </h:form>
+    </ui:define>
+</ui:composition>
+

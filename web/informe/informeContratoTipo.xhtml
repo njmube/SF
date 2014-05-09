@@ -1,0 +1,64 @@
+<ui:composition template="/templates/layout.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+     <ui:define name="content">
+    <p:growl id="growl" showDetail="true" life="5000" />
+    <h:form>  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto; width:100%;"> 
+            <f:facet name="header">
+                INFORME DE CONTRATO
+                <p:separator />                    
+            </f:facet> 
+            <h:outputText value="Tipo de Contrato:* "></h:outputText>
+            <p:selectOneMenu value="#{informeContratoBean.selectedTipoContrato}" effect="fold" editable="true" filter="true" filterMatchMode="contains" required="true" requiredMessage="Seleccione el Tipo de Contrato!" >>  
+               <f:selectItem itemLabel="Elija el Tipo de Contrato" itemValue="" />  
+               <f:selectItems value="#{informeContratoBean.listaTipoContrato}" var="tipoContrato" itemLabel="#{tipoContrato.tcDescripcion}" itemValue="#{tipoContrato.tcDescripcion}" />  
+            </p:selectOneMenu>
+            <f:facet name="footer">
+                    <p:separator />
+                    <p:commandButton id="boton" value="Ver" icon="ui-icon-check" update="dataList"   action="#{informeContratoBean.listarXTipoContrato}"/>
+            </f:facet>
+            <p:blockUI block="dataList" trigger="boton">  
+                    Cargando!<br />  
+                    <p:graphicImage value="/resources/cargando.gif"/>  
+            </p:blockUI>
+        </h:panelGrid>        
+        <p:dataTable value="#{informeContratoBean.listaContrato}" var="contrato" id="dataList" 
+                paginator="true" rows="10" >              
+                 <f:facet name="header">
+                    LISTA DE CONTRATO 
+                    <p:separator />  
+                    TIPO DE CONTRATO: #{informeContratoBean.selectedTipoContrato}
+                 </f:facet>                    
+                <p:column headerText="N°" sortBy="#{contrato.conNro}" filterBy="#{contrato.conNro}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{contrato.conNro}"><f:convertNumber/></h:outputText>                          
+                </p:column> 
+                <p:column headerText="Cliente" filterBy="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}" filterMaxLength="10" style="width:10%">  
+                    <h:outputText value="#{contratoBean.getCliente(contrato.tbCliente.cliCod)}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Tipo de Contrato" filterBy="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}" filterMaxLength="10" style="width:24%">  
+                    <h:outputText value="#{contratoBean.getTipoContrato(contrato.tbTipoContrato.tcCod)}"><f:convertNumber/></h:outputText>                          
+                </p:column>
+                <p:column headerText="Estado" sortBy="#{contrato.conEstado}" filterBy="#{contrato.conEstado}" filterMaxLength="10" style="width:10%">  
+                <h:outputText value="#{contrato.conEstado ? 'Activo':'Inactivo'}" />  
+                </p:column> 
+                <p:column headerText="Fecha Inicio" sortBy="#{contrato.conFechaInicio}"  style="width:10%">  
+                    <h:outputText value="#{contrato.conFechaInicio}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>
+                <p:column headerText="Fecha Fin" sortBy="#{contrato.conFechaFin}"  style="width:10%">  
+                <h:outputText value="#{contrato.conFechaFin}" ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                </p:column>            
+                <f:facet name="footer">
+                    Total de Contrato: #{fn:length(informeContratoBean.listaContrato)}                    
+                </f:facet>
+        </p:dataTable>       
+    </h:form>
+    </ui:define>
+</ui:composition>
+
+

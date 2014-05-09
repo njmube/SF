@@ -89,6 +89,21 @@ public class ContratoBean implements Serializable {
         }
     }
     
+    public void btnGenerar() {
+        ContratoFH helperC = new ContratoFH();
+        String msg;
+        if (helperC.generarFacturasXContrato(this.selectedContrato)) {
+            msg = "se genero las facturas";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            updateList();
+        } else {
+            msg = "error al generar las facturas";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+    
     public String getCliente(Integer idCliente){
         ClienteFH helperC = new ClienteFH();
         TbCliente cliente = helperC.search(idCliente);
@@ -122,7 +137,7 @@ public class ContratoBean implements Serializable {
     }
 
     private void setearCliente(TbContrato contrato) {
-        Integer monto = contrato.getConCantidadCuotas() * contrato.getConMontoCuota();
+        Double monto = contrato.getConCantidadCuotas() * contrato.getConMontoCuota() * 1.0;
         contrato.setConMonto(monto);
         
         ClienteFH helperC = new ClienteFH();

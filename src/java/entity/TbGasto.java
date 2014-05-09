@@ -1,5 +1,5 @@
 package entity;
-// Generated 06/05/2014 10:35:16 AM by Hibernate Tools 3.6.0
+// Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ public class TbGasto  implements java.io.Serializable {
 
      private int gaCod;
      private String gaConcepto;
-     private Integer gaMonto;
+     private Double gaMonto;
      private Date gaFecha;
      private String gaResponsable;
      private String gaUserInsert;
@@ -34,7 +34,7 @@ public class TbGasto  implements java.io.Serializable {
         this.gaFechaInsert = gaFechaInsert;
         this.gaFechaUpdate = gaFechaUpdate;
     }
-    public TbGasto(int gaCod, String gaConcepto, Integer gaMonto, Date gaFecha, String gaResponsable, String gaUserInsert, String gaUserUpdate, Date gaFechaInsert, Date gaFechaUpdate) {
+    public TbGasto(int gaCod, String gaConcepto, Double gaMonto, Date gaFecha, String gaResponsable, String gaUserInsert, String gaUserUpdate, Date gaFechaInsert, Date gaFechaUpdate) {
        this.gaCod = gaCod;
        this.gaConcepto = gaConcepto;
        this.gaMonto = gaMonto;
@@ -60,11 +60,11 @@ public class TbGasto  implements java.io.Serializable {
     public void setGaConcepto(String gaConcepto) {
         this.gaConcepto = gaConcepto;
     }
-    public Integer getGaMonto() {
+    public Double getGaMonto() {
         return this.gaMonto;
     }
     
-    public void setGaMonto(Integer gaMonto) {
+    public void setGaMonto(Double gaMonto) {
         this.gaMonto = gaMonto;
     }
     public Date getGaFecha() {

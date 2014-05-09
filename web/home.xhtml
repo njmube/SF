@@ -34,10 +34,13 @@
                 </p:submenu>
                 <p:submenu label="Informe" > 
                     <p:menuitem value="Facturas" action="#{loginBean.logout}" />        
-                    <p:menuitem value="Servicios" action="#{loginBean.logout}" />   
-                    <p:menuitem value="Contratos" action="#{loginBean.logout}" /> 
-                    <p:menuitem value="Clientes" action="#{loginBean.logout}" />
-                    <p:menuitem value="Gastos" action="#{loginBean.logout}" />  
+                    <p:menuitem value="Servicios" outcome="/informe/informeServicio.xhtml"  />  
+                    <p:submenu label="Contratos" > 
+                        <p:menuitem value="Por Cliente" outcome="/informe/informeContratoCliente.xhtml"  />
+                        <p:menuitem value="Por Tipo de Contrato" outcome="/informe/informeContratoTipo.xhtml"  />
+                    </p:submenu>                      
+                    <p:menuitem value="Clientes" outcome="/informe/informeCliente.xhtml"  />
+                    <p:menuitem value="Gastos" outcome="/informe/informeGasto.xhtml"  />
                 </p:submenu>
                 <p:submenu label="Salir" > 
                     <p:menuitem value="Logout" action="#{loginBean.logout}" />                                        

@@ -21,7 +21,6 @@
     <mapping resource="entity/TbCliente.hbm.xml"/>
     <mapping resource="entity/TbDetalleFactura.hbm.xml"/>
     <mapping resource="entity/TbFacturaXDetalleFactura.hbm.xml"/>
-    <mapping resource="entity/TbFacturaXContrato.hbm.xml"/>
     <mapping resource="entity/TbPermiso.hbm.xml"/>
     <mapping resource="entity/TbUsuario.hbm.xml"/>
     <mapping resource="entity/TbRolesXUsuario.hbm.xml"/>
@@ -29,6 +28,5 @@
     <mapping resource="entity/TbTipoServicio.hbm.xml"/>
     <mapping resource="entity/TbContrato.hbm.xml"/>
     <mapping resource="entity/TbTimbrado.hbm.xml"/>
-    <mapping resource="entity/TbGasto.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -137,7 +137,7 @@ public class ServicioFH
 
         try 
         { 
-            iniciarOperacion(); 
+            iniciarOperacion();             
             listaServicios = sesion.createQuery("from TbServicio").list(); 
         } finally 
         { 
@@ -145,6 +145,23 @@ public class ServicioFH
         }  
 
         return listaServicios; 
+    } 
+    
+    public List<TbServicio> listXTipoServicio(Integer idTipoServicio) throws HibernateException 
+    { 
+        List<TbServicio> listaServicio = null;  
+        try 
+        { 
+            iniciarOperacion(); 
+            String cadena = "from TbServicio where tbTipoServicio = '"+ idTipoServicio + "'";
+            listaServicio = sesion.createQuery(cadena).list(); 
+            if (listaServicio != null)
+                return listaServicio;
+        } finally 
+        { 
+            sesion.close(); 
+        } 
+        return listaServicio; 
     } 
     
     private void iniciarOperacion() throws HibernateException 
