@@ -1,9 +1,6 @@
 
 package helper;
 
-import entity.TbPermiso;
-import entity.TbRoles;
-import entity.TbRolesXUsuario;
 import hibernate.HibernateUtil;
 import entity.TbUsuario;
 import java.io.UnsupportedEncodingException;

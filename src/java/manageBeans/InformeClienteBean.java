@@ -1,9 +1,6 @@
 package manageBeans;
 
-import helper.ServicioFH;
-import helper.TipoServicioFH;
 import entity.TbCliente;
-import entity.TbTipoServicio;
 import helper.ClienteFH;
 import java.io.Serializable;
 import java.util.ArrayList;

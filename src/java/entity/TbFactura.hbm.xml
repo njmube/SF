@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated 12/05/2014 11:58:22 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbFactura" table="tb_factura" schema="public">
         <comment>Almacena factura</comment>
@@ -45,17 +45,17 @@
         <property name="facFechaUpdate" type="date">
             <column name="fac_fecha_update" length="13" not-null="true" />
         </property>
-        <set name="tbFacturaXDetalleFacturas" table="tb_factura_x_detalle_factura" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="fac_cod" not-null="true" />
-            </key>
-            <one-to-many class="entity.TbFacturaXDetalleFactura" />
-        </set>
         <set name="tbPagos" table="tb_pago" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="fac_cod" not-null="true" />
             </key>
             <one-to-many class="entity.TbPago" />
+        </set>
+        <set name="tbDetalleFacturas" table="tb_detalle_factura" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fac_cod" />
+            </key>
+            <one-to-many class="entity.TbDetalleFactura" />
         </set>
     </class>
 </hibernate-mapping>

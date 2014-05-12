@@ -3,6 +3,8 @@ package helper;
 
 import hibernate.HibernateUtil;
 import entity.TbContrato;
+import entity.TbDetalleFactura;
+import entity.TbFactura;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -89,34 +91,6 @@ public class ContratoFH
         } 
         return rta;
     }  
-
-    public boolean generarFacturasXContrato(TbContrato contrato) throws HibernateException 
-    { 
-        boolean rta = false;
-        try 
-        { 
-            iniciarOperacion();
-            if(contrato != null){
-                // 1. generar facturas
-                
-                // 2. guardar facturas
-               
-                    tx.commit();
-                    rta = true;     
-                              
-            }
- 
-        } catch (HibernateException he) 
-        { 
-            manejarExcepcion(he); 
-            throw he; 
-        } finally 
-        { 
-            sesion.close(); 
-        } 
-        return rta;
-    }
-    
 
     public TbContrato search(Integer idContrato) throws HibernateException 
     { 

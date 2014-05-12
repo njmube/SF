@@ -1,5 +1,6 @@
 package helper;
 
+import entity.TbDetalleFactura;
 import hibernate.HibernateUtil;
 import entity.TbFactura;
 import java.util.Calendar;
@@ -16,7 +17,7 @@ public class FacturaFH
     private Session sesion; 
     private Transaction tx;  
 
-    public boolean create(TbFactura factura) throws HibernateException 
+    public boolean create(TbFactura factura, List<TbDetalleFactura> detalle) throws HibernateException 
     { 
         boolean rta = false;
         Integer id = 0;          
@@ -26,15 +27,12 @@ public class FacturaFH
             if(factura != null){
                 auditoriaGuardar(factura);
                 id = (Integer) sesion.save(factura); 
-                if(id != 0){
+                if(id != 0 && createDetalle(detalle, id)){                    
                     tx.commit(); 
                     rta = true;
                 }
                 
-            }
-            
-                
-            
+            }           
         } catch (HibernateException he) 
         { 
             manejarExcepcion(he); 
@@ -47,14 +45,15 @@ public class FacturaFH
         return rta; 
     }  
 
-    public boolean update(TbFactura factura) throws HibernateException 
+    public boolean update(TbFactura factura, List<TbDetalleFactura> detalle) throws HibernateException 
     { 
         boolean rta = false;
         try 
         { 
-            iniciarOperacion();            
+            iniciarOperacion();    
             auditoriaActualizar(factura);
             sesion.update(factura); 
+            updateDetalle(detalle);
             tx.commit();
             rta = true;            
         } catch (HibernateException he) 
@@ -69,13 +68,14 @@ public class FacturaFH
     }  
     
   
-    public boolean delete(TbFactura factura) throws HibernateException 
+    public boolean delete(TbFactura factura, List<TbDetalleFactura> detalle) throws HibernateException 
     { 
         boolean rta = false;
         try 
         { 
             iniciarOperacion();
             if(factura != null){
+                deleteDetalle(detalle);
                 sesion.delete(factura); 
                 tx.commit();
                 rta = true; 
@@ -106,6 +106,27 @@ public class FacturaFH
 
         return factura; 
     } 
+    
+    
+    private boolean createDetalle(List<TbDetalleFactura> detalle, Integer id) {
+        boolean rta = false;
+        if(id != 0){
+            DetalleFacturaFH helper = new DetalleFacturaFH();
+            TbFactura factura = search(id);
+            rta =  helper.createAll(detalle, factura);
+        }
+        return rta;
+    }
+
+    private void updateDetalle(List<TbDetalleFactura> lista) {
+        DetalleFacturaFH helper = new DetalleFacturaFH();
+        helper.updateAll(lista);
+    }
+
+    private void deleteDetalle(List<TbDetalleFactura> lista) {
+        DetalleFacturaFH helper = new DetalleFacturaFH();
+        helper.deleteAll(lista);
+    }
     
     public TbFactura searchSecuencia(String secuencia) throws HibernateException 
     { 
@@ -245,6 +266,7 @@ public class FacturaFH
         usr.setFacFechaUpdate(date);
         
     }
+
     
 
 

@@ -2,20 +2,19 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="contratospratt" match-schema="public"/>
-  <table-filter match-name="tb_roles_x_permiso"/>
-  <table-filter match-name="tb_tipo_contrato"/>
-  <table-filter match-name="tb_detalle_factura"/>
   <table-filter match-name="tb_usuario"/>
-  <table-filter match-name="tb_tipo_servicio"/>
-  <table-filter match-name="tb_permiso"/>
-  <table-filter match-name="tb_roles_x_usuario"/>
-  <table-filter match-name="tb_pago"/>
-  <table-filter match-name="tb_servicio"/>
-  <table-filter match-name="tb_contrato"/>
-  <table-filter match-name="tb_gasto"/>
-  <table-filter match-name="tb_timbrado"/>
+  <table-filter match-name="tb_detalle_factura"/>
   <table-filter match-name="tb_roles"/>
-  <table-filter match-name="tb_factura"/>
-  <table-filter match-name="tb_factura_x_detalle_factura"/>
+  <table-filter match-name="tb_roles_x_permiso"/>
+  <table-filter match-name="tb_pago"/>
+  <table-filter match-name="tb_timbrado"/>
+  <table-filter match-name="tb_contrato"/>
   <table-filter match-name="tb_cliente"/>
+  <table-filter match-name="tb_factura"/>
+  <table-filter match-name="tb_roles_x_usuario"/>
+  <table-filter match-name="tb_permiso"/>
+  <table-filter match-name="tb_servicio"/>
+  <table-filter match-name="tb_tipo_servicio"/>
+  <table-filter match-name="tb_gasto"/>
+  <table-filter match-name="tb_tipo_contrato"/>
 </hibernate-reverse-engineering>

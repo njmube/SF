@@ -48,7 +48,18 @@
                 <f:facet name="footer">
                     Total de Cliente: #{fn:length(informeClienteBean.listaCliente)}                    
                 </f:facet>
-        </p:dataTable>       
+        </p:dataTable>  
+        <p:panel header="Exportar Datos" style="width:99%">
+               <h:commandLink action="#{reporteBean.descargarXLS}">
+                       <p:graphicImage value="/resources/excel.png" />
+                       <f:setPropertyActionListener target="#{reporteBean.file}" value="cliente" />                    
+               </h:commandLink>
+               <h:commandLink action="#{reporteBean.descargarPDF}">
+                       <p:graphicImage value="/resources/pdf.png" />
+                       <f:setPropertyActionListener target="#{reporteBean.file}" value="cliente" />  
+               </h:commandLink>		
+        </p:panel> 
+
     </h:form>
     </ui:define>
 </ui:composition>

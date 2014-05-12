@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated 12/05/2014 11:58:22 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbRoles" table="tb_roles" schema="public">
         <comment>Almacena roles del sistema</comment>

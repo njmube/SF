@@ -9,26 +9,6 @@
          
             <p:growl id="messages" showDetail="true"/>
             <p:panel header="Factura" style="width:100%"> 
-                <p:panelGrid columns="2" style="width:100%">
-                        <f:facet name="header">
-                            CARGAR DETALLE DE FACTURA
-                        </f:facet>
-                        <h:outputLabel for="cantidad" value="Cantidad:* " />
-                        <p:inputText  value="#{detalleFacturaBean.cantidad}" required="true" requiredMessage="Ingrese la cantidad!" />
-                        <h:outputLabel for="item" value="Descripción:* "  />
-                        <p:inputTextarea rows="5" cols="30"  value="#{detalleFacturaBean.item}" required="true" requiredMessage="Ingrese la descripcion!"/>
-                        <h:outputLabel for="precioUnitario" value="Precio Unitario:* " />
-                        <p:inputText value="#{detalleFacturaBean.precioUnitario}" required="true" requiredMessage="Ingrese el precio unitario!" />
-                        <h:outputText value="Precio Total:* " />
-                        <p:selectOneRadio id="options" value="#{detalleFacturaBean.total}" required="true" requiredMessage="Seleccione el precio total!"  >
-                            <f:selectItem itemLabel="Exentas" itemValue="1" />
-                            <f:selectItem itemLabel="IVA 5%" itemValue="2" />
-                            <f:selectItem itemLabel="IVA 10%" itemValue="3" />
-                        </p:selectOneRadio>                                            
-                        <f:facet name="footer">
-                            <h:commandButton title="Crear Factura" value="Add Detalle de Factura" action="#{detalleFacturaBean.addAction}"/>
-                        </f:facet>
-                 </p:panelGrid>                
                 <p:spacer height="30px;"/>
                 <p:dataTable value="#{detalleFacturaBean.orderList}" var="o"  widgetVar="50"  editable="true" style="width:100%">
                         <f:facet name="header">DETALLE DE FACTURA</f:facet>
@@ -123,7 +103,27 @@
                          
                      </f:facet>
                 </p:dataTable>
-                     
+                <p:spacer height="30px;"/>
+                <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            CARGAR DETALLE DE FACTURA
+                        </f:facet>
+                        <h:outputLabel for="cantidad" value="Cantidad:* " />
+                        <p:inputText  value="#{detalleFacturaBean.cantidad}" required="true" requiredMessage="Ingrese la cantidad!" />
+                        <h:outputLabel for="item" value="Descripción:* "  />
+                        <p:inputTextarea rows="5" cols="30"  value="#{detalleFacturaBean.item}" required="true" requiredMessage="Ingrese la descripcion!"/>
+                        <h:outputLabel for="precioUnitario" value="Precio Unitario:* " />
+                        <p:inputText value="#{detalleFacturaBean.precioUnitario}" required="true" requiredMessage="Ingrese el precio unitario!" />
+                        <h:outputText value="Precio Total:* " />
+                        <p:selectOneRadio id="options" value="#{detalleFacturaBean.total}" required="true" requiredMessage="Seleccione el precio total!"  >
+                            <f:selectItem itemLabel="Exentas" itemValue="1" />
+                            <f:selectItem itemLabel="IVA 5%" itemValue="2" />
+                            <f:selectItem itemLabel="IVA 10%" itemValue="3" />
+                        </p:selectOneRadio>                                            
+                        <f:facet name="footer">
+                            <h:commandButton title="Crear Factura" value="Add Detalle de Factura" action="#{detalleFacturaBean.addAction}"/>
+                        </f:facet>
+                 </p:panelGrid>      
                     
                 
                 

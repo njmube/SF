@@ -1,5 +1,5 @@
 package entity;
-// Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0
+// Generated 12/05/2014 11:58:21 AM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -25,8 +25,8 @@ public class TbFactura  implements java.io.Serializable {
      private String facUserUpdate;
      private Date facFechaInsert;
      private Date facFechaUpdate;
-     private Set tbFacturaXDetalleFacturas = new HashSet(0);
      private Set tbPagos = new HashSet(0);
+     private Set tbDetalleFacturas = new HashSet(0);
 
     public TbFactura() {
     }
@@ -44,7 +44,7 @@ public class TbFactura  implements java.io.Serializable {
         this.facFechaInsert = facFechaInsert;
         this.facFechaUpdate = facFechaUpdate;
     }
-    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Integer facNro, Date facFechaEmision, double facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbFacturaXDetalleFacturas, Set tbPagos) {
+    public TbFactura(int facCod, TbCliente tbCliente, String facTipo, Integer facNro, Date facFechaEmision, double facTotal, boolean facEstado, String facTimbrado, String facSecuencia, String facUserInsert, String facUserUpdate, Date facFechaInsert, Date facFechaUpdate, Set tbPagos, Set tbDetalleFacturas) {
        this.facCod = facCod;
        this.tbCliente = tbCliente;
        this.facTipo = facTipo;
@@ -58,8 +58,8 @@ public class TbFactura  implements java.io.Serializable {
        this.facUserUpdate = facUserUpdate;
        this.facFechaInsert = facFechaInsert;
        this.facFechaUpdate = facFechaUpdate;
-       this.tbFacturaXDetalleFacturas = tbFacturaXDetalleFacturas;
        this.tbPagos = tbPagos;
+       this.tbDetalleFacturas = tbDetalleFacturas;
     }
    
     public int getFacCod() {
@@ -153,19 +153,19 @@ public class TbFactura  implements java.io.Serializable {
     public void setFacFechaUpdate(Date facFechaUpdate) {
         this.facFechaUpdate = facFechaUpdate;
     }
-    public Set getTbFacturaXDetalleFacturas() {
-        return this.tbFacturaXDetalleFacturas;
-    }
-    
-    public void setTbFacturaXDetalleFacturas(Set tbFacturaXDetalleFacturas) {
-        this.tbFacturaXDetalleFacturas = tbFacturaXDetalleFacturas;
-    }
     public Set getTbPagos() {
         return this.tbPagos;
     }
     
     public void setTbPagos(Set tbPagos) {
         this.tbPagos = tbPagos;
+    }
+    public Set getTbDetalleFacturas() {
+        return this.tbDetalleFacturas;
+    }
+    
+    public void setTbDetalleFacturas(Set tbDetalleFacturas) {
+        this.tbDetalleFacturas = tbDetalleFacturas;
     }
 
 

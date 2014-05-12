@@ -89,6 +89,7 @@
             <managed-bean-class>manageBeans.GastoBean</managed-bean-class>
             <managed-bean-scope>view</managed-bean-scope>
         </managed-bean>
+        
     <managed-bean>
         <managed-bean-name>informeContratoBean</managed-bean-name>
         <managed-bean-class>manageBeans.InformeContratoBean</managed-bean-class>

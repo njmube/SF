@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 09/05/2014 01:09:38 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated 12/05/2014 11:58:22 AM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="entity.TbDetalleFactura" table="tb_detalle_factura" schema="public">
         <comment>Almacena los detalles de factura</comment>
@@ -9,6 +9,9 @@
             <column name="df_cod" />
             <generator class="increment" />
         </id>
+        <many-to-one name="tbFactura" class="entity.TbFactura" fetch="select">
+            <column name="fac_cod" />
+        </many-to-one>
         <property name="dfCantidad" type="int">
             <column name="df_cantidad" not-null="true" />
         </property>
@@ -39,11 +42,5 @@
         <property name="dfFechaUpdate" type="date">
             <column name="df_fecha_update" length="13" not-null="true" />
         </property>
-        <set name="tbFacturaXDetalleFacturas" table="tb_factura_x_detalle_factura" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="df_cod" not-null="true" />
-            </key>
-            <one-to-many class="entity.TbFacturaXDetalleFactura" />
-        </set>
     </class>
 </hibernate-mapping>

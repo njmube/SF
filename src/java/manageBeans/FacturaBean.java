@@ -1,6 +1,7 @@
 package manageBeans;
 
 import entity.TbCliente;
+import entity.TbDetalleFactura;
 import helper.FacturaFH;
 import entity.TbFactura;
 import helper.ClienteFH;
@@ -17,23 +18,35 @@ public class FacturaBean implements Serializable {
  
     private static final long serialVersionUID = 1L;    
     private List<TbFactura> listaFacturaContado;
-    private List<TbFactura> listaFacturaCredito;
+    private List<TbFactura> listaFacturaCredito;   
     private TbFactura newFactura;
     private TbFactura selectedFactura;
     private String selectedCliente;
     private List<TbCliente> listaCliente;
+    
+    private List<TbDetalleFactura> selectedListaDetalle;
+    private List<TbDetalleFactura> newListaDetalle;    
+    private TbDetalleFactura newDetalle;
+    private TbDetalleFactura selectedDetalle;
+    private Double montoCinco;
+    private Double montoDiez ;
+    private Double montoExentas; 
+    
+    
 
     public FacturaBean() {
         updateList();
         updateCliente();
         this.newFactura = new TbFactura();
         this.selectedFactura = new TbFactura();
+        this.newDetalle = new TbDetalleFactura();
+        this.selectedDetalle = new TbDetalleFactura();
     }
 
     public void btnFacturaCreate() {
         FacturaFH helperF = new FacturaFH();
         String msg;
-        if (helperF.create(this.newFactura)) {
+        if (helperF.create(this.newFactura, this.newListaDetalle)) {
             msg = "se creo";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -47,7 +60,7 @@ public class FacturaBean implements Serializable {
     public void btnFacturaUpdate() {  
         FacturaFH helperF = new FacturaFH();
         String msg;
-        if (helperF.update(this.selectedFactura)) {
+        if (helperF.update(this.selectedFactura, this.selectedListaDetalle)) {
             msg = "se modificó";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -62,7 +75,7 @@ public class FacturaBean implements Serializable {
         String msg;
         FacturaFH helperF = new FacturaFH();
         TbFactura factura = helperF.search(this.selectedFactura.getFacCod());
-        if (helperF.delete(factura)) {
+        if (helperF.delete(factura, this.selectedListaDetalle)) {
             msg = "se eliminó";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -144,5 +157,62 @@ public class FacturaBean implements Serializable {
     public void setListaCliente(List<TbCliente> listaCliente) {
         this.listaCliente = listaCliente;
     }
+
+    public List<TbDetalleFactura> getSelectedListaDetalle() {
+        return selectedListaDetalle;
+    }
+
+    public void setSelectedListaDetalle(List<TbDetalleFactura> selectedListaDetalle) {
+        this.selectedListaDetalle = selectedListaDetalle;
+    }
+
+    public List<TbDetalleFactura> getNewListaDetalle() {
+        return newListaDetalle;
+    }
+
+    public void setNewListaDetalle(List<TbDetalleFactura> newListaDetalle) {
+        this.newListaDetalle = newListaDetalle;
+    }
+
+    public TbDetalleFactura getNewDetalle() {
+        return newDetalle;
+    }
+
+    public void setNewDetalle(TbDetalleFactura newDetalle) {
+        this.newDetalle = newDetalle;
+    }
+
+    public TbDetalleFactura getSelectedDetalle() {
+        return selectedDetalle;
+    }
+
+    public void setSelectedDetalle(TbDetalleFactura selectedDetalle) {
+        this.selectedDetalle = selectedDetalle;
+    }
+
+    public Double getMontoCinco() {
+        return montoCinco;
+    }
+
+    public void setMontoCinco(Double montoCinco) {
+        this.montoCinco = montoCinco;
+    }
+
+    public Double getMontoDiez() {
+        return montoDiez;
+    }
+
+    public void setMontoDiez(Double montoDiez) {
+        this.montoDiez = montoDiez;
+    }
+
+    public Double getMontoExentas() {
+        return montoExentas;
+    }
+
+    public void setMontoExentas(Double montoExentas) {
+        this.montoExentas = montoExentas;
+    }
+    
     
 }
